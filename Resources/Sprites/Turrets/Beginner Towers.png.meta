@@ -1,0 +1,1428 @@
+fileFormatVersion: 2
+guid: 554d96853d8630b47b62d2ec30b06d54
+timeCreated: 1500912674
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Beginner_Light_Front0
+    21300002: Beginner_Light_Front1
+    21300004: Beginner_Light_Front2
+    21300006: Beginner_Thunder_Front0
+    21300008: Beginner_Thunder_Front1
+    21300010: Beginner_Thunder_Front2
+    21300012: Beginner_Earth_Front0
+    21300014: Beginner_Earth_Front1
+    21300016: Beginner_Earth_Front2
+    21300018: Beginner_Light_Left0
+    21300020: Beginner_Light_Left1
+    21300022: Beginner_Light_Left2
+    21300024: Beginner_Thunder_Left0
+    21300026: Beginner_Thunder_Left1
+    21300028: Beginner_Thunder_Left2
+    21300030: Beginner_Earth_Left0
+    21300032: Beginner_Earth_Left1
+    21300034: Beginner_Earth_Left2
+    21300036: Beginner_Light_Right0
+    21300038: Beginner_Light_Right2
+    21300040: Beginner_Thunder_Right0
+    21300042: Beginner_Thunder_Right1
+    21300044: Beginner_Thunder_Right2
+    21300046: Beginner_Earth_Right0
+    21300048: Beginner_Earth_Right1
+    21300050: Beginner_Earth_Right2
+    21300052: Beginner_Light_Up0
+    21300054: Beginner_Light_Up2
+    21300056: Beginner_Thunder_Up0
+    21300058: Beginner_Thunder_Up1
+    21300060: Beginner_Thunder_Up2
+    21300062: Beginner_Earth_Up0
+    21300064: Beginner_Earth_Up1
+    21300066: Beginner_Earth_Up2
+    21300068: Beginner_Dark_Front0
+    21300070: Beginner_Dark_Front1
+    21300072: Beginner_Dark_Front2
+    21300074: Beginner_Water_Front0
+    21300076: Beginner_Water_Front1
+    21300078: Beginner_Water_Front2
+    21300080: Beginner_Poison_Front0
+    21300082: Beginner_Poison_Front1
+    21300084: Beginner_Poison_Front2
+    21300086: Beginner_Dark_Left0
+    21300088: Beginner_Dark_Left1
+    21300090: Beginner_Dark_Left2
+    21300092: Beginner_Water_Left0
+    21300094: Beginner_Water_Left1
+    21300096: Beginner_Water_Left2
+    21300098: Beginner_Poison_Left0
+    21300100: Beginner_Poison_Left1
+    21300102: Beginner_Poison_Left2
+    21300104: Beginner_Dark_Right0
+    21300106: Beginner_Dark_Right1
+    21300108: Beginner_Dark_Right2
+    21300110: Beginner_Water_Right0
+    21300112: Beginner_Water_Right1
+    21300114: Beginner_Water_Right2
+    21300116: Beginner_Poison_Right0
+    21300118: Beginner_Poison_Right1
+    21300120: Beginner_Poison_Right2
+    21300122: Beginner_Dark_Up0
+    21300124: Beginner_Dark_Up1
+    21300126: Beginner_Dark_Up2
+    21300128: Beginner_Water_Up0
+    21300130: Beginner_Water_Up1
+    21300132: Beginner_Water_Up2
+    21300134: Beginner_Poison_Up0
+    21300136: Beginner_Poison_Up1
+    21300138: Beginner_Poison_Up2
+    21300140: Beginner_Fire_Front0
+    21300142: Beginner_Fire_Front1
+    21300144: Beginner_Fire_Front2
+    21300146: Beginner_Ice_Front0
+    21300148: Beginner_Ice_Front1
+    21300150: Beginner_Ice_Front2
+    21300152: Beginner_Ice_Right0
+    21300154: Beginner_Ice_Right1
+    21300156: Beginner_Ice_Right2
+    21300158: Beginner_Ice_Left0
+    21300160: Beginner_Ice_Left1
+    21300162: Beginner_Ice_Left2
+    21300164: Beginner_Fire_Left0
+    21300166: Beginner_Fire_Left1
+    21300168: Beginner_Fire_Left2
+    21300170: Beginner_Ice_Up0
+    21300172: Beginner_Ice_Up1
+    21300174: Beginner_Ice_Up2
+    21300176: Beginner_Fire_Right0
+    21300178: Beginner_Fire_Right1
+    21300180: Beginner_Fire_Right2
+    21300182: Beginner_Fire_Up0
+    21300184: Beginner_Fire_Up1
+    21300186: Beginner_Fire_Up2
+    21300188: Beginner_Light_Right1
+    21300190: Beginner_Light_Up1
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 0
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Beginner_Light_Front0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 470
+        width: 27
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Front1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 471
+        width: 27
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Front2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 470
+        width: 27
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Front0
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 473
+        width: 23
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Front1
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 473
+        width: 23
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Front2
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 473
+        width: 23
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Front0
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 467
+        width: 38
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Front1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 466
+        width: 33
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Front2
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 466
+        width: 38
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Left0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 422
+        width: 36
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Left1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 422
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Left2
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 422
+        width: 39
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Left0
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 425
+        width: 41
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Left1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 425
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Left2
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 425
+        width: 39
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Left0
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 418
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Left1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 418
+        width: 40
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Left2
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 418
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Right0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 374
+        width: 38
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Right2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 374
+        width: 39
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Right0
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 377
+        width: 41
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Right1
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 377
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Right2
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 377
+        width: 39
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Right0
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 370
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Right1
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 370
+        width: 40
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Right2
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 371
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Up0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 326
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Up2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 326
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Up0
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 329
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Up1
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 329
+        width: 23
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Thunder_Up2
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 329
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Up0
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 323
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Up1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 323
+        width: 33
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Earth_Up2
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 323
+        width: 38
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Front0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 279
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Front1
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 280
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Front2
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 279
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Front0
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 284
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Front1
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 286
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Front2
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 286
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Front0
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 272
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Front1
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 274
+        width: 34
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Front2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 272
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Left0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 228
+        width: 45
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Left1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 228
+        width: 40
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Left2
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 228
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Left0
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 235
+        width: 30
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Left1
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 236
+        width: 33
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Left2
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 238
+        width: 32
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Left0
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 223
+        width: 34
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Left1
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 225
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Left2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 223
+        width: 34
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Right0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 180
+        width: 45
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Right1
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 180
+        width: 40
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Right2
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 180
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Right0
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 187
+        width: 30
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Right1
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 188
+        width: 33
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Right2
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 190
+        width: 32
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Right0
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 175
+        width: 34
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Right1
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 177
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Right2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 175
+        width: 34
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Up0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 130
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Up1
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 130
+        width: 34
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Dark_Up2
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 130
+        width: 34
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Up0
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 141
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Up1
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 142
+        width: 31
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Water_Up2
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 143
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Up0
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 128
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Up1
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 130
+        width: 34
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Poison_Up2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 128
+        width: 34
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Front0
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 98
+        width: 17
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Front1
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 98
+        width: 17
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Front2
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 98
+        width: 17
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Front0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 97
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Front1
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 95
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Front2
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 93
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Right0
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 100
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Right1
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 99
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Right2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 100
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Left0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 47
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Left1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 46
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Left2
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 47
+        width: 29
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Left0
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 50
+        width: 43
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Left1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 50
+        width: 42
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Left2
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 50
+        width: 41
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Up0
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 65
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Up1
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 66
+        width: 19
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Ice_Up2
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 65
+        width: 19
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Right0
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 19
+        width: 43
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Right1
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 19
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Right2
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 19
+        width: 41
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Up0
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 34
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Up1
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 33
+        width: 17
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Fire_Up2
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 34
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Right1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 374
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beginner_Light_Up1
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 327
+        width: 26
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
