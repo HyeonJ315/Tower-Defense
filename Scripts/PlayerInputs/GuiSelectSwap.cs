@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.ElementScripts;
 using Assets.Scripts.TurretScripts.TurretData;
 
 namespace Assets.Scripts.PlayerInputs
@@ -13,9 +14,7 @@ namespace Assets.Scripts.PlayerInputs
             SetButton("SelectButton", Button_Back, "");
             _loadScrollList(
                 "CategoryListGrid",
-                TurretCategoryDictionary.IconPrefabsDirectory,
-                TurretCategoryDictionary.IconTag,
-                TurretCategoryDictionary.CategoryTypeList,
+                "ElementTypes/", ElementDictionary.Instance.ElementFullNameToAttributes.Keys, "/Icon",
                 CategoryReceiver );
         }
 
@@ -34,14 +33,13 @@ namespace Assets.Scripts.PlayerInputs
         private void CategoryReceiver(string msg)
         {
             _unloadScrollList("SubListGrid");
-            var category = (TurretCategoryType)Enum.Parse(typeof(TurretCategoryType), msg, true);
+
             List<string> subListGrid;
-            TurretCategoryDictionary.Instance.TryGetValue(category, out subListGrid);
+            if (!TurretDictionary.Instance.TurretTypeToFullName.TryGetValue(msg.Split('_')[1], out subListGrid))
+                return;
             _loadScrollList(
                 "SubListGrid",
-                TurretCategoryDictionary.IconPrefabsDirectory,
-                TurretCategoryDictionary.IconTag,
-                subListGrid,
+                "Turrets/", subListGrid, "/Icon",
                 SublistReceiver);
         }
 

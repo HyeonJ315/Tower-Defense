@@ -4,54 +4,43 @@ using UnityEngine;
 
 namespace Assets.Scripts.MobScripts.MobData
 {
-    internal class MobRotation : MonoBehaviour
+    internal abstract class MobRotation : MonoBehaviour
     {
         public string CameraName = "RtsCamera";
-        private Animator _animator;
-        private GameObject _camera;
-        private Transform _parentTransform;
-        private MobAttributes _mobAttributes;
+        protected Animator     Animator;
+        protected GameObject    Camera;
+        protected Transform     ParentTransform;
+        protected Material      SpriteMaterial;
+        protected MobAttributesMono MobAttributesMono;
 
-        public string IdleSpriteDown    = string.Empty;
-        public string IdleSpriteLeft    = string.Empty;
-        public string IdleSpriteUp      = string.Empty;
-        public string IdleSpriteRight   = string.Empty;
+        protected Stopwatch DeathAnimationStopwatch;
+        protected Stopwatch DeadStopwatch;
 
-        public string MoveSpriteDown    = string.Empty;
-        public string MoveSpriteLeft    = string.Empty;
-        public string MoveSpriteUp      = string.Empty;
-        public string MoveSpriteRight   = string.Empty;
+        protected bool DeathAnimationPlayed;
 
-        public string DieSpriteDown     = string.Empty;
-        public string DieSpriteLeft     = string.Empty;
-        public string DieSpriteUp       = string.Empty;
-        public string DieSpriteRight    = string.Empty;
-
-        public string CorpseSpriteDown  = string.Empty;
-        public string CorpseSpriteLeft  = string.Empty;
-        public string CorpseSpriteUp    = string.Empty;
-        public string CorpseSpriteRight = string.Empty;
-
-        private Stopwatch _deathAnimationStopwatch;
-        private bool _deathAnimationPlayed;
         protected void Start()
         {
-            _animator = transform.parent.gameObject.GetComponentInChildren<Animator>();
-            _mobAttributes = transform.parent.gameObject.GetComponents<MobAttributes>()[1];
-            _parentTransform = transform.parent.transform;
-            _deathAnimationStopwatch = new Stopwatch();
-            _deathAnimationStopwatch.Stop();
-            _deathAnimationStopwatch.Reset();
-            RTS_Camera.CameraDictionary.TryGetValue( CameraName, out _camera );
+            Animator = transform.parent.gameObject.GetComponentInChildren<Animator>();
+            MobAttributesMono = transform.parent.gameObject.GetComponents<MobAttributesMono>()[1];
+            ParentTransform = transform.parent.transform;
+            DeathAnimationStopwatch = new Stopwatch();
+            DeadStopwatch           = new Stopwatch();
+            SpriteMaterial          = transform.parent.GetComponentInChildren<Animator>()
+                                          .transform.gameObject.GetComponent<SpriteRenderer>().material;
+            DeathAnimationStopwatch.Stop();
+            DeathAnimationStopwatch.Reset();
+            DeadStopwatch.Stop();
+            DeadStopwatch.Reset();
+            RTS_Camera.CameraDictionary.TryGetValue( CameraName, out Camera );
         }
 
         protected void FixedUpdate()
         {
             #region Continuously find the camera gameobject
 
-            if (_camera == null)
+            if (Camera == null)
             {
-                RTS_Camera.CameraDictionary.TryGetValue(CameraName, out _camera);
+                RTS_Camera.CameraDictionary.TryGetValue(CameraName, out Camera);
                 return;
             }
 
@@ -59,100 +48,50 @@ namespace Assets.Scripts.MobScripts.MobData
 
             #region Update Idle/Attacking Sprite to face correctly.
 
-            var v1 = _parentTransform.forward;
-            var v2 = _camera.transform.forward;
-            v1.y = v2.y = 0;
-            var angle = Vector3.Angle(v1, v2);
-            if (Vector3.Cross(v1, v2).y < 0) angle = 360.0f - angle;
-            angle -= 135;
-            angle = angle < 0 ? angle + 360 : angle;
+            var v1 = ParentTransform.forward;
+            var v2 = Camera.transform.forward;
 
-            if ( angle > 0 && angle <= 90 )
-            {
-                if ( _mobAttributes.Dead )
-                {
-                    if ( !_deathAnimationPlayed )
-                    {
-                        _animator.Play( DieSpriteDown );
-                        _deathAnimationStopwatch.Start();
-                        _deathAnimationPlayed = true;
-                    }
-                    else if ( _deathAnimationStopwatch.ElapsedMilliseconds > _mobAttributes.DeathAnimationDelay )
-                    {
-                        _animator.Play( CorpseSpriteDown );
-                        _deathAnimationStopwatch.Stop();
-                    }
-                }
-                else
-                {
-                    _animator.Play(_mobAttributes.MoveSpeed > 0 ? MoveSpriteDown : IdleSpriteDown);
-                }
-            }
-            else if (angle > 90 && angle <= 180)
-            {
-                if ( _mobAttributes.Dead )
-                {
-                    if ( !_deathAnimationPlayed )
-                    {
-                        _animator.Play(DieSpriteLeft);
-                        _deathAnimationStopwatch.Start();
-                        _deathAnimationPlayed = true;
-                    }
-                    else if (_deathAnimationStopwatch.ElapsedMilliseconds > _mobAttributes.DeathAnimationDelay)
-                    {
-                        _animator.Play(CorpseSpriteLeft);
-                        _deathAnimationStopwatch.Stop();
-                    }
-                }
-                else
-                {
-                    _animator.Play(_mobAttributes.MoveSpeed > 0 ? MoveSpriteLeft : IdleSpriteLeft );
-                }
-            }
-            else if (angle > 180 && angle <= 270)
-            {
-                if ( _mobAttributes.Dead )
-                {
-                    if ( !_deathAnimationPlayed )
-                    {
-                        _animator.Play(DieSpriteUp);
-                        _deathAnimationStopwatch.Start();
-                        _deathAnimationPlayed = true;
-                    }
-                    else if (_deathAnimationStopwatch.ElapsedMilliseconds > _mobAttributes.DeathAnimationDelay)
-                    {
-                        _animator.Play(CorpseSpriteUp);
-                        _deathAnimationStopwatch.Stop();
-                    }
-                }
-                else
-                {
-                    _animator.Play(_mobAttributes.MoveSpeed > 0 ? MoveSpriteUp : IdleSpriteUp );
-                }
-            }
-            else
-            {
-                if (_mobAttributes.Dead)
-                {
-                    if ( !_deathAnimationPlayed )
-                    {
-                        _animator.Play(DieSpriteRight);
-                        _deathAnimationStopwatch.Start();
-                        _deathAnimationPlayed = true;
-                    }
-                    else if (_deathAnimationStopwatch.ElapsedMilliseconds > _mobAttributes.DeathAnimationDelay)
-                    {
-                        _animator.Play(CorpseSpriteRight);
-                        _deathAnimationStopwatch.Stop();
-                    }
-                }
-                else
-                {
-                    _animator.Play(_mobAttributes.MoveSpeed > 0 ? MoveSpriteRight : IdleSpriteRight);
-                }
-            }
+            var angle = CalculateAngle( v1, v2 );
+            PlayAnimation( angle );
+
+            #endregion
+
+            #region Death handler.
+
+            HandleDeath();
+
             #endregion
         }
 
+        protected abstract float CalculateAngle(Vector3 v1, Vector3 v2);
+        protected abstract void PlayAnimation( float angle );
+
+        protected virtual void HandleDeath()
+        {
+            if (MobAttributesMono.Dead)
+            {
+                if (!DeadStopwatch.IsRunning)
+                {
+                    DeadStopwatch.Start();
+                }
+                if (DeadStopwatch.ElapsedMilliseconds < MobAttributesMono.DeathFadeDelay) return;
+                var fadeValue = (float)(DeadStopwatch.ElapsedMilliseconds - MobAttributesMono.DeathFadeDuration) / MobAttributesMono.DeathFadeDuration;
+                var spriteColor = SpriteMaterial.color;
+                if (fadeValue < 1.0f)
+                {
+                    spriteColor.a = 1.0f - fadeValue;
+                    SpriteMaterial.color = spriteColor;
+                }
+                else
+                {
+                    Destroy(ParentTransform.gameObject);
+                }
+            }
+
+            if (MobAttributesMono.Health <= 0)
+            {
+                MobAttributesMono.Dead = true;
+            }
+        }
     }
 }

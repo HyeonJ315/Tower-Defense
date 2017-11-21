@@ -61,11 +61,10 @@ namespace Assets.Scripts.PlayerInputs
             {
                 if( hit.transform.tag == "Platform" )
                 {
-                    if ( ! Enum.IsDefined( typeof(TurretPrefabs), CurrentSpawningTurret ) )
+                    int turretNumber;
+                    if (!TurretDictionary.Instance.TurretNameToId.TryGetValue(CurrentSpawningTurret, out turretNumber))
                         return;
-                    var turretNumber = (TurretPrefabs)Enum.Parse(typeof(TurretPrefabs), CurrentSpawningTurret, true);
-                    if( turretNumber != TurretPrefabs.Invalid )
-                        _turretManagerRpc.TurretSpawnSendRpc( (int) turretNumber, TeamGroup, hit.point);
+                    _turretManagerRpc.TurretSpawnSendRpc( (int) turretNumber, TeamGroup, hit.point);
                 }
             }
         }

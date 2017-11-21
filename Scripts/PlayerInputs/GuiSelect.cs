@@ -5,7 +5,6 @@ namespace Assets.Scripts.PlayerInputs
 {
     public class GuiSelect : Gui
     {
-
         // Use this for initialization
         protected override void Start ()
         {

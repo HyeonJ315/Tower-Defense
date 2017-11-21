@@ -11,6 +11,7 @@ namespace Assets.Scripts.MobScripts.MobData
     public class Mob : MonoBehaviour
     {
         private bool _trackerInserted; // Is the mob placed into the tracker dictionary?
+        public string MobName;
         public string PlatformName = "Platform";
         public string PathName;
 
@@ -19,7 +20,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
         private MapPlatform   _mapPlatform;    // The map platform of the current scene.
 
-        private MobAttributes _mobAttributes;  // The mob's current attributes.
+        private MobAttributesMono _mobAttributesMono;  // The mob's current attributes.
 
         private int           _currPathIndex;
         private List<Vector3> _currPathList = new List<Vector3>();
@@ -39,7 +40,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
         protected void Start()
         {
-            _mobAttributes = GetComponents< MobAttributes >()[1];
+            _mobAttributesMono = GetComponents< MobAttributesMono >()[1];
             Destination   = transform.position;
             _prevLocation  = transform.position;
             _mobModifierRpc = MobModifierRpcServer.Instance;
@@ -61,7 +62,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
         private void _handleTileLocations()
         {
-            if (_mobAttributes.Dead) return;
+            if (_mobAttributesMono.Dead) return;
 
             if (_mapPlatform == null)
             {
@@ -92,7 +93,7 @@ namespace Assets.Scripts.MobScripts.MobData
             if ( PathName == null ) { return; } 
 
             // Do not move the mob if its dead. corpses dont move!
-            if ( _mobAttributes.Dead ) { return; }
+            if ( _mobAttributesMono.Dead ) { return; }
 
             // Do not move if not tracked.
             if ( MobNumber == 0 ) { return; }
@@ -138,11 +139,11 @@ namespace Assets.Scripts.MobScripts.MobData
                 #endregion
 
                 var currPos = transform.position;
-                var endPos  = _mobAttributes.Flying ? _currPathList[0] : Destination;
+                var endPos  = _mobAttributesMono.Flying ? _currPathList[0] : Destination;
                     endPos.y = currPos.y;
                 var dir = Vector3.Normalize(endPos - currPos);
                 var remainingDistance = Vector3.Distance(currPos, endPos);
-                var travelDistance = _mobAttributes.MoveSpeed * Time.fixedDeltaTime;
+                var travelDistance = _mobAttributesMono.MoveSpeed * Time.fixedDeltaTime;
                 var nextPosition = currPos + (dir * travelDistance);
 
                 var distanceAvaliable = remainingDistance > travelDistance;
@@ -150,7 +151,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
                 #region Blocked path handler.
 
-                if (nextPosIsBlocked && !_mobAttributes.Flying )
+                if (nextPosIsBlocked && !_mobAttributesMono.Flying )
                 {
                     List<Vector3> placeHolder;
                     _mapPlatform.FindAStarPath( currPos, _path.EndPoint.transform.position, out _currPathList, out placeHolder );
@@ -215,7 +216,7 @@ namespace Assets.Scripts.MobScripts.MobData
                     endPos.y = currPos.y;
                 var dir = Vector3.Normalize( endPos - currPos );
                 var remainingDistance = Vector3.Distance( currPos, endPos );
-                var travelDistance = _mobAttributes.MoveSpeed * Time.fixedDeltaTime;
+                var travelDistance = _mobAttributesMono.MoveSpeed * Time.fixedDeltaTime;
                 var nextPosition = currPos + (dir * travelDistance);
 
                 var distanceAvaliable = remainingDistance > travelDistance;
@@ -246,19 +247,5 @@ namespace Assets.Scripts.MobScripts.MobData
                 _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
             }
         }
-    }
-
-
-    public enum MobCategoryType
-    {
-        Tier1 = 0,
-        Tier2 = 1,
-        Tier3 = 2,
-        Tier4 = 3,
-        Tier5 = 4,
-        Tier6 = 5,
-        Tier7 = 6,
-        Tier8 = 7,
-        Tier9 = 8,
     }
 }

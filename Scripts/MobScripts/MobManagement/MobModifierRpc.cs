@@ -22,7 +22,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
         {
             GameObject mob;
             if ( !MobTrackerDictionary.Instance.TryGetValue(mobHashNumber, out mob) ) return false;
-            mob.GetComponents<MobAttributes>()[1].Health = health;
+            mob.GetComponents<MobAttributesMono>()[1].Health = health;
             return true;
         }
 

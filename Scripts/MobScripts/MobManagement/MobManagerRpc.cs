@@ -37,7 +37,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
             // Spawn the network object here.
             #region Check if the mob number is defined in the mob prefabs.
 
-            if ( !Enum.IsDefined(typeof(MobPrefabs), mobNumber ) )
+            if (!MobDictionary.Instance.MobIdToName.ContainsKey(mobNumber))
                 return false;
 
             #endregion

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using Assets.Scripts.ElementScripts;
+using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.MobScripts.MobManagement;
+using Assets.Scripts.TurretScripts.TurretData;
 using Assets.Scripts.TurretScripts.TurretManagement;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,7 +13,7 @@ namespace Assets.Scripts.NetworkManagement
 {
     public class NetworkingManager : NetworkManager
     {
-        public string PrefabsResourceDirectory = "Prefabs/Network";
+        public string PrefabsResourceDirectory = "Network";
         public bool LocalHosting = false;
 
         //removes all client's gameobject on disconnect.
@@ -62,21 +65,13 @@ namespace Assets.Scripts.NetworkManagement
             IsServer = false;
             IsClient = true;
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            var currSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            var nextSceneIndex = currSceneIndex + 1;
-            SceneManager.LoadScene(nextSceneIndex);
+            _switchScene();
         }
 
         public void StartServer( ushort portNumber, int maxAllowedClients )
         {
             networkPort    = portNumber;
             maxConnections = maxAllowedClients;
-            if (LocalHosting)
-            {
-                NetworkingDiscovery.Instance.Initialize();
-                NetworkingDiscovery.Instance.StartAsServer();
-            }
             StartServer();
         }
 
@@ -87,11 +82,25 @@ namespace Assets.Scripts.NetworkManagement
             IsClient = false;
 
             // For local hosting. ( debugging )
+            if (LocalHosting)
+            {
+                NetworkingDiscovery.Instance.Initialize();
+                NetworkingDiscovery.Instance.StartAsServer();
+            }
+
+            _switchScene();
+        }
+
+        private void _switchScene()
+        {
+            MobDictionary    .Instance.Initialize();
+            ElementDictionary.Instance.Initialize();
+            TurretDictionary .Instance.Initialize();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             var currSceneIndex = SceneManager.GetActiveScene().buildIndex;
             var nextSceneIndex = currSceneIndex + 1;
-            SceneManager.LoadScene( nextSceneIndex );
+            SceneManager.LoadScene(nextSceneIndex);
         }
 
         public override void OnServerReady( NetworkConnection networkConnection )

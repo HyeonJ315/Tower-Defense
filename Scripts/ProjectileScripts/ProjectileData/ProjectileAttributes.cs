@@ -6,7 +6,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
     class ProjectileAttributes : MonoBehaviour
     {
         public uint TargetNumber = 0;
-        public MobAttributes Target = null;
+        public MobAttributesMono Target = null;
         public float Speed;
         public float Damage;
         public bool  Hit = false;

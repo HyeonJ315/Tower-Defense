@@ -26,6 +26,15 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         private void _handleMovement()
         {
+            #region Is the projectile hit or is the target dead?
+
+            if (_projectileAttributes.Hit)
+            {
+                return;
+            }
+
+            #endregion
+
             #region Find the target.
 
             if (_projectileAttributes == null)
@@ -41,21 +50,16 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
             if ( _projectileAttributes.Target == null )
             {
                 GameObject target;
-                if ( !MobTrackerDictionary.Instance.TryGetValue( _projectileAttributes.TargetNumber, out target) )
+                if ( MobTrackerDictionary.Instance.TryGetValue( _projectileAttributes.TargetNumber, out target) )
                 {
+                    _projectileAttributes.Target = target.GetComponents<MobAttributesMono>()[1];
+                    _projectileAttributes.TargetNumber = target.GetComponent<Mob>().MobNumber;
+                }
+                else
+                {
+                    Destroy( gameObject );
                     return;
                 }
-                _projectileAttributes.Target       = target.GetComponents<MobAttributes>()[1];
-                _projectileAttributes.TargetNumber = target.GetComponent<Mob>().MobNumber;
-            }
-
-            #endregion
-
-            #region Is the projectile hit or is the target dead?
-
-            if ( _projectileAttributes.Hit )
-            {
-                return;
             }
 
             #endregion

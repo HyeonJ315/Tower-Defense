@@ -40,7 +40,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         private GameObject _currentTurretShadow;
         private List< GameObject > _currentShadowTiles2X2; 
         public string PrefabsResourceDirectory = "Prefabs/Turrets";
-
+        public string ShadowTile = "ShadowTile";
 
         private readonly Color _blockedTileColor = new Color( 1.0f, 0.3f, 0.3f, 0.75f );
         private readonly Color _openTileColor    = new Color( 0.3f, 1.0f, 0.3f, 0.75f );
@@ -64,7 +64,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #region Perform basic sanity checks
 
-            if ( !Enum.IsDefined(typeof(TurretPrefabs), turretNumber) )
+            if ( !TurretDictionary.Instance.TurretIdToName.ContainsKey( turretNumber ) )
             {
                 Debug.Log( turretNumber );
                 return false;
@@ -108,8 +108,10 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #endregion
 
-            var turretName = Enum.GetName( typeof(TurretPrefabs), turretNumber );
-
+            string turretName;
+            if (!TurretDictionary.Instance.TurretIdToName.TryGetValue(turretNumber, out turretName))
+                return false
+                    ;
             if (_turretsHierarchyGameObject == null)
             {
                 _turretsHierarchyGameObject = new GameObject() { name = "Turrets" };
@@ -206,7 +208,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #endregion
 
-            var turretData = go.GetComponent<TurretData.Turret>();
+            var turretData = go.GetComponent<Turret>();
 
             List< TileData > tilesInRange;
 
@@ -364,7 +366,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 #region Instantiate the Shadow Tiles
 
                 var offset = 0.5f / Vector3.Distance(closestTiles2X2[0].Location, closestTiles2X2[1].Location);
-                var shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "ShadowTile" ) ) as GameObject;
+                var shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
                 if (shadowTile == null)
                 {   
                     RemoveTurretShadow();
@@ -375,7 +377,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 shadowTile.name = ShadowTag + "X-Z-";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "ShadowTile" ) ) as GameObject;
+                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile ) ) as GameObject;
                 if (shadowTile == null)
                 {
                     RemoveTurretShadow();
@@ -386,7 +388,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 shadowTile.name = ShadowTag + "X+Z-";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "ShadowTile" ) ) as GameObject;
+                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
                 if (shadowTile == null)
                 {
                     RemoveTurretShadow();
@@ -397,7 +399,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 shadowTile.name = ShadowTag + "X-Z+";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "ShadowTile" ) ) as GameObject;
+                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
                 if (shadowTile == null)
                 {
                     RemoveTurretShadow();

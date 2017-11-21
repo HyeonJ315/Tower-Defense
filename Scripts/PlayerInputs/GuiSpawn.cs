@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.ElementScripts;
 using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.MobScripts.MobManagement;
 using Assets.Scripts.NetworkManagement;
@@ -17,9 +18,7 @@ namespace Assets.Scripts.PlayerInputs
             SetButton("ButtonBack", Button_Back, "");
             _loadScrollList(
                 "CategoryListGrid", 
-                MobCategoryDictionary.IconPrefabsDirectory, 
-                MobCategoryDictionary.IconTag,
-                MobCategoryDictionary.CategoryTypeList, 
+                "ElementTypes/", ElementDictionary.Instance.ElementFullNameToAttributes.Keys, "/Icon",
                 CategoryReceiver );
         }   
 
@@ -38,23 +37,20 @@ namespace Assets.Scripts.PlayerInputs
         private void CategoryReceiver(string msg)
         {
             _unloadScrollList( "SubListGrid" );
-            var category = (MobCategoryType) Enum.Parse(typeof(MobCategoryType), msg, true);
+
             List<string> subListGrid;
-            MobCategoryDictionary.Instance.TryGetValue( category, out subListGrid );
+            MobDictionary.Instance.MobTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid );
             _loadScrollList(
                 "SubListGrid", 
-                MobCategoryDictionary.IconPrefabsDirectory,
-                MobCategoryDictionary.IconTag,
-                subListGrid,
-                SublistReceiver);
+                "Mobs/", subListGrid, "/Icon",
+                SublistReceiver );
         }
 
         private void SublistReceiver(string msg)
         {
-            if ( !Enum.IsDefined(typeof(MobPrefabs), msg.Split('_')[0]) )
-                return;
-            var mobNumber = (MobPrefabs)Enum.Parse(typeof(MobPrefabs), msg.Split('_')[0], true);
-            _mobManagerRpc.MobSpawnSendRpc( (int) mobNumber, 1 );
+            int mobNumber;
+            if( MobDictionary.Instance.MobNameToId.TryGetValue( msg.Split('_')[1], out mobNumber ) )
+                _mobManagerRpc.MobSpawnSendRpc( mobNumber, 1 );
         }
     }
 }

@@ -26,17 +26,15 @@ namespace Assets.Scripts.MobScripts.MobManagement
             mobGameObject = null;
             #region Create the Mob
 
-            if ( !Enum.IsDefined( typeof(MobPrefabs), mobNumber) )
+            string mobName;
+            if (!MobDictionary.Instance.MobIdToName.TryGetValue(mobNumber, out mobName))
                 return false;
-            var mobName = Enum.GetName( typeof(MobPrefabs), mobNumber );
 
             if ( _mobsHierarchyGameObject == null )
-            {
                 _mobsHierarchyGameObject = new GameObject { name = "Mobs" };
-            }
 
             mobGameObject =
-                Instantiate(Resources.Load( MobPrefabDictionary.MobPrefabsDirectory + "/" + mobName ) ) as GameObject;
+                Instantiate( Resources.Load( MobDictionary.MobDir + "/" + mobNumber + "_" + mobName + "/" + mobName ) ) as GameObject;
             if (mobGameObject == null) return false;
             mobGameObject.transform.position = position;
 

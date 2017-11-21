@@ -71,7 +71,7 @@ namespace Assets.Scripts.PlayerInputs
         #region Helper methods for scroll lists
 
         // loads data into the scroll list grid with game object named scrolllistgrid, prefab directory dir, list of all icons categoryList, and a tag.
-        protected void _loadScrollList(string scrollListGrid, string prefabsDir, string iconTag, IEnumerable<string> categoryList, ReceiverDelegate recv )
+        protected void _loadScrollList(string scrollListGrid, string prefabsDir, IEnumerable<string> categoryList, string iconName, ReceiverDelegate recv )
         {
             var componentList = GetComponentsInChildren<RectTransform>();
 
@@ -93,21 +93,23 @@ namespace Assets.Scripts.PlayerInputs
 
             #region place all categories in the category list.
 
-            foreach (var category in categoryList)
+            if (categoryList == null) return;
+            foreach (var category in categoryList )
             {
-                var go = Instantiate( Resources.Load( prefabsDir + category + iconTag ) ) as GameObject;
+                var go = Instantiate( Resources.Load( prefabsDir + category + iconName ) ) as GameObject;
                 if (go == null)
                 {
                     Debug.LogWarning("Scroll list could not be loaded.");
                     _unloadScrollList(scrollListGrid);
                     return;
                 }
-                go.name = category + iconTag;
+                go.name = category + "_Icon";
                 go.transform.SetParent(categoryListGrid.transform);
                 var categoryClone = category;
                 go.GetComponent<Button>().onClick.AddListener(delegate { recv(categoryClone); });
                 go.transform.localScale = Vector3.one;
             }
+
             #endregion
         }
 

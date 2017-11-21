@@ -17,6 +17,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
         public float Splash;
         public float Range;
         public uint  Cost;
+
         public bool Attacking;
         public int PlayerNumber;
         public Vector3 ProjectileSpawnOffset;
@@ -58,7 +59,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
             }
 
             // is the mob alive?
-            if ( _attackingMob.gameObject.GetComponents<MobAttributes>()[1].Dead )
+            if ( _attackingMob.gameObject.GetComponents<MobAttributesMono>()[1].Dead )
             {
                 _attackingMob = null;
                 Attacking = false;
@@ -99,15 +100,17 @@ namespace Assets.Scripts.TurretScripts.TurretData
         }
     }
 
-    public enum TurretCategoryType
+    public class TurretAttributes
     {
-        Dark    = 0,
-        Earth   = 1,
-        Fire    = 2,
-        Ice     = 3,
-        Light   = 4,
-        Poison  = 5,
-        Thunder = 6,
-        Water   = 7,
+        public int ProjectileNumber;
+        public float AttackGround;
+        public float AttackAir;
+        public int AttackSpeed;
+        public float ProjectileSpeed;
+        public float Splash;
+        public float Range;
+        public uint Cost;
+        public Vector3 ProjectileSpawnOffset;
+        public string[] Types = new string[2];
     }
 }

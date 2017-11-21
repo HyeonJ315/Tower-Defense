@@ -54,7 +54,6 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         [ClientRpc]
         private void RpcTurretSpawn(int turretNumber, int teamGroup, Vector3 location, int playerNumber )
         {
-            var clientConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
             TurretSpawn( turretNumber, playerNumber, teamGroup, location );
         }
 

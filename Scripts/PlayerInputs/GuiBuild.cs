@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.ElementScripts;
 using Assets.Scripts.TurretScripts.TurretData;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,9 +15,7 @@ namespace Assets.Scripts.PlayerInputs
             SetButton("BackButton", Button_Back, "");
             _loadScrollList(
                 "CategoryListGrid",
-                TurretCategoryDictionary.IconPrefabsDirectory, 
-                TurretCategoryDictionary.IconTag,
-                TurretCategoryDictionary.CategoryTypeList, 
+                "ElementTypes/", ElementDictionary.Instance.ElementFullNameToAttributes.Keys, "/Icon",
                 CategoryReceiver );
         }
 
@@ -36,21 +35,19 @@ namespace Assets.Scripts.PlayerInputs
         private void CategoryReceiver(string msg)
         {
             _unloadScrollList("SubListGrid");
-            var category = (TurretCategoryType)Enum.Parse(typeof(TurretCategoryType), msg, true);
             List<string> subListGrid;
-            TurretCategoryDictionary.Instance.TryGetValue(category, out subListGrid);
+            if ( !TurretDictionary.Instance.TurretTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid) )
+                return;
             _loadScrollList(
                 "SubListGrid", 
-                TurretCategoryDictionary.IconPrefabsDirectory,
-                TurretCategoryDictionary.IconTag,
-                subListGrid,
+                "Turrets/", subListGrid, "/Icon",
                 SublistReceiver );
         }
 
         private void SublistReceiver(string msg)
         {
             var nextGui = ReplaceMeWith( "GUI_Building" );
-            nextGui.GetComponent<GuiBuilding>().CurrentSpawningTurret = msg;
+            nextGui.GetComponent<GuiBuilding>().CurrentSpawningTurret = msg.Split('_')[1];
         }
     }
 }
