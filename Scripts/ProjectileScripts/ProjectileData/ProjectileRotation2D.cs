@@ -8,11 +8,11 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
     internal class ProjectileRotation2D : ProjectileRotation
     {
-        public string IdleSpriteLeft  = string.Empty;
-        public string IdleSpriteRight = string.Empty;
+        protected string IdleSpriteLeft  = "IdleLeft" ;
+        protected string IdleSpriteRight = "IdleRight";
 
-        public string DieSpriteLeft   = string.Empty;
-        public string DieSpriteRight  = string.Empty;
+        protected string DieSpriteLeft   = "HitLeft"  ;
+        protected string DieSpriteRight  = "HitRight" ;
 
         protected override float CalculateAngle(Vector3 v1, Vector3 v2)
         {
@@ -26,20 +26,20 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         protected override void PlayAnimation(float angle)
         {
-            if ( angle > 0 && angle <= 180 && !ProjectileAttributes.Hit && IdleSpriteLeft != string.Empty)
+            if ( angle > 0 && angle <= 180 && !Projectile.Hit )
             {
                 Animator.Play(IdleSpriteLeft);
             }
-            else if (angle > 180 && angle <= 360 && !ProjectileAttributes.Hit && IdleSpriteRight != string.Empty)
+            else if (angle > 180 && angle <= 360 && !Projectile.Hit )
             {
                 Animator.Play(IdleSpriteRight);
             }
-            else if (angle > 0 && angle <= 180 && ProjectileAttributes.Hit && DieSpriteLeft != string.Empty && !AlreadyHit)
+            else if (angle > 0 && angle <= 180 && Projectile.Hit && !AlreadyHit )
             {
                 Animator.Play(DieSpriteLeft);
                 AlreadyHit = true;
             }
-            else if (angle > 180 && angle <= 360 && ProjectileAttributes.Hit && DieSpriteRight != string.Empty && !AlreadyHit)
+            else if (angle > 180 && angle <= 360 && Projectile.Hit && !AlreadyHit )
             {
                 Animator.Play(DieSpriteRight);
                 AlreadyHit = true;

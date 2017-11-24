@@ -10,45 +10,76 @@ namespace Assets.Scripts.MobScripts.MobData
 {
     public class Mob : MonoBehaviour
     {
-        private bool _trackerInserted; // Is the mob placed into the tracker dictionary?
-        public string MobName;
         public string PlatformName = "Platform";
-        public string PathName;
+        public int SyncUpdateInMilliseconds = 3000;
+
+        private bool _trackerInserted; // Is the mob placed into the tracker dictionary?
 
         private GameObject    _pathObject; // The AStarPath wrapper game object that the mob is following in the beginning
         private AStarPath     _path;       // The Path that is on top of the game object that the mob is currently following
 
         private MapPlatform   _mapPlatform;    // The map platform of the current scene.
 
-        private MobAttributesMono _mobAttributesMono;  // The mob's current attributes.
+        private MobAttributes _mobAttributesReference;
+        public  MobAttributes MobAttributesMax;        // the mob's default attributes.
+        public  MobAttributes MobAttributesCurrent;    // The mob's current attributes.
 
         private int           _currPathIndex;
         private List<Vector3> _currPathList = new List<Vector3>();
 
-        public uint MobNumber    = 0;
-        public int  PlayerNumber = 0;
-        public int  Team         = 0;
+        public int    PlayerNumber { private set; get; }
+        public int    MobNumber    { private set; get; }
+        public string MobName      { private set; get; }
+        public int    TeamGroup    { private set; get; }
+        public string PathName     { private set; get; }
+
+        [HideInInspector] public uint MobHash = 0;
+        [HideInInspector] public bool Dead;
+        [HideInInspector] public Vector3 Destination;
 
         private Vector3 _prevLocation;
-
-        public Vector3 Destination;
         private TileData _currentTile;
 
         private readonly Stopwatch _syncStopwatch = new Stopwatch();
-        public int SyncUpdateInMilliseconds = 3000;
+
         private MobModifierRpc _mobModifierRpc;
 
-        protected void Start()
+        private bool _initialized;
+
+        public void Initialize( int playerNumber, int mobNumber, string mobName, int teamGroup, string pathName )
         {
-            _mobAttributesMono = GetComponents< MobAttributesMono >()[1];
-            Destination   = transform.position;
-            _prevLocation  = transform.position;
+            if (_initialized)
+            {
+                UnityEngine.Debug.Log("" + playerNumber + "_" + mobName + " already initialized.");
+                return;
+            }
+            if ( !MobDictionary.Instance.MobFullNameToAttributes.TryGetValue( "" + mobNumber + "_" + mobName,
+                out _mobAttributesReference) )
+            {
+                UnityEngine.Debug.Log(" Can't find " + playerNumber + "_" + mobName + " in the Dictionary.");
+                return;
+            }
+            PlayerNumber = playerNumber;
+            MobNumber    = mobNumber;
+            MobName      = mobName;
+            TeamGroup    = teamGroup;
+            PathName     = pathName;
+            MobAttributesMax     = new MobAttributes( _mobAttributesReference );
+            MobAttributesCurrent = new MobAttributes( _mobAttributesReference );
+            Destination = transform.position;
+            _prevLocation = transform.position;
             _mobModifierRpc = MobModifierRpcServer.Instance;
             _mapPlatform = MapPlatform.Instance;
+            _initialized = true;
         }
 
         protected void FixedUpdate ()
         {
+            if (!_initialized)
+            {
+                UnityEngine.Debug.Log( "Mob Not Initialized." );
+                return;
+            }
             _handleTileLocations();
             _handleTrackerDictionary();
             _handleMovement();
@@ -57,12 +88,19 @@ namespace Assets.Scripts.MobScripts.MobData
 
         protected void OnDestroy()
         {
-            MobTrackerDictionary.DeleteMobEntry( MobNumber );
+            MobTrackerDictionary.DeleteMobEntry( MobHash );
         }
 
         private void _handleTileLocations()
         {
-            if (_mobAttributesMono.Dead) return;
+            if ( MobAttributesCurrent == null || MobAttributesMax == null )
+            {
+                MobDictionary.Instance.MobNameToAttributes.TryGetValue( MobName, out MobAttributesCurrent );
+                MobDictionary.Instance.MobNameToAttributes.TryGetValue( MobName, out MobAttributesMax     );
+                return;
+            }
+
+            if ( Dead ) return;
 
             if (_mapPlatform == null)
             {
@@ -82,9 +120,9 @@ namespace Assets.Scripts.MobScripts.MobData
 
         private void _handleTrackerDictionary()
         {
-            if ( MobNumber == 0 || _trackerInserted ) return;
+            if ( MobHash == 0 || _trackerInserted ) return;
             _trackerInserted = true;
-            MobTrackerDictionary.InsertMobEntry( MobNumber, gameObject );
+            MobTrackerDictionary.InsertMobEntry( MobHash, gameObject );
         }
 
         private void _handleMovement()
@@ -93,10 +131,10 @@ namespace Assets.Scripts.MobScripts.MobData
             if ( PathName == null ) { return; } 
 
             // Do not move the mob if its dead. corpses dont move!
-            if ( _mobAttributesMono.Dead ) { return; }
+            if ( Dead ) { return; }
 
             // Do not move if not tracked.
-            if ( MobNumber == 0 ) { return; }
+            if ( MobHash == 0 ) { return; }
 
             if ( NetworkingManager.Instance.IsServer )
             {
@@ -132,32 +170,33 @@ namespace Assets.Scripts.MobScripts.MobData
                     _currPathList    = new List<Vector3>( _path.CompactPath );
                     _currPathIndex   = _currPathList.Count - 1;
                     Destination = _currPathList[ _currPathIndex ];
-                    _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
+                    _mobModifierRpc.UpdateMoveStateSendRpc( MobHash, transform.position, Destination );
                     return;
                 }
 
                 #endregion
 
-                var currPos = transform.position;
-                var endPos  = _mobAttributesMono.Flying ? _currPathList[0] : Destination;
-                    endPos.y = currPos.y;
-                var dir = Vector3.Normalize(endPos - currPos);
-                var remainingDistance = Vector3.Distance(currPos, endPos);
-                var travelDistance = _mobAttributesMono.MoveSpeed * Time.fixedDeltaTime;
-                var nextPosition = currPos + (dir * travelDistance);
+                var currPosition = transform.position;
+                var endPos  = MobAttributesCurrent.Flying ? _currPathList[0] : Destination;
+                    endPos.y = currPosition.y;
+                var dir = Vector3.Normalize(endPos - currPosition);
+                var remainingDistance = Vector3.Distance(currPosition, endPos);
+                var travelDistance = MobAttributesCurrent.MoveSpeed * Time.fixedDeltaTime;
+                var nextPosition = currPosition + (dir * travelDistance);
 
                 var distanceAvaliable = remainingDistance > travelDistance;
-                var nextPosIsBlocked  = _mapPlatform.LocationIsBlocked(nextPosition);
+                var currPosIsBlocked  = _mapPlatform.LocationIsBlocked( currPosition );
+                var nextPosIsBlocked  = _mapPlatform.LocationIsBlocked( nextPosition );
 
                 #region Blocked path handler.
 
-                if (nextPosIsBlocked && !_mobAttributesMono.Flying )
+                if ( !currPosIsBlocked && nextPosIsBlocked && !MobAttributesCurrent.Flying )
                 {
                     List<Vector3> placeHolder;
-                    _mapPlatform.FindAStarPath( currPos, _path.EndPoint.transform.position, out _currPathList, out placeHolder );
+                    _mapPlatform.FindAStarPath( currPosition, _path.EndPoint.transform.position, out _currPathList, out placeHolder );
                     _currPathIndex = _currPathList.Count - 1;
                     Destination = _currPathList[ _currPathIndex ];
-                    _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
+                    _mobModifierRpc.UpdateMoveStateSendRpc( MobHash, transform.position, Destination );
                     return;
                 }
 
@@ -176,7 +215,7 @@ namespace Assets.Scripts.MobScripts.MobData
                     if ( --_currPathIndex >= 0 )
                     {
                         Destination = _currPathList[ _currPathIndex ];
-                        _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
+                        _mobModifierRpc.UpdateMoveStateSendRpc( MobHash, transform.position, Destination );
                     }
                     else
                     {
@@ -187,7 +226,7 @@ namespace Assets.Scripts.MobScripts.MobData
                             _currPathIndex   = _path.CompactPath.Count - 1;
                             _currPathList    = new List<Vector3>( _path.CompactPath );
                             Destination = _currPathList[ _currPathIndex ];
-                            _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
+                            _mobModifierRpc.UpdateMoveStateSendRpc( MobHash, transform.position, Destination );
                         }
                     }
                 }
@@ -216,7 +255,7 @@ namespace Assets.Scripts.MobScripts.MobData
                     endPos.y = currPos.y;
                 var dir = Vector3.Normalize( endPos - currPos );
                 var remainingDistance = Vector3.Distance( currPos, endPos );
-                var travelDistance = _mobAttributesMono.MoveSpeed * Time.fixedDeltaTime;
+                var travelDistance = MobAttributesCurrent.MoveSpeed * Time.fixedDeltaTime;
                 var nextPosition = currPos + (dir * travelDistance);
 
                 var distanceAvaliable = remainingDistance > travelDistance;
@@ -244,7 +283,7 @@ namespace Assets.Scripts.MobScripts.MobData
             if ( _syncStopwatch.ElapsedMilliseconds >= SyncUpdateInMilliseconds )
             {
                 _syncStopwatch.Stop();
-                _mobModifierRpc.UpdateMoveStateSendRpc( MobNumber, transform.position, Destination );
+                _mobModifierRpc.UpdateMoveStateSendRpc( MobHash, transform.position, Destination );
             }
         }
     }

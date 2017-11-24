@@ -5,15 +5,15 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
     internal class ProjectileRotation3D : ProjectileRotation
     {
-        public string IdleSpriteDown  = string.Empty;
-        public string IdleSpriteLeft  = string.Empty;
-        public string IdleSpriteUp    = string.Empty;
-        public string IdleSpriteRight = string.Empty;
+        protected string IdleSpriteFront = "IdleFront";
+        protected string IdleSpriteLeft  = "IdleLeft" ;
+        protected string IdleSpriteUp    = "IdleUp"   ;
+        protected string IdleSpriteRight = "IdleRight";
 
-        public string DieSpriteDown   = string.Empty;
-        public string DieSpriteLeft   = string.Empty;
-        public string DieSpriteUp     = string.Empty;
-        public string DieSpriteRight  = string.Empty;
+        protected string DieSpriteFront  = "HitFront" ;
+        protected string DieSpriteLeft   = "HitLeft"  ;
+        protected string DieSpriteUp     = "HitUp"    ;
+        protected string DieSpriteRight  = "HitRight" ;
 
         protected override float CalculateAngle(Vector3 v1, Vector3 v2)
         {
@@ -27,41 +27,45 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         protected override void PlayAnimation(float angle)
         {
-            if (angle > 0 && angle <= 90 && !ProjectileAttributes.Hit && IdleSpriteDown != string.Empty)
+            if (angle > 0 && angle <= 90)
             {
-                Animator.Play(IdleSpriteDown);
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteFront);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteFront);
+                    AlreadyHit = true;
+                }
             }
-            else if (angle > 90 && angle <= 180 && !ProjectileAttributes.Hit && IdleSpriteLeft != string.Empty)
+            else if (angle > 90 && angle <= 180)
             {
-                Animator.Play(IdleSpriteLeft);
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteLeft);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteLeft);
+                    AlreadyHit = true;
+                }
             }
-            else if (angle > 180 && angle <= 270 && !ProjectileAttributes.Hit && IdleSpriteUp != string.Empty)
+            else if (angle > 180 && angle <= 270)
             {
-                Animator.Play(IdleSpriteUp);
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteUp);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteUp);
+                    AlreadyHit = true;
+                }
             }
-            else if (angle > 270 && angle <= 360 && !ProjectileAttributes.Hit && IdleSpriteRight != string.Empty)
+            else
             {
-                Animator.Play(IdleSpriteRight);
-            }
-            else if (angle > 0 && angle <= 90 && ProjectileAttributes.Hit && DieSpriteDown != string.Empty && !AlreadyHit)
-            {
-                Animator.Play(DieSpriteDown);
-                AlreadyHit = true;
-            }
-            else if (angle > 90 && angle <= 180 && ProjectileAttributes.Hit && DieSpriteLeft != string.Empty && !AlreadyHit)
-            {
-                Animator.Play(DieSpriteLeft);
-                AlreadyHit = true;
-            }
-            else if (angle > 180 && angle <= 270 && ProjectileAttributes.Hit && DieSpriteUp != string.Empty && !AlreadyHit)
-            {
-                Animator.Play(DieSpriteUp);
-                AlreadyHit = true;
-            }
-            else if (angle > 270 && angle <= 360 && ProjectileAttributes.Hit && DieSpriteRight != string.Empty && !AlreadyHit)
-            {
-                Animator.Play(DieSpriteRight);
-                AlreadyHit = true;
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteRight);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteRight);
+                    AlreadyHit = true;
+                }
             }
         }
     }

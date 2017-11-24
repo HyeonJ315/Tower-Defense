@@ -9,7 +9,7 @@ namespace Assets.Scripts.PlayerInputs
     public class Gui : MonoBehaviour
     {
         protected delegate void ReceiverDelegate(string msg);
-        public static readonly string GuiPrefabsDirectory = "Prefabs/GUI/";
+        public static readonly string GuiPrefabsDirectory = "GUI";
         public static readonly string PlayerName          = "PlayerName";
         public static readonly string CameraString        = "RtsCamera";
         public static readonly int    TeamGroup           = 2;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.PlayerInputs
 
         protected GameObject ReplaceMeWith( string replacingPrefab )
         {
-            var resource = Resources.Load( GuiPrefabsDirectory + replacingPrefab );
+            var resource = Resources.Load( GuiPrefabsDirectory + "/" + replacingPrefab );
             if (!resource) return null;
             var guiGameObject = Instantiate( resource ) as GameObject;
             if (!guiGameObject) return null;
@@ -128,7 +128,7 @@ namespace Assets.Scripts.PlayerInputs
             }
             if (categoryListGrid == null)
             {
-                Debug.LogWarning("Scroll list does not even exist.");
+                Debug.LogWarning( "Scroll list does not even exist." );
                 return;
             }
 

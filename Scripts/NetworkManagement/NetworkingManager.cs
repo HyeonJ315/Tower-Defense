@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using Assets.Scripts.ElementScripts;
 using Assets.Scripts.MobScripts.MobData;
-using Assets.Scripts.MobScripts.MobManagement;
+using Assets.Scripts.ProjectileScripts.ProjectileData;
 using Assets.Scripts.TurretScripts.TurretData;
-using Assets.Scripts.TurretScripts.TurretManagement;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -13,7 +11,7 @@ namespace Assets.Scripts.NetworkManagement
 {
     public class NetworkingManager : NetworkManager
     {
-        public string PrefabsResourceDirectory = "Network";
+        public string NetworkResourceDirectory = "Network";
         public bool LocalHosting = false;
 
         //removes all client's gameobject on disconnect.
@@ -93,9 +91,10 @@ namespace Assets.Scripts.NetworkManagement
 
         private void _switchScene()
         {
-            MobDictionary    .Instance.Initialize();
-            ElementDictionary.Instance.Initialize();
-            TurretDictionary .Instance.Initialize();
+            MobDictionary       .Instance.Initialize();
+            ElementDictionary   .Instance.Initialize();
+            TurretDictionary    .Instance.Initialize();
+            ProjectileDictionary.Instance.Initialize();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             var currSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -106,12 +105,12 @@ namespace Assets.Scripts.NetworkManagement
         public override void OnServerReady( NetworkConnection networkConnection )
         {
             base.OnServerReady( networkConnection );
-            var mobManagerRpcClient = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "MobManagerRpcClient") ) as GameObject;
-            var turretManagerRpcClient = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + "TurretManagerRpcClient" ) ) as GameObject;
+            var mobManagerRpcClient = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "MobManagerRpcClient") ) as GameObject;
+            var turretManagerRpcClient = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "TurretManagerRpcClient" ) ) as GameObject;
             var clientGameObjects = new List<GameObject> { mobManagerRpcClient, turretManagerRpcClient };
             _clientObjectDictionary.Add( networkConnection.connectionId, clientGameObjects );
 
-            NetworkServer.SpawnWithClientAuthority( mobManagerRpcClient, networkConnection );
+            NetworkServer.SpawnWithClientAuthority( mobManagerRpcClient   , networkConnection );
             NetworkServer.SpawnWithClientAuthority( turretManagerRpcClient, networkConnection );
         }
 

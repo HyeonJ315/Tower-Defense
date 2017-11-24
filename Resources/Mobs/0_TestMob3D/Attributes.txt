@@ -1,11 +1,12 @@
 Health:              100
 Defense:             10
 SpecialDefense:      10
-MoveSpeed:           15
+MoveSpeed:           10
 Flying:              0
 HitSphere:           1.0
 DeathAnimationDelay: 1000
 DeathFadeDelay:      1000
 DeathFadeDuration:   1000
+HealthCanvasY:       2
 Type:                Water
 Type:                Flying

@@ -31,7 +31,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         private MapPlatform _mapPlatform;
         private PathGroup _pathGroupTeam1;
         private PathGroup _pathGroupTeam2;
-        private MyDebugger _myDebugger;
+        //private MyDebugger _myDebugger;
 
         private GameObject _turretsHierarchyGameObject;
         private GameObject _team1TurretsGameObject;
@@ -39,7 +39,6 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         private GameObject _currentTurretShadow;
         private List< GameObject > _currentShadowTiles2X2; 
-        public string PrefabsResourceDirectory = "Prefabs/Turrets";
         public string ShadowTile = "ShadowTile";
 
         private readonly Color _blockedTileColor = new Color( 1.0f, 0.3f, 0.3f, 0.75f );
@@ -52,7 +51,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
             _pathGroupTeam1 = PathGroupTeam1.GetComponent<PathGroup>();
             _pathGroupTeam2 = PathGroupTeam2.GetComponent<PathGroup>();
             _currentShadowTiles2X2 = new List<GameObject>();
-            if( Debugger ) _myDebugger = Debugger.GetComponent<MyDebugger>();
+            //if( Debugger ) _myDebugger = Debugger.GetComponent<MyDebugger>();
             Instance = this;
         }
 
@@ -77,7 +76,6 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             if ( !_mapPlatform.GetClosest2X2( location, out closestTiles2X2, out closestCorner ) )
             {
-                Debug.Log( "Here?" );
                 return false;
             }
 
@@ -110,8 +108,8 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             string turretName;
             if (!TurretDictionary.Instance.TurretIdToName.TryGetValue(turretNumber, out turretName))
-                return false
-                    ;
+                return false;
+
             if (_turretsHierarchyGameObject == null)
             {
                 _turretsHierarchyGameObject = new GameObject() { name = "Turrets" };
@@ -133,18 +131,8 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                         }
                         return false;
                     }
-                    go = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + turretName ) ) as GameObject;
-                    if (!go) return false;
-                    go.name = turretName + "@" + playerNumber + "@" + teamGroup;
-                    go.tag = "Turret";
-                    go.transform.position = closestCorner + go.transform.position;
-
-                    if (_team1TurretsGameObject == null)
-                    {
-                        _team1TurretsGameObject = new GameObject() { name = "Team_1" };
-                    }
-                    _team1TurretsGameObject.transform.SetParent( _turretsHierarchyGameObject.transform );
-                    go.transform.SetParent( _team1TurretsGameObject.transform );
+                    if ( !_spawnTurretPrefab(closestCorner, turretNumber, turretName, playerNumber, teamGroup, out go) )
+                        return false;
 
                     break;
                 case 2:
@@ -157,20 +145,8 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                         }
                         return false;
                     }
-
-                    go = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + turretName ) ) as GameObject;
-                    if (!go) return false;
-                    go.name = turretName + "@" + playerNumber + "@" + teamGroup;
-                    go.tag = "Turret";
-                    go.transform.position = closestCorner + go.transform.position;
-
-                    if (_team2TurretsGameObject == null)
-                    {
-                        _team2TurretsGameObject = new GameObject() { name = "Team_2" };
-                    }
-
-                    _team2TurretsGameObject.transform.SetParent(_turretsHierarchyGameObject.transform);
-                    go.transform.SetParent( _team2TurretsGameObject.transform );
+                    if ( !_spawnTurretPrefab(closestCorner, turretNumber, turretName, playerNumber, teamGroup, out go) )
+                        return false;
 
                     break;
 
@@ -214,8 +190,8 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #region Add the turret's influence to each tile within the turret's region.
 
-            _mapPlatform.GetTilesInRadius( closestCorner, turretData.Range, out tilesInRange );
-            foreach (var tile in tilesInRange)
+            _mapPlatform.GetTilesInRadius( closestCorner, turretData.TurretAttributes.Range, out tilesInRange );
+            foreach ( var tile in tilesInRange )
             {
                 tile.TurretZonesList.Add( turretData );
             }
@@ -301,7 +277,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #region For each tile that the turret influenced, remove the turret from its zone list.
 
-            _mapPlatform.GetTilesInRadius( closestCorner, turretData.Range, out tilesInRange );
+            _mapPlatform.GetTilesInRadius( closestCorner, turretData.TurretAttributes.Range, out tilesInRange );
             foreach (var tile in tilesInRange)
             {
                 tile.TurretZonesList.Remove( turretData );
@@ -327,12 +303,18 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         // shows the turret shadow at a location with 4 tiles showing where it can and cannot be placed.
         public bool ShowTurretShadow( string turretName, int teamGroup, Vector3 location )
-        {   
+        {
             List<TileData> closestTiles2X2;
             Vector3 closestCorner;
             if ( !_mapPlatform.GetClosest2X2(location, out closestTiles2X2, out closestCorner) )
             {
                 RemoveTurretShadow();
+                return false;
+            }
+
+            int turretNumber;
+            if (!TurretDictionary.Instance.TurretNameToId.TryGetValue(turretName, out turretNumber))
+            {
                 return false;
             }
 
@@ -343,20 +325,20 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             if ( _currentTurretShadow == null )
             {   
-                _currentTurretShadow = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + turretName ) ) as GameObject;
-                
+                _currentTurretShadow = Instantiate( Resources.Load( TurretDictionary.TurretDir + "/" + turretNumber + "_" + turretName + "/" + turretName ) ) as GameObject;
                 if ( _currentTurretShadow == null )
-                {   
+                {
                     RemoveTurretShadow();
                     return false;
                 }
+                _currentTurretShadow.GetComponent<Turret>().Initialize(turretNumber, turretName, teamGroup);
 
                 #region Set the shadow turret game object's hierarchy and transparancy.
 
                 _currentTurretShadow.name = ShadowTag + turretName;
                 _currentTurretShadow.transform.SetParent( _turretsHierarchyGameObject.transform );
-                var spriteRenderer = _currentTurretShadow.GetComponentInChildren<SpriteRenderer>();
-                var meshRenderer = _currentTurretShadow.GetComponentInChildren<MeshRenderer>();
+                var spriteRenderer = _currentTurretShadow.GetComponentInChildren< SpriteRenderer >();
+                var meshRenderer   = _currentTurretShadow.GetComponentInChildren< MeshRenderer   >();
                 Destroy( meshRenderer.gameObject );
                 var stColor = spriteRenderer.material.color; stColor.a = 0.5f;
                 spriteRenderer.material.color = stColor;
@@ -366,48 +348,22 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 #region Instantiate the Shadow Tiles
 
                 var offset = 0.5f / Vector3.Distance(closestTiles2X2[0].Location, closestTiles2X2[1].Location);
-                var shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
-                if (shadowTile == null)
-                {   
-                    RemoveTurretShadow();
+
+                GameObject shadowTile;
+                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(-offset, 0, -offset), "X-Z-", out shadowTile ) )
                     return false;
-                }
-                shadowTile.transform.SetParent( _currentTurretShadow.transform );
-                shadowTile.transform.localPosition = new Vector3( -offset, -shadowTile.transform.position.y - meshRenderer.transform.position.y, -offset );
-                shadowTile.name = ShadowTag + "X-Z-";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile ) ) as GameObject;
-                if (shadowTile == null)
-                {
-                    RemoveTurretShadow();
+                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(+offset, 0, -offset), "X+Z", out shadowTile ) )
                     return false;
-                }
-                shadowTile.transform.SetParent( _currentTurretShadow.transform );
-                shadowTile.transform.localPosition = new Vector3(  offset, -shadowTile.transform.position.y - meshRenderer.transform.position.y, -offset );
-                shadowTile.name = ShadowTag + "X+Z-";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
-                if (shadowTile == null)
-                {
-                    RemoveTurretShadow();
+                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(-offset, 0, +offset), "X-Z+", out shadowTile ) )
                     return false;
-                }
-                shadowTile.transform.SetParent( _currentTurretShadow.transform );
-                shadowTile.transform.localPosition = new Vector3( -offset, -shadowTile.transform.position.y - meshRenderer.transform.position.y,  offset );
-                shadowTile.name = ShadowTag + "X-Z+";
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                shadowTile = Instantiate( Resources.Load( PrefabsResourceDirectory + "/" + ShadowTile) ) as GameObject;
-                if (shadowTile == null)
-                {
-                    RemoveTurretShadow();
+                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(+offset, 0, +offset), "X+Z+", out shadowTile ) )
                     return false;
-                }
-                shadowTile.transform.SetParent( _currentTurretShadow.transform );
-                shadowTile.transform.localPosition = new Vector3(  offset, -shadowTile.transform.position.y - meshRenderer.transform.position.y,  offset );
-                shadowTile.name = ShadowTag + "X+Z+";
                 _currentShadowTiles2X2.Add( shadowTile );
 
                 #endregion
@@ -470,6 +426,39 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #endregion
 
+            return true;
+        }
+
+        private bool _spawnShadowTile( Transform parentTransform, MeshRenderer meshRenderer, Vector3 vec3Offset, string posTag, out GameObject shadowTile )
+        {
+            shadowTile = Instantiate(Resources.Load(TurretDictionary.TurretDir + "/" + ShadowTile)) as GameObject;
+            if (shadowTile == null)
+            {
+                RemoveTurretShadow();
+                return false;
+            }
+            shadowTile.transform.SetParent( parentTransform );
+            shadowTile.transform.localPosition = new Vector3( vec3Offset.x, -shadowTile.transform.position.y - meshRenderer.transform.position.y, vec3Offset.z );
+            shadowTile.name = ShadowTag + posTag;
+            return true;
+        }
+
+        private bool _spawnTurretPrefab( Vector3 location, int turretNumber, string turretName, int playerNumber, int teamGroup, out GameObject go )
+        {
+            go = Instantiate(Resources.Load(TurretDictionary.TurretDir + "/" + turretNumber + "_" + turretName + "/" + turretName)) as GameObject;
+            if (!go) return false;
+
+            go.GetComponent<Turret>().Initialize(turretNumber, turretName, teamGroup);
+            go.name = turretName + "@" + playerNumber + "@" + teamGroup;
+            go.tag = "Turret";
+            go.transform.position = location + go.transform.position;
+
+            if (_team1TurretsGameObject == null)
+            {
+                _team1TurretsGameObject = new GameObject() { name = "Team_" + teamGroup };
+            }
+            _team1TurretsGameObject.transform.SetParent(_turretsHierarchyGameObject.transform);
+            go.transform.SetParent( _team1TurretsGameObject.transform );
             return true;
         }
     }

@@ -4,17 +4,18 @@ namespace Assets.Scripts.MobScripts.MobData
 {
     internal class MobRotation2D : MobRotation
     {
-        public string IdleSpriteLeft    = string.Empty;
-        public string IdleSpriteRight   = string.Empty;
+        protected string IdleSpriteLeft    = "IdleLeft"   ;
+        protected string IdleSpriteRight   = "IdleRight"  ;
 
-        public string MoveSpriteLeft    = string.Empty;
-        public string MoveSpriteRight   = string.Empty;
+        protected string MoveSpriteLeft    = "WalkLeft"   ;
+        protected string MoveSpriteRight   = "WalkRight"  ;
 
-        public string DieSpriteLeft     = string.Empty;
-        public string DieSpriteRight    = string.Empty;
+        protected string DieSpriteLeft     = "DieLeft"    ;
+        protected string DieSpriteRight    = "DieRight"   ;
 
-        public string CorpseSpriteLeft  = string.Empty;
-        public string CorpseSpriteRight = string.Empty;
+        protected string CorpseSpriteLeft  = "CorpseLeft" ;
+        protected string CorpseSpriteRight = "CorpseRight";
+
 
         protected override float CalculateAngle(Vector3 v1, Vector3 v2)
         {
@@ -30,7 +31,7 @@ namespace Assets.Scripts.MobScripts.MobData
         {
             if (angle > 0 && angle <= 180)
             {
-                if (MobAttributesMono.Dead)
+                if ( MobCurrent.Dead )
                 {
                     if (!DeathAnimationPlayed)
                     {
@@ -38,7 +39,7 @@ namespace Assets.Scripts.MobScripts.MobData
                         DeathAnimationStopwatch.Start();
                         DeathAnimationPlayed = true;
                     }
-                    else if (DeathAnimationStopwatch.ElapsedMilliseconds > MobAttributesMono.DeathAnimationDelay)
+                    else if (DeathAnimationStopwatch.ElapsedMilliseconds > MobAttributesCurrent.DeathAnimationDelay)
                     {
                         Animator.Play(CorpseSpriteLeft);
                         DeathAnimationStopwatch.Stop();
@@ -46,12 +47,12 @@ namespace Assets.Scripts.MobScripts.MobData
                 }
                 else
                 {
-                    Animator.Play(MobAttributesMono.MoveSpeed > 0 ? MoveSpriteLeft : IdleSpriteLeft);
+                    Animator.Play(MobAttributesCurrent.MoveSpeed > 0 ? MoveSpriteLeft : IdleSpriteLeft);
                 }
             }
             else
             {
-                if (MobAttributesMono.Dead)
+                if ( MobCurrent.Dead )
                 {
                     if (!DeathAnimationPlayed)
                     {
@@ -59,7 +60,7 @@ namespace Assets.Scripts.MobScripts.MobData
                         DeathAnimationStopwatch.Start();
                         DeathAnimationPlayed = true;
                     }
-                    else if (DeathAnimationStopwatch.ElapsedMilliseconds > MobAttributesMono.DeathAnimationDelay)
+                    else if (DeathAnimationStopwatch.ElapsedMilliseconds > MobAttributesCurrent.DeathAnimationDelay)
                     {
                         Animator.Play(CorpseSpriteRight);
                         DeathAnimationStopwatch.Stop();
@@ -67,7 +68,7 @@ namespace Assets.Scripts.MobScripts.MobData
                 }
                 else
                 {
-                    Animator.Play(MobAttributesMono.MoveSpeed > 0 ? MoveSpriteRight : IdleSpriteRight);
+                    Animator.Play(MobAttributesCurrent.MoveSpeed > 0 ? MoveSpriteRight : IdleSpriteRight);
                 }
             }
         }

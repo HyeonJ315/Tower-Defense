@@ -28,6 +28,7 @@ ElementTypes\9_Grass
 Materials\2D
 Materials\3D
 Mobs\0_TestMob3D
+Mobs\0_TestMob3D\Animations
 Projectiles\0_Fireball
 Projectiles\0_Fireball\Animations
 Sprites\Icons

@@ -6,16 +6,23 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
     public class Projectile : MonoBehaviour
     {
-        private ProjectileAttributes _projectileAttributes;
-        private MobModifierRpc _mobModifierRpc;
+        public ProjectileAttributes ProjectileAttributes;
+        private MobModifierRpc       _mobModifierRpc;
 
         private Vector3 _destination;
-        private Vector3 _hitSphere;
+        private float _hitSphere;
+        private bool _destinationSet;
+
+        public bool ServerProjectile;
+        public bool Hit;
+        public Mob Target;
+
+        private GameObject _target;
+
         // Use this for initialization
         protected void Start ()
         {
-            _projectileAttributes = GetComponent<ProjectileAttributes>();
-            _destination          = transform.position;
+            _destination = transform.position;
         }
 
         protected void FixedUpdate()
@@ -28,7 +35,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
         {
             #region Is the projectile hit or is the target dead?
 
-            if (_projectileAttributes.Hit)
+            if ( Hit )
             {
                 return;
             }
@@ -37,28 +44,30 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
             #region Find the target.
 
-            if (_projectileAttributes == null)
+            if (ProjectileAttributes == null)
             {
                 return;
             }
 
-            if (_projectileAttributes.TargetNumber == 0)
+            if (Target.MobHash == 0)
             {
                 return;
             }
 
-            if ( _projectileAttributes.Target == null )
+            if ( _target == null )
             {
-                GameObject target;
-                if ( MobTrackerDictionary.Instance.TryGetValue( _projectileAttributes.TargetNumber, out target) )
+                if (MobTrackerDictionary.Instance.TryGetValue(Target.MobHash, out _target))
                 {
-                    _projectileAttributes.Target = target.GetComponents<MobAttributesMono>()[1];
-                    _projectileAttributes.TargetNumber = target.GetComponent<Mob>().MobNumber;
+                    Target = _target.GetComponent<Mob>();
+                    _hitSphere = Target.MobAttributesCurrent.HitSphere;
                 }
                 else
                 {
-                    Destroy( gameObject );
-                    return;
+                    if ( !_destinationSet )
+                    {
+                        Destroy( gameObject );
+                        return;
+                    }
                 }
             }
 
@@ -66,9 +75,11 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
             #region Move to the target
 
-            _destination = _projectileAttributes.Target.transform.position;
+            if( _target != null )_destination = Target.transform.position;
+            _destinationSet = true;
+
             var moveDir = Vector3.Normalize( _destination - transform.position );
-            var displacement = moveDir * _projectileAttributes.Speed * Time.fixedDeltaTime;
+            var displacement = moveDir * ProjectileAttributes.Speed * Time.fixedDeltaTime;
             transform.position += displacement;
             transform.LookAt( transform.position + moveDir );
 
@@ -77,7 +88,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         private void _handleCollision()
         {
-            if ( _projectileAttributes.Hit ) return;
+            if ( Hit ) return;
 
             if ( _mobModifierRpc == null )
             {
@@ -85,16 +96,15 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
                 return;
             }
 
-            if ( _projectileAttributes.Target.HitSphere <= 
-                 Vector3.Distance( _destination, transform.position) ) return;
+            if ( _hitSphere <= Vector3.Distance( _destination, transform.position) ) return;
 
-            if ( _projectileAttributes.ServerProjectile && !_projectileAttributes.Target.Dead )
+            if ( ServerProjectile && _target != null && !Target.Dead )
             {
-                _projectileAttributes.Target.Health -= _projectileAttributes.Damage;
-                _mobModifierRpc.UpdateHealthSendRpc( _projectileAttributes.TargetNumber, _projectileAttributes.Target.Health );
+                Target.MobAttributesCurrent.Health -= ProjectileAttributes.Damage;
+                _mobModifierRpc.UpdateHealthSendRpc( Target.MobHash, Target.MobAttributesCurrent.Health );
             }
-            _projectileAttributes.Hit = true;
-            Destroy( gameObject, _projectileAttributes.DeathClipLength );
+            Hit = true;
+            Destroy( gameObject, ProjectileAttributes.DeathClipLength );
         }
     }
 }

@@ -65,10 +65,7 @@ namespace Assets.Scripts.NetworkManagement
                 return;
             }
 
-            #endregion
-
-            Debug.Log( _ipAddress + " " + _portNumber );
-
+            #endregion  
             _networkManager.StartServer( _portNumber, MaxAllowedClients );
         }
     }

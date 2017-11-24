@@ -9,45 +9,61 @@ namespace Assets.Scripts.TurretScripts.TurretData
 {
     public class Turret : MonoBehaviour
     {
-        public int ProjectileNumber;
-        public float AttackGround;
-        public float AttackAir;
-        public int AttackSpeed;
-        public float ProjectileSpeed;
-        public float Splash;
-        public float Range;
-        public uint  Cost;
+        public int    PlayerNumber { get; private set; }
+        public string TurretName   { get; private set; }
+        public int    TeamGroup    { get; private set; }
 
-        public bool Attacking;
-        public int PlayerNumber;
-        public Vector3 ProjectileSpawnOffset;
-
-        private TurretRotation _turretRotation;
-        private Animator       _animator;
+        private TurretAttributes _turretAttributesReference;
+        public  TurretAttributes  TurretAttributes;
+        private TurretRotation   _turretRotation;
         private readonly Stopwatch _timeSinceLastAttack = new Stopwatch();
 
-        private Mob _attackingMob = null;
+        public bool Attacking      { get; private set; }
+        private Mob _attackingMob;
+
+        private bool _initialized;
+
+        public void Initialize( int playerNumber, string turretName, int teamGroup )
+        {
+            if ( _initialized )
+            {
+                UnityEngine.Debug.Log( "" + playerNumber + "_" + turretName + " already initialized." );
+                return;
+            }
+            if ( !TurretDictionary.Instance.TurretFullNameToAttributes.TryGetValue( "" + playerNumber + "_" + turretName,
+                out _turretAttributesReference) )
+            {
+                UnityEngine.Debug.Log( " Can't find " + playerNumber + "_" + turretName + " in the Dictionary." );
+                return;
+            }
+            TurretAttributes = new TurretAttributes( _turretAttributesReference );
+            PlayerNumber = playerNumber;
+            TurretName   = turretName;
+            TeamGroup    = teamGroup;
+            _timeSinceLastAttack.Stop();
+            _timeSinceLastAttack.Reset();
+            _turretRotation = GetComponentInChildren<TurretRotation>();
+            _initialized = true;
+        }
 
         public void AlertOfMobPresence( GameObject mobGameObject )
         {
-            if ( _attackingMob == null )
+            var thisMob = mobGameObject.GetComponent<Mob>();
+            if ( _attackingMob == null && thisMob.TeamGroup != TeamGroup )
             {
-                _attackingMob = mobGameObject.GetComponent<Mob>();
+                _attackingMob = thisMob;
             }
         }
 
-        public void Start()
+        protected void FixedUpdate()
         {
-            _turretRotation = GetComponentInChildren<TurretRotation>();
-            _animator       = GetComponentInChildren<Animator>();
-            _timeSinceLastAttack.Stop();
-            _timeSinceLastAttack.Reset();
-        }
-        public void FixedUpdate()
-        {
+            if (!_initialized)
+            {
+                UnityEngine.Debug.Log( "Turret Not Initialized." );
+                return;
+            }
             _handleAttackingTheMob();
         }
-
 
         private void _handleAttackingTheMob()
         {
@@ -59,7 +75,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
             }
 
             // is the mob alive?
-            if ( _attackingMob.gameObject.GetComponents<MobAttributesMono>()[1].Dead )
+            if ( _attackingMob.gameObject.GetComponent<Mob>().Dead )
             {
                 _attackingMob = null;
                 Attacking = false;
@@ -67,7 +83,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
             }
 
             // is the mob in range to attack?
-            if ( Vector3.Distance( transform.position, _attackingMob.transform.position ) <= Range )
+            if ( Vector3.Distance( transform.position, _attackingMob.transform.position ) <= TurretAttributes.Range )
             {
                 _turretRotation.gameObject.transform.LookAt( _attackingMob.transform.position );
                 Attacking = true;
@@ -76,17 +92,19 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 if ( NetworkingManager.Instance.IsClient ) return;
 
                 // does the turret have access to the projectile manager remote procedure calls?
-                if (ProjectileManagerRpcServer.Instance == null) return;
+                if ( ProjectileManagerRpcServer.Instance == null ) return;
 
-                if (!_timeSinceLastAttack.IsRunning)
+                if ( !_timeSinceLastAttack.IsRunning )
                 {
                     GameObject tmp;
-                    ProjectileManager.Instance.ProjectileSpawn( ProjectileNumber, transform.position + ProjectileSpawnOffset, _attackingMob.MobNumber, out tmp );
-                    tmp.GetComponent<ProjectileAttributes>().ServerProjectile = true;
-                    ProjectileManagerRpcServer.Instance.ProjectileSpawnSendRpc( transform.position + ProjectileSpawnOffset, ProjectileNumber, _attackingMob.MobNumber );
+                    ProjectileManager.Instance.ProjectileSpawn( TurretAttributes, transform.position, _attackingMob.MobHash, out tmp );
+                    var projectile = tmp.GetComponent<Projectile>();
+                    projectile.ServerProjectile = true;
+
+                    ProjectileManagerRpcServer.Instance.ProjectileSpawnSendRpc( transform.position + TurretAttributes.ProjectileSpawnOffset, TurretAttributes.ProjectileNumber, _attackingMob.MobHash );
                     _timeSinceLastAttack.Start();
                 }
-                else if  ( _timeSinceLastAttack.ElapsedMilliseconds >= AttackSpeed )
+                else if  ( _timeSinceLastAttack.ElapsedMilliseconds >= TurretAttributes.AttackSpeed )
                 {
                     _timeSinceLastAttack.Stop();
                     _timeSinceLastAttack.Reset();
@@ -98,19 +116,5 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 Attacking = false;
             }
         }
-    }
-
-    public class TurretAttributes
-    {
-        public int ProjectileNumber;
-        public float AttackGround;
-        public float AttackAir;
-        public int AttackSpeed;
-        public float ProjectileSpeed;
-        public float Splash;
-        public float Range;
-        public uint Cost;
-        public Vector3 ProjectileSpawnOffset;
-        public string[] Types = new string[2];
     }
 }

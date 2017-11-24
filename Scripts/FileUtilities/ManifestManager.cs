@@ -15,7 +15,7 @@ namespace Assets.Scripts.FileUtilities
 
         #endregion
 
-        private static readonly string _dir = Application.dataPath + "/Resources/";
+        private static readonly string Dir = Application.dataPath + "/Resources/";
         private const string ManifestName = "Manifest";
         private const string ManifestExt = ".txt";
 
@@ -25,7 +25,7 @@ namespace Assets.Scripts.FileUtilities
             var finalDir = new List<string>();
             try
             {
-                directories = Directory.GetDirectories(_dir, "*", SearchOption.AllDirectories);
+                directories = Directory.GetDirectories( Dir, "*", SearchOption.AllDirectories );
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace Assets.Scripts.FileUtilities
 
             foreach (var dir in directories)
             {
-                var resourceDir = dir.Remove( 0, _dir.Length );
+                var resourceDir = dir.Remove( 0, Dir.Length );
                 var fileName = resourceDir.Split( '/', '\\' ).Last();
                 var fileTag = fileName.Split('.').Last();
                 if ( fileTag == "meta" ) continue;
@@ -43,11 +43,11 @@ namespace Assets.Scripts.FileUtilities
             }
 
             // Check if file already exists. If yes, delete it. 
-            if ( File.Exists( _dir + ManifestName + ManifestExt ) )
+            if ( File.Exists( Dir + ManifestName + ManifestExt ) )
             {
-                File.Delete( _dir + ManifestName + ManifestExt );
+                File.Delete( Dir + ManifestName + ManifestExt );
             }
-            var writer = File.CreateText(_dir + ManifestName + ManifestExt );
+            var writer = File.CreateText(Dir + ManifestName + ManifestExt );
             foreach (var dir in finalDir)
             {
                 writer.Write(dir);

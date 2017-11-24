@@ -6,15 +6,15 @@ namespace Assets.Scripts.TurretScripts.TurretData
     {
         internal class TurretRotation3D : TurretRotation
         {
-            public string AttackSpriteFront = string.Empty;
-            public string AttackSpriteLeft  = string.Empty;
-            public string AttackSpriteUp    = string.Empty;
-            public string AttackSpriteRight = string.Empty;
+            protected string AttackSpriteFront = "AttackFront";
+            protected string AttackSpriteLeft  = "AttackLeft" ;
+            protected string AttackSpriteUp    = "AttackUp"   ;
+            protected string AttackSpriteRight = "AttackRight";
 
-            public string IdleSpriteFront = string.Empty;
-            public string IdleSpriteLeft  = string.Empty;
-            public string IdleSpriteUp    = string.Empty;
-            public string IdleSpriteRight = string.Empty;
+            protected string IdleSpriteFront   = "IdleFront"  ;
+            protected string IdleSpriteLeft    = "IdleLeft"   ;
+            protected string IdleSpriteUp      = "IdleUp"     ;
+            protected string IdleSpriteRight   = "IdleRight"  ;
 
             protected override float CalculateAngle(Vector3 v1, Vector3 v2)
             {

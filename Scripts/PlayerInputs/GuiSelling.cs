@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Assets.Scripts.NetworkManagement;
+using Assets.Scripts.RTSCamera;
 using Assets.Scripts.TurretScripts.TurretManagement;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ namespace Assets.Scripts.PlayerInputs
     {
         private TurretManagerRpc _turretManagerRpc;
         private Camera _camera;
-
+        public string CameraName = "RtsCamera";
         protected override void Start ()
         {
             _turretManagerRpc = TurretManagerRpcClient.Instance;
-            _camera = Helper.RtsCamera.GetComponent<Camera>();
+            GameObject cameraGo;
+            RTS_Camera.CameraDictionary.TryGetValue(CameraName, out cameraGo);
+            _camera = cameraGo.GetComponent<Camera>();
             SetButton("SelectButton", Button_Back, "");
         }
 

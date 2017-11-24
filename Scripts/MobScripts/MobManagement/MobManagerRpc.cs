@@ -8,7 +8,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
 {
     public abstract class MobManagerRpc : NetworkBehaviour
     {
-        protected static uint _currentMobNumber = 1;
+        protected static uint CurrentMobNumber = 1;
         private MobManager _mobManager;
 
         protected void Start()
@@ -37,14 +37,13 @@ namespace Assets.Scripts.MobScripts.MobManagement
             // Spawn the network object here.
             #region Check if the mob number is defined in the mob prefabs.
 
-            if (!MobDictionary.Instance.MobIdToName.ContainsKey(mobNumber))
+            string mobName;
+            if (!MobDictionary.Instance.MobIdToName.TryGetValue( mobNumber, out mobName ) )
                 return false;
 
             #endregion
 
-            GameObject mob1Go = null;
-            GameObject mob2Go = null;
-
+            GameObject mob1Go, mob2Go = null;
             #region Attempt to spawn the mob.
 
             var mobsSpawned = false;
@@ -53,7 +52,6 @@ namespace Assets.Scripts.MobScripts.MobManagement
                 case 1:
                     mobsSpawned = _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "2_SpawnA to 2_MidA", out mob1Go ) &&
                                   _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f, -14 ), "2_SpawnB to 2_MidB", out mob2Go ) ;
-
                     break;
                 case 2:
                     mobsSpawned = _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "1_SpawnA to 1_MidA", out mob1Go ) &&
@@ -74,27 +72,28 @@ namespace Assets.Scripts.MobScripts.MobManagement
                     Destroy( mob2Go );
                 return false;
             }
+
             #endregion
 
-            var mobPos1 = mob1Go.GetComponent< Mob >();
-            var mobPos2 = mob2Go.GetComponent< Mob >();
+            var mobPos1 = mob1Go.GetComponent<Mob>();
+            var mobPos2 = mob2Go.GetComponent<Mob>();
 
             #region Set the mob number.
             // Only usable by the server. if a client sends this request, it does not go through ( see the partial networkobject class below )
             if ( isServer )
             {
-                mobPos1.MobNumber = _currentMobNumber++;
-                if (_currentMobNumber == 0) _currentMobNumber++;
-                mobPos2.MobNumber = _currentMobNumber++;
-                if (_currentMobNumber == 0) _currentMobNumber++;
+                mobPos1.MobHash = CurrentMobNumber++;
+                if (CurrentMobNumber == 0) CurrentMobNumber++;
+                mobPos2.MobHash = CurrentMobNumber++;
+                if (CurrentMobNumber == 0) CurrentMobNumber++;
                 return true;
             }
             else
             {
                 if (mobHashNumber == 0) mobHashNumber++;
-                mobPos1.MobNumber = mobHashNumber++;
+                mobPos1.MobHash = mobHashNumber++;
                 if (mobHashNumber == 0) mobHashNumber++;
-                mobPos2.MobNumber = mobHashNumber;
+                mobPos2.MobHash = mobHashNumber;
                 return true;
             }
 

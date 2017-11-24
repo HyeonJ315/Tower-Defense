@@ -7,9 +7,6 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
     internal class ProjectileDictionary
     {
-        public const string ProjectileDir = "ProjectileTypes";
-        private const string AttributesFile = "Attributes";
-
         #region Singleton
 
         private static readonly ProjectileDictionary I = new ProjectileDictionary();
@@ -19,10 +16,13 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         #endregion
 
+        public const string ProjectileDir = "Projectiles";
+
         public bool Initialized { private set; get; }
 
         public readonly Dictionary<string, int> ProjectileNameToId = new Dictionary<string, int>();
         public readonly Dictionary<int, string> ProjectileIdToName = new Dictionary<int, string>();
+
 
         public bool Initialize()
         {
@@ -64,13 +64,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
                 {
                     #region Obtain the text asset and find the projectile name and Id.
 
-                    var attributeList = Resources.Load(ProjectileDir + "/" + folder + "/" + AttributesFile) as TextAsset;
-                    if (!attributeList)
-                    {
-                        Debug.Log("Could not load the attribute file of " + folder);
-                        return false;
-                    }
-                    var projectileId = int.Parse(folder.Split('_')[0]);
+                    var projectileId   = int.Parse(folder.Split('_')[0]);
                     var projectileName = folder.Split('_')[1];
 
                     #endregion

@@ -5,18 +5,18 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
     internal abstract class ProjectileRotation : MonoBehaviour
     {
-        public string CameraName = "RTS_Camera";
+        public string CameraName = "RtsCamera";
         protected Animator   Animator;
         protected GameObject Camera;
         protected Transform  ParentTransform;
-        protected ProjectileAttributes ProjectileAttributes;
+        protected Projectile Projectile;
 
         protected bool AlreadyHit;
 
         protected void Start()
         {
             Animator = transform.parent.gameObject.GetComponentInChildren<Animator>();
-            ProjectileAttributes = transform.parent.gameObject.GetComponent<ProjectileAttributes>();
+            Projectile = transform.parent.gameObject.GetComponent<Projectile>();
             ParentTransform = transform.parent.transform;
             RTS_Camera.CameraDictionary.TryGetValue(CameraName, out Camera);
         }

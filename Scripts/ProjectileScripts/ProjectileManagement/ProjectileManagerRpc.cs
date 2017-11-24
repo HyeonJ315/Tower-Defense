@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.AI.Platform;
+using Assets.Scripts.TurretScripts.TurretData;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
@@ -24,8 +26,16 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
                 return false;
             }
 
+            var turret = MapPlatform.Instance.GetTile( position ).TurretGameObject;
+            if (turret == null)
+            {
+                Debug.Log( "Turret is not on top of the spawning projectile." );
+                return false;
+            }
+            var turretAttributes = turret.GetComponent<Turret>().TurretAttributes;
+
             GameObject projectile;
-            var projectileSpawned = _projectileManager.ProjectileSpawn( projectileNumber, position, target, out projectile );
+            var projectileSpawned = _projectileManager.ProjectileSpawn( turretAttributes, position, target, out projectile );
 
             return projectileSpawned;
         }

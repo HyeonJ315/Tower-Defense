@@ -46,10 +46,8 @@ namespace Assets.Scripts.MobScripts.MobManagement
 
             var mob = mobGameObject.GetComponent<Mob>();
 
-            mob.PathName           = pathName;
             mob.transform.position = position;
-            mob.PlayerNumber       = playerNumber;
-            mob.Team               = teamGroup;
+            mob.Initialize( playerNumber, mobNumber, mobName, teamGroup, pathName  );
 
             #endregion
 

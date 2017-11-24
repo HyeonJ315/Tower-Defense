@@ -11,17 +11,20 @@ namespace Assets.Scripts.MobScripts.MobData
         protected GameObject    Camera;
         protected Transform     ParentTransform;
         protected Material      SpriteMaterial;
-        protected MobAttributesMono MobAttributesMono;
-
+        protected Mob MobCurrent;
+        protected MobAttributes MobAttributesCurrent;
         protected Stopwatch DeathAnimationStopwatch;
         protected Stopwatch DeadStopwatch;
+
+        public float FadeValue { private set; get; }
 
         protected bool DeathAnimationPlayed;
 
         protected void Start()
         {
             Animator = transform.parent.gameObject.GetComponentInChildren<Animator>();
-            MobAttributesMono = transform.parent.gameObject.GetComponents<MobAttributesMono>()[1];
+            MobCurrent = transform.parent.gameObject.GetComponent<Mob>();
+            MobAttributesCurrent = MobCurrent.MobAttributesCurrent;
             ParentTransform = transform.parent.transform;
             DeathAnimationStopwatch = new Stopwatch();
             DeadStopwatch           = new Stopwatch();
@@ -68,18 +71,18 @@ namespace Assets.Scripts.MobScripts.MobData
 
         protected virtual void HandleDeath()
         {
-            if (MobAttributesMono.Dead)
+            if ( MobCurrent.Dead )
             {
                 if (!DeadStopwatch.IsRunning)
                 {
                     DeadStopwatch.Start();
                 }
-                if (DeadStopwatch.ElapsedMilliseconds < MobAttributesMono.DeathFadeDelay) return;
-                var fadeValue = (float)(DeadStopwatch.ElapsedMilliseconds - MobAttributesMono.DeathFadeDuration) / MobAttributesMono.DeathFadeDuration;
+                if (DeadStopwatch.ElapsedMilliseconds < MobAttributesCurrent.DeathFadeDelay) return;
+                FadeValue = (float)(DeadStopwatch.ElapsedMilliseconds - MobAttributesCurrent.DeathFadeDuration) / MobAttributesCurrent.DeathFadeDuration;
                 var spriteColor = SpriteMaterial.color;
-                if (fadeValue < 1.0f)
+                if (FadeValue < 1.0f)
                 {
-                    spriteColor.a = 1.0f - fadeValue;
+                    spriteColor.a = 1.0f - FadeValue;
                     SpriteMaterial.color = spriteColor;
                 }
                 else
@@ -88,9 +91,9 @@ namespace Assets.Scripts.MobScripts.MobData
                 }
             }
 
-            if (MobAttributesMono.Health <= 0)
+            if (MobAttributesCurrent.Health <= 0)
             {
-                MobAttributesMono.Dead = true;
+                MobCurrent.Dead = true;
             }
         }
     }

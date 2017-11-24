@@ -166,24 +166,24 @@ namespace Assets.Scripts.RTSCamera
 
         #region Unity_Methods
 
-        private void Start()
+        protected void Start()
         {
             m_Transform = transform;
             CameraDictionary.Add( name, gameObject );
         }
 
-        private void OnDestroy()
+        protected void OnDestroy()
         {
             CameraDictionary.Remove( name );
         }
 
-        private void Update()
+        protected void Update()
         {
             if (!useFixedUpdate)
                 CameraUpdate();
         }
 
-        private void FixedUpdate()
+        protected void FixedUpdate()
         {
             if (useFixedUpdate)
                 CameraUpdate();

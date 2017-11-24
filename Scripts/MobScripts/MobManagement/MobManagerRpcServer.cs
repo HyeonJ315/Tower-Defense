@@ -24,7 +24,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
 
         public override void MobSpawnSendRpc(int mobNumber, int teamGroup, uint hashNumber = 0, int playerNumber = 0 )
         {
-            RpcMobSpawn( mobNumber, teamGroup, _currentMobNumber - 2, playerNumber );
+            RpcMobSpawn( mobNumber, teamGroup, CurrentMobNumber - 2, playerNumber );
         }
 
         public override void MobSpawnFailedSendRpc( NetworkConnection target )

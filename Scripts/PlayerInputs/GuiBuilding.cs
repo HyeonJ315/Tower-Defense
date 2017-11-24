@@ -29,6 +29,7 @@ namespace Assets.Scripts.PlayerInputs
         // Update is called once per frame
         protected override void Update ()
         {
+
             #region Find the Managers.
 
             if (!_turretManagerRpc)

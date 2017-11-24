@@ -4,11 +4,11 @@ namespace Assets.Scripts.TurretScripts.TurretData
 {
     internal class TurretRotation2D : TurretRotation
     {
-        public string AttackSpriteLeft  = string.Empty;
-        public string AttackSpriteRight = string.Empty;
+        protected string AttackSpriteLeft  = "AttackLeft" ;
+        protected string AttackSpriteRight = "AttackRight";
 
-        public string IdleSpriteLeft  = string.Empty;
-        public string IdleSpriteRight = string.Empty;
+        protected string IdleSpriteLeft    = "IdleLeft"   ;
+        protected string IdleSpriteRight   = "IdleRight"  ;
 
         protected override float CalculateAngle( Vector3 v1, Vector3 v2 )
         {

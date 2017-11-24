@@ -2,7 +2,7 @@ ProjectileNumber: 0
 AttackAir: 25
 AttackGround: 25
 AttackSpeed: 1000
-ProjectileSpeed: 10
+ProjectileSpeed: 15
 Splash: 0
 Range: 5
 Cost: 0

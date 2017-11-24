@@ -104,6 +104,8 @@ namespace Assets.Scripts.TurretScripts.TurretData
                                 turretAttributes.AttackGround = float.Parse(value); break;
                             case "AttackSpeed":
                                 turretAttributes.AttackSpeed = int.Parse(value); break;
+                            case "AttackElement":
+                                turretAttributes.AttackElement = value; break;
                             case "ProjectileSpeed":
                                 turretAttributes.ProjectileSpeed = float.Parse(value); break;
                             case "Splash":

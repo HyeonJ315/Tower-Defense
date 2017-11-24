@@ -99,35 +99,28 @@ namespace Assets.Scripts.MobScripts.MobData
                         switch (attribute)
                         {
                             case "Health":
-                                mobAttributes.Health = float.Parse(value);
-                                break;
+                                mobAttributes.Health = float.Parse(value); break;
                             case "Defense":
-                                mobAttributes.Defense = float.Parse(value);
-                                break;
+                                mobAttributes.Defense = float.Parse(value); break;
                             case "SpecialDefense":
-                                mobAttributes.SpecialDefense = float.Parse(value);
-                                break;
+                                mobAttributes.SpecialDefense = float.Parse(value); break;
                             case "MoveSpeed":
-                                mobAttributes.MoveSpeed = float.Parse(value);
-                                break;
+                                mobAttributes.MoveSpeed = float.Parse(value); break;
                             case "Flying":
-                                mobAttributes.Flying = Convert.ToBoolean(int.Parse(value));
-                                break;
+                                mobAttributes.Flying = Convert.ToBoolean(int.Parse(value)); break;
                             case "HitSphere":
-                                mobAttributes.HitSphere = float.Parse(value);
-                                break;
+                                mobAttributes.HitSphere = float.Parse(value); break;
                             case "DeathAnimationDelay":
-                                mobAttributes.DeathAnimationDelay = int.Parse(value);
-                                break;
+                                mobAttributes.DeathAnimationDelay = int.Parse(value); break;
                             case "DeathFadeDelay":
-                                mobAttributes.DeathAnimationDelay = int.Parse(value);
-                                break;
+                                mobAttributes.DeathFadeDelay = int.Parse(value); break;
                             case "DeathFadeDuration":
-                                mobAttributes.DeathAnimationDelay = int.Parse(value);
-                                break;
+                                mobAttributes.DeathFadeDuration = int.Parse(value); break;
+                            case "HealthCanvasY":
+                                mobAttributes.HealthCanvasY = float.Parse( value ); break;
                             case "Type":
-                                if (mobAttributes.Types[0] == null) mobAttributes.Types[0] = value;
-                                else if (mobAttributes.Types[1] == null) mobAttributes.Types[1] = value;
+                                if      ( mobAttributes.Types[0] == null ) mobAttributes.Types[0] = value;
+                                else if ( mobAttributes.Types[1] == null ) mobAttributes.Types[1] = value;
                                 break;
                         }
                     }
@@ -154,10 +147,10 @@ namespace Assets.Scripts.MobScripts.MobData
                         else
                             MobTypeToName.Add(mobAttributes.Types[0], new List<string> {mobName});
                         if (MobTypeToFullName.TryGetValue(mobAttributes.Types[0], out mobNameList))
-                            mobNameList.Add("" + mobId + "_" + mobName);
+                            mobNameList.Add( "" + mobId + "_" + mobName );
                         else
                             MobTypeToFullName.Add(mobAttributes.Types[0],
-                                new List<string> {"" + mobId + "_" + mobName});
+                                new List<string> { "" + mobId + "_" + mobName } );
                     }
                     if (mobAttributes.Types[1] != null)
                     {
