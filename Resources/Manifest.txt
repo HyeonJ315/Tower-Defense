@@ -5,6 +5,7 @@ Materials
 Mobs
 Network
 Projectiles
+Shaders
 Sprites
 Turrets
 ElementTypes\0_Bug
@@ -27,11 +28,13 @@ ElementTypes\8_Ghost
 ElementTypes\9_Grass
 Materials\2D
 Materials\3D
+Materials\Projection
 Mobs\0_TestMob3D
 Mobs\0_TestMob3D\Animations
 Projectiles\0_Fireball
 Projectiles\0_Fireball\Animations
 Sprites\Icons
+Sprites\Masks
 Sprites\Monsters
 Sprites\Projectiles
 Sprites\Turrets

@@ -4,6 +4,7 @@ using Assets.Scripts.AI.Paths;
 using Assets.Scripts.AI.Platform;
 using Assets.Scripts.MobScripts.MobManagement;
 using Assets.Scripts.NetworkManagement;
+using Assets.Scripts.TrackingDictionaries;
 using UnityEngine;
 
 namespace Assets.Scripts.MobScripts.MobData
@@ -88,7 +89,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
         protected void OnDestroy()
         {
-            MobTrackerDictionary.DeleteMobEntry( MobHash );
+            MobTrackerDictionary.Instance.DeleteEntry( MobHash );
         }
 
         private void _handleTileLocations()
@@ -122,7 +123,7 @@ namespace Assets.Scripts.MobScripts.MobData
         {
             if ( MobHash == 0 || _trackerInserted ) return;
             _trackerInserted = true;
-            MobTrackerDictionary.InsertMobEntry( MobHash, gameObject );
+            MobTrackerDictionary.Instance.InsertEntry( MobHash, gameObject );
         }
 
         private void _handleMovement()

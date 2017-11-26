@@ -9,7 +9,6 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         #region Singleton
 
         public static TurretManagerRpcClient Instance { get; private set; }
-
         public override void OnStartAuthority()
         {
             Instance = this;
@@ -54,7 +53,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         {
             var sendingConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
             if (TurretSpawn(turretNumber, sendingConnection.connectionId, teamGroup, location))
-                TurretManagerRpcServer.Instance.TurretSpawnSendRpc(turretNumber, teamGroup, location);
+                TurretManagerRpcServer.Instance.TurretSpawnSendRpc(turretNumber, teamGroup, location, sendingConnection.connectionId );
             else
             {
                 TurretManagerRpcServer.Instance.TurretSpawnFailedSendRpc(sendingConnection);

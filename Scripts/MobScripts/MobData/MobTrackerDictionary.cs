@@ -1,29 +1,43 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.MobScripts.MobData
+namespace Assets.Scripts.TrackingDictionaries
 {
     // Mobs place their game objects as an index number and projectiles are able to find the object through index.
     internal class MobTrackerDictionary
     {
-        public static readonly Dictionary<uint, GameObject> Instance = new Dictionary<uint, GameObject>();
+        #region Singleton
 
-        public static bool InsertMobEntry(uint index, GameObject gameObject)
+        private static readonly MobTrackerDictionary I = new MobTrackerDictionary();
+        static MobTrackerDictionary() { }
+        private MobTrackerDictionary() { }
+        public static MobTrackerDictionary Instance { get { return I; } }
+
+        #endregion
+
+        private readonly Dictionary<uint, GameObject> _dictionary = new Dictionary<uint, GameObject>();
+
+        public virtual bool InsertEntry(uint index, GameObject gameObject)
         {
             GameObject go;
-            if ( Instance.TryGetValue(index, out go) )
+            if (_dictionary.TryGetValue(index, out go))
                 return false;
-            Instance.Add( index, gameObject );
+            _dictionary.Add(index, gameObject);
             return true;
         }
 
-        public static bool DeleteMobEntry(uint index)
+        public virtual bool DeleteEntry(uint index)
         {
             GameObject go;
-            if (!Instance.TryGetValue(index, out go))
+            if (!_dictionary.TryGetValue(index, out go))
                 return false;
-            Instance.Remove( index );
+            _dictionary.Remove(index);
             return true;
+        }
+
+        public virtual bool GetEntry(uint index, out GameObject go)
+        {
+            return _dictionary.TryGetValue(index, out go);
         }
     }
 }

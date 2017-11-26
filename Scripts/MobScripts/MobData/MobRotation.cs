@@ -22,7 +22,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
         protected void Start()
         {
-            Animator = transform.parent.gameObject.GetComponentInChildren<Animator>();
+            Animator = transform.parent.gameObject.GetComponentInChildren <Animator>();
             MobCurrent = transform.parent.gameObject.GetComponent<Mob>();
             MobAttributesCurrent = MobCurrent.MobAttributesCurrent;
             ParentTransform = transform.parent.transform;

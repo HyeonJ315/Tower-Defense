@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,14 +16,13 @@ namespace Assets.Scripts.PlayerInputs
         public delegate void ButtonOnClick(string message);
         public List<string> TargetsTags;
 
-        protected static Helper Helper;
+        protected static GameObject GuiHelper;
         protected ButtonOnClick OnClickButton;
 
         protected virtual void Awake()
         {
             SetInteractableDictionary();
-            if (Helper) return;
-            Helper = GameObject.Find("ClientHelpers").GetComponent<Helper>();
+            GuiHelper = GameObject.Find("GUIHelper");
         }
 
         protected virtual void Start()
@@ -54,7 +52,7 @@ namespace Assets.Scripts.PlayerInputs
             if (!resource) return null;
             var guiGameObject = Instantiate( resource ) as GameObject;
             if (!guiGameObject) return null;
-            guiGameObject.transform.SetParent( Helper.GuiHelper.transform );
+            guiGameObject.transform.SetParent( GuiHelper.transform );
             DestroyObject( gameObject );
             return guiGameObject;
         }

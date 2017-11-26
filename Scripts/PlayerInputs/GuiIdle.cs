@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Scripts.PlayerInputs.MouseScripts;
 using UnityEngine;
 
 namespace Assets.Scripts.PlayerInputs

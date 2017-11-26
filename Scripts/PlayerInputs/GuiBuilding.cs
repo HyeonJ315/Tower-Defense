@@ -18,7 +18,7 @@ namespace Assets.Scripts.PlayerInputs
         // Use this for initialization
         protected override void Start ()
         {
-            _turretManager    = TurretManager.Instance;
+            _turretManager    = TurretManager         .Instance;
             _turretManagerRpc = TurretManagerRpcClient.Instance;
             GameObject cameraGo;
             RTS_Camera.CameraDictionary.TryGetValue( CameraName, out cameraGo );
@@ -55,7 +55,7 @@ namespace Assets.Scripts.PlayerInputs
             }
 
             if (!Physics.Raycast(ray, out hit, Mathf.Infinity)) return;
-            if (hit.transform.tag != "Platform") return;
+            if (hit.transform.tag != "Platform" && hit.transform.tag != "Turret" ) return;
             _turretManager.ShowTurretShadow(CurrentSpawningTurret, TeamGroup, hit.point);
 
             if (Input.GetMouseButtonDown(0))
@@ -66,6 +66,10 @@ namespace Assets.Scripts.PlayerInputs
                     if (!TurretDictionary.Instance.TurretNameToId.TryGetValue(CurrentSpawningTurret, out turretNumber))
                         return;
                     _turretManagerRpc.TurretSpawnSendRpc( (int) turretNumber, TeamGroup, hit.point);
+                }
+                else
+                {
+                    Debug.Log( " Cannot deploy here. ");
                 }
             }
         }

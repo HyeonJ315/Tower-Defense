@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.MobScripts.MobManagement;
+using Assets.Scripts.TrackingDictionaries;
 using UnityEngine;
 
 namespace Assets.Scripts.ProjectileScripts.ProjectileData
@@ -56,7 +57,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
             if ( _target == null )
             {
-                if (MobTrackerDictionary.Instance.TryGetValue(Target.MobHash, out _target))
+                if (MobTrackerDictionary.Instance.GetEntry(Target.MobHash, out _target))
                 {
                     Target = _target.GetComponent<Mob>();
                     _hitSphere = Target.MobAttributesCurrent.HitSphere;

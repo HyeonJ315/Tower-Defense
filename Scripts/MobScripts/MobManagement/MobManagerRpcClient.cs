@@ -1,10 +1,11 @@
-﻿using UnityEngine.Networking;
+﻿using Assets.Scripts.NetworkManagement;
+using UnityEngine.Networking;
 
 namespace Assets.Scripts.MobScripts.MobManagement
 {
     internal class MobManagerRpcClient : MobManagerRpc
     {
-        #region Authoratiative Instance
+        #region Authoratiative mobDictionary
 
         public static MobManagerRpcClient Instance { get; private set; }
         public override void OnStartAuthority()
@@ -27,7 +28,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
         private void CmdMobSpawn( int mobNumber, uint hashNumber )
         {
             var teamGroup = 1;
-            var sendingConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
+            var sendingConnection = NetworkingManager.Instance.client.connection;
             if ( MobSpawn( mobNumber, sendingConnection.connectionId, teamGroup, hashNumber ) )
                 MobManagerRpcServer.Instance.MobSpawnSendRpc( mobNumber, teamGroup, hashNumber, sendingConnection.connectionId );
             else

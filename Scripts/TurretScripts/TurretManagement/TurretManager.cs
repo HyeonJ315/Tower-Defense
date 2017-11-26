@@ -22,7 +22,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         }
 
         #endregion
-
+        public Vector3 turretShadowOffset = new Vector3( 0, 0.5f, 0 );
         public GameObject MapPlatformGameObject;
         public GameObject PathGroupTeam1;
         public GameObject PathGroupTeam2;
@@ -331,8 +331,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                     RemoveTurretShadow();
                     return false;
                 }
-                _currentTurretShadow.GetComponent<Turret>().Initialize(turretNumber, turretName, teamGroup);
-
+                _currentTurretShadow.GetComponent<Turret>().Initialize( -1, turretNumber, turretName, teamGroup);
                 #region Set the shadow turret game object's hierarchy and transparancy.
 
                 _currentTurretShadow.name = ShadowTag + turretName;
@@ -350,19 +349,19 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 var offset = 0.5f / Vector3.Distance(closestTiles2X2[0].Location, closestTiles2X2[1].Location);
 
                 GameObject shadowTile;
-                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(-offset, 0, -offset), "X-Z-", out shadowTile ) )
+                if( !_spawnShadowTile( _currentTurretShadow.transform, new Vector3(-offset, 0, -offset), "X-Z-", out shadowTile ) )
                     return false;
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(+offset, 0, -offset), "X+Z", out shadowTile ) )
+                if( !_spawnShadowTile( _currentTurretShadow.transform, new Vector3(+offset, 0, -offset), "X+Z", out shadowTile ) )
                     return false;
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(-offset, 0, +offset), "X-Z+", out shadowTile ) )
+                if( !_spawnShadowTile( _currentTurretShadow.transform, new Vector3(-offset, 0, +offset), "X-Z+", out shadowTile ) )
                     return false;
                 _currentShadowTiles2X2.Add( shadowTile );
 
-                if( !_spawnShadowTile( _currentTurretShadow.transform, meshRenderer, new Vector3(+offset, 0, +offset), "X+Z+", out shadowTile ) )
+                if( !_spawnShadowTile( _currentTurretShadow.transform, new Vector3(+offset, 0, +offset), "X+Z+", out shadowTile ) )
                     return false;
                 _currentShadowTiles2X2.Add( shadowTile );
 
@@ -370,7 +369,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             }
 
-            var newTurretShadowPos = new Vector3( closestCorner.x, _currentTurretShadow.transform.position.y, closestCorner.z );
+            var newTurretShadowPos = new Vector3( closestCorner.x, 0, closestCorner.z ) + turretShadowOffset;
             _currentTurretShadow.transform.localPosition = newTurretShadowPos;
 
             #region set shadow tile colors
@@ -429,7 +428,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
             return true;
         }
 
-        private bool _spawnShadowTile( Transform parentTransform, MeshRenderer meshRenderer, Vector3 vec3Offset, string posTag, out GameObject shadowTile )
+        private bool _spawnShadowTile( Transform parentTransform, Vector3 vec3Offset, string posTag, out GameObject shadowTile )
         {
             shadowTile = Instantiate(Resources.Load(TurretDictionary.TurretDir + "/" + ShadowTile)) as GameObject;
             if (shadowTile == null)
@@ -438,7 +437,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
                 return false;
             }
             shadowTile.transform.SetParent( parentTransform );
-            shadowTile.transform.localPosition = new Vector3( vec3Offset.x, -shadowTile.transform.position.y - meshRenderer.transform.position.y, vec3Offset.z );
+            shadowTile.transform.localPosition = vec3Offset;
             shadowTile.name = ShadowTag + posTag;
             return true;
         }
@@ -448,7 +447,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
             go = Instantiate(Resources.Load(TurretDictionary.TurretDir + "/" + turretNumber + "_" + turretName + "/" + turretName)) as GameObject;
             if (!go) return false;
 
-            go.GetComponent<Turret>().Initialize(turretNumber, turretName, teamGroup);
+            go.GetComponent<Turret>().Initialize( playerNumber, turretNumber, turretName, teamGroup);
             go.name = turretName + "@" + playerNumber + "@" + teamGroup;
             go.tag = "Turret";
             go.transform.position = location + go.transform.position;

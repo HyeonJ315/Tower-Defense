@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.NetworkManagement;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.TurretScripts.TurretManagement
@@ -41,7 +42,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         [ClientRpc]
         private void RpcTurretRemove(int teamGroup, Vector3 location)
         {
-            var clientConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
+            var clientConnection = NetworkingManager.Instance.client.connection;
             TurretRemove( teamGroup, clientConnection.connectionId, location );
         }
 

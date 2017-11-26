@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.ProjectileScripts.ProjectileData;
+using Assets.Scripts.TrackingDictionaries;
 using Assets.Scripts.TurretScripts.TurretData;
 using UnityEngine;
 
@@ -47,7 +48,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
             projectile.ProjectileAttributes = new ProjectileAttributes( turretAttributes );
 
             GameObject targetGo;
-            if ( !MobTrackerDictionary.Instance.TryGetValue(targetNumber, out targetGo) )
+            if ( !MobTrackerDictionary.Instance.GetEntry(targetNumber, out targetGo) )
             {
                 Destroy( projectileGameObject );
                 Debug.Log( "Could not find target " + targetNumber );

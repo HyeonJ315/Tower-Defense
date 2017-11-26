@@ -3,16 +3,17 @@ using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.NetworkManagement;
 using Assets.Scripts.ProjectileScripts.ProjectileData;
 using Assets.Scripts.ProjectileScripts.ProjectileManagement;
+using Assets.Scripts.TrackingDictionaries;
 using UnityEngine;
 
 namespace Assets.Scripts.TurretScripts.TurretData
 {
     public class Turret : MonoBehaviour
     {
-        public int    PlayerNumber { get; private set; }
+        public int    TurretNumber { get; private set; }
         public string TurretName   { get; private set; }
         public int    TeamGroup    { get; private set; }
-
+        public int    PlayerNumber { get; private set; }
         private TurretAttributes _turretAttributesReference;
         public  TurretAttributes  TurretAttributes;
         private TurretRotation   _turretRotation;
@@ -23,27 +24,35 @@ namespace Assets.Scripts.TurretScripts.TurretData
 
         private bool _initialized;
 
-        public void Initialize( int playerNumber, string turretName, int teamGroup )
+        public void Initialize( int playerNumber, int turretNumber, string turretName, int teamGroup )
         {
             if ( _initialized )
             {
-                UnityEngine.Debug.Log( "" + playerNumber + "_" + turretName + " already initialized." );
+                UnityEngine.Debug.Log( "" + turretNumber + "_" + turretName + " already initialized." );
                 return;
             }
-            if ( !TurretDictionary.Instance.TurretFullNameToAttributes.TryGetValue( "" + playerNumber + "_" + turretName,
+            if ( !TurretDictionary.Instance.TurretFullNameToAttributes.TryGetValue( "" + turretNumber + "_" + turretName,
                 out _turretAttributesReference) )
             {
-                UnityEngine.Debug.Log( " Can't find " + playerNumber + "_" + turretName + " in the Dictionary." );
+                UnityEngine.Debug.Log( " Can't find " + turretNumber + "_" + turretName + " in the Dictionary." );
                 return;
             }
             TurretAttributes = new TurretAttributes( _turretAttributesReference );
             PlayerNumber = playerNumber;
+            TurretNumber = turretNumber;
             TurretName   = turretName;
             TeamGroup    = teamGroup;
             _timeSinceLastAttack.Stop();
             _timeSinceLastAttack.Reset();
             _turretRotation = GetComponentInChildren<TurretRotation>();
+            TurretListTrackerDictionary.Instance.InsertEntry( playerNumber, gameObject );
+            UnityEngine.Debug.Log( "Created turret for player " + playerNumber + ": " + turretNumber + "_" + turretName );
             _initialized = true;
+        }
+
+        protected void OnDestroy()
+        {
+            TurretListTrackerDictionary.Instance.DeleteEntry( PlayerNumber, gameObject );
         }
 
         public void AlertOfMobPresence( GameObject mobGameObject )

@@ -7,6 +7,6 @@ HitSphere:           1.0
 DeathAnimationDelay: 1000
 DeathFadeDelay:      1000
 DeathFadeDuration:   1000
-HealthCanvasY:       2
+HealthCanvasY:       2.0
 Type:                Water
 Type:                Flying
