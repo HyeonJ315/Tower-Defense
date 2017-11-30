@@ -36,7 +36,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             GUI.color = Color.white;
         }
 
-        public void DrawScreenRectBorder( Rect rect, float thickness, Color color )
+        public void DrawScreenRectBorder( Rect rect, Color color, int thickness )
         {
             // Top
             DrawScreenRect( new Rect( rect.xMin, rect.yMin, rect.width, thickness ), color );

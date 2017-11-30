@@ -14,13 +14,8 @@ namespace Assets.Scripts.Selectable
         private bool _selected;
         private bool _faded;
         private GameObject _circleGameObject;
-        private Material _fadedSelectMaterial;
-        private Material _selectMaterial;
-
         protected void Start()
         {
-            _fadedSelectMaterial = Resources.Load( MaterialsDir + "/" + SelectMaterialFaded ) as Material;
-            _selectMaterial      = Resources.Load( MaterialsDir + "/" + SelectMaterial      ) as Material;
         }
 
         protected void Update()
@@ -44,13 +39,17 @@ namespace Assets.Scripts.Selectable
             if ( IsFaded && !_faded )
             {
                 if ( _circleGameObject == null ) return;
-                _circleGameObject.GetComponent<Projector>().material = _fadedSelectMaterial;
+                var currColor = _circleGameObject.GetComponent<Projector>().material.color;
+                currColor.a = 0.5f;
+                _circleGameObject.GetComponent<Projector>().material.SetColor( "_Color", currColor );
                 _faded = true;  
             }
             else if ( !IsFaded && _faded )
             {
                 if (_circleGameObject == null) return;
-                _circleGameObject.GetComponent<Projector>().material = _selectMaterial;
+                var currColor = _circleGameObject.GetComponent<Projector>().material.color;
+                currColor.a = 1.0f;
+                _circleGameObject.GetComponent<Projector>().material.SetColor( "_Color", currColor );
                 _faded = false;
             }
         }

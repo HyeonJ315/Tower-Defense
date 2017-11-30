@@ -42,8 +42,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         [ClientRpc]
         private void RpcTurretRemove(int teamGroup, Vector3 location)
         {
-            var clientConnection = NetworkingManager.Instance.client.connection;
-            TurretRemove( teamGroup, clientConnection.connectionId, location );
+            TurretRemove( teamGroup, GeneralRpcClient.Instance.PlayerNumber, location );
         }
 
         [TargetRpc]
@@ -55,6 +54,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         [ClientRpc]
         private void RpcTurretSpawn(int turretNumber, int teamGroup, Vector3 location, int playerNumber )
         {
+            
             TurretSpawn( turretNumber, playerNumber, teamGroup, location );
         }
 

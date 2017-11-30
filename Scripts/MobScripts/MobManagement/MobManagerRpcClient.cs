@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.NetworkManagement;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.MobScripts.MobManagement
@@ -22,13 +22,14 @@ namespace Assets.Scripts.MobScripts.MobManagement
 
         public override void MobSpawnFailedSendRpc( NetworkConnection target )
         {
+            Debug.Log("Not Implemented.");
         }
 
         [Command]
         private void CmdMobSpawn( int mobNumber, uint hashNumber )
         {
             var teamGroup = 1;
-            var sendingConnection = NetworkingManager.Instance.client.connection;
+            var sendingConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
             if ( MobSpawn( mobNumber, sendingConnection.connectionId, teamGroup, hashNumber ) )
                 MobManagerRpcServer.Instance.MobSpawnSendRpc( mobNumber, teamGroup, hashNumber, sendingConnection.connectionId );
             else

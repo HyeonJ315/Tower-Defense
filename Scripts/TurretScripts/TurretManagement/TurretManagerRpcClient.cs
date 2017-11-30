@@ -23,7 +23,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         public override void TurretRemoveFailedSendRpc( NetworkConnection target )
         {
-            Debug.Log( "Not Required." );
+            Debug.Log( "Not Implemented." );
         }
 
         public override void TurretSpawnSendRpc( int turretNumber, int teamGroup, Vector3 location, int playerNumber )
@@ -33,7 +33,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         public override void TurretSpawnFailedSendRpc( NetworkConnection target )
         {
-            Debug.Log( "Not Required." );
+            Debug.Log( "Not Implemented." );
         }
 
         [Command]
@@ -53,7 +53,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         {
             var sendingConnection = GetComponent<NetworkIdentity>().clientAuthorityOwner;
             if (TurretSpawn(turretNumber, sendingConnection.connectionId, teamGroup, location))
-                TurretManagerRpcServer.Instance.TurretSpawnSendRpc(turretNumber, teamGroup, location, sendingConnection.connectionId );
+                TurretManagerRpcServer.Instance.TurretSpawnSendRpc( turretNumber, teamGroup, location, sendingConnection.connectionId );
             else
             {
                 TurretManagerRpcServer.Instance.TurretSpawnFailedSendRpc(sendingConnection);

@@ -32,18 +32,17 @@ namespace Assets.Scripts.MobScripts.MobData
             _defaultAlphaBackground       = _imageBackground.color.a;
             _defaultAlphaHealth           = _imageHealth.color.a;
         }
-	
-        // Update is called once per frame
-        protected void FixedUpdate ()
+
+        public void UpdateHealthBar()
         {
-            var ratio = _current.Health / _max.Health ;
+            var ratio = _current.Health / _max.Health;
             _imageHealth.fillAmount = ratio;
 
             var healthColor = _imageHealth.color;
             var backgroundColor = _imageBackground.color;
-            healthColor.a     = Mathf.Lerp( _defaultAlphaHealth    , 0, _mobRotation.FadeValue );
-            backgroundColor.a = Mathf.Lerp( _defaultAlphaBackground, 0, _mobRotation.FadeValue );
-            _imageHealth.color     = healthColor;
+            healthColor.a = Mathf.Lerp(_defaultAlphaHealth, 0, _mobRotation.FadeValue);
+            backgroundColor.a = Mathf.Lerp(_defaultAlphaBackground, 0, _mobRotation.FadeValue);
+            _imageHealth.color = healthColor;
             _imageBackground.color = backgroundColor;
         }
     }

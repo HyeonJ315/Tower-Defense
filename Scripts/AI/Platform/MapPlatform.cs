@@ -19,7 +19,7 @@ namespace Assets.Scripts.AI.Platform
 
         private const int   DiagWeight = 14;
         private const int   LineWeight = 10;
-        private const float Epsilon = 0.0001f;
+        private const float Epsilon    = 0.0001f;
 
         public int Height       = 0; // Z
         public int Width        = 0; // X
@@ -44,9 +44,9 @@ namespace Assets.Scripts.AI.Platform
             }
             Instance = this;
 
-            _tpu = TilesPerUnit;
+            _tpu    = TilesPerUnit;
             _height = Height;
-            _width = Width;
+            _width  = Width;
             _offset = 0.5f / _tpu;
             _tileList = new List<TileData>();
             if (_height <= 0) Debug.LogWarning("_height dimension not set for platform: " + gameObject.name);
@@ -94,8 +94,8 @@ namespace Assets.Scripts.AI.Platform
 
         private int _getTileIndexFromLocation(Vector3 location)
         {
-            var fromTopLeft = ((location - _topLeft))*_tpu;
-            var index = _getTileIndex(Mathf.Abs(fromTopLeft.x), Mathf.Abs(fromTopLeft.z));
+            var fromTopLeft = ( (location - _topLeft) )* _tpu;
+            var index = _getTileIndex( Mathf.Abs( fromTopLeft.x ), Mathf.Abs( fromTopLeft.z ) );
             return index;
         }
 
@@ -115,8 +115,8 @@ namespace Assets.Scripts.AI.Platform
 
         private int _getTileIndex(int x, int z)
         {
-            if (x < 0 || x >= _width*_tpu) return -1;
-            if (z < 0 || z >= _height*_tpu) return -1;
+            if ( x < 0 || x >= _width*_tpu  ) return -1;
+            if ( z < 0 || z >= _height*_tpu ) return -1;
             return _width*_tpu*z + x;
         }
 
@@ -730,15 +730,6 @@ namespace Assets.Scripts.AI.Platform
 
             #endregion
         }
-
-        // To check if a turret is blocking the path of a mob, perform a raycast at Y = -10.
-        public bool HiddenRaycast( Vector3 position, Vector3 direction, out RaycastHit raycastHit, float length, int layermask = -1 )
-        {
-            position.y = -10.0f;
-            direction.y = 0.0f;
-            return Physics.Raycast(position, direction, out raycastHit, length, layermask);
-        }
-
         #endregion
     }
 

@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using Assets.Scripts.AI.Platform;
 using Assets.Scripts.NetworkManagement;
 using Assets.Scripts.Selectable;
 using Assets.Scripts.TrackingDictionaries;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Assets.Scripts.PlayerInputs.MouseScripts
 {
     public class MouseHandler : MonoBehaviour
     {
+        private readonly Color _screenRectColor  = new Color( 0.8f, 0.8f, 0.95f, 0.25f );
+        private readonly Color _screenRectBorder = new Color( 0.8f, 0.8f, 0.95f        );
+
+        private const int BorderThickness        = 2;
         #region Singleton
 
         public static MouseHandler Instance { get; private set; }
@@ -29,6 +31,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         private Vector3 _mousePosition1;
         private readonly Dictionary<GameObject, bool> _selectedObjects = new Dictionary<GameObject, bool>();
         private readonly Dictionary<GameObject, bool> _detectedObjects = new Dictionary<GameObject, bool>();
+
         public IList<GameObject> GetSelectedObjects()
         {
             return _selectedObjects.Keys.ToList().AsReadOnly();
@@ -41,9 +44,9 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         private void _leftMouseDown()
         {
             if ( !Input.GetMouseButtonDown(0) ) return;
-            if ( PlayerState.Instance == null )
+            if ( GeneralRpcClient.Instance == null )
             {
-                Debug.Log("Player State is not found?");
+                Debug.Log("General Rpc is not found?");
                 return;
             }
             _isSelecting = true;
@@ -80,7 +83,6 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             #endregion
             Debug.Log( _selectedObjects.Count + " Selected." );
             _detectedObjects.Clear();
-            //TODO: WRITE THE SELECTION IN DEBUG
         }
 
         private void _selectionHandler()
@@ -88,10 +90,11 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             // Highlight all objects within the selection box
             if (!_isSelecting) return;
             LinkedList<GameObject> linkedList;
-            if ( !TurretListTrackerDictionary.Instance.GetEntry( NetworkingManager.Instance.client.connection.connectionId, out linkedList ) ) return;
+            if (GeneralRpcClient.Instance.PlayerNumber == 0) return;
+            if ( !TurretListTrackerDictionary.Instance.GetEntry( GeneralRpcClient.Instance.PlayerNumber, out linkedList ) ) return;
             foreach (var selectableObject in linkedList)
             {
-                if ( IsWithinSelectionBounds(selectableObject) )
+                if ( _isWithinSelectionBounds( selectableObject ) )
                 {
                     if ( _detectedObjects.ContainsKey(selectableObject) ) continue;
                     var objectComponent = selectableObject.GetComponent<SelectableComponent>();
@@ -115,6 +118,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
                 }
             }
         }
+
         protected void Update()
         {
             if (!NetworkingManager.Instance.IsClient) return;
@@ -128,20 +132,33 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             if ( !_isSelecting ) return;
             // Create a rect from both mouse positions
             var rect = RectangleDrawer.Instance.GetScreenRect( _mousePosition1, Input.mousePosition );
-            RectangleDrawer.Instance.DrawScreenRect( rect, new Color(0.8f, 0.8f, 0.95f, 0.25f ) );
-            RectangleDrawer.Instance.DrawScreenRectBorder( rect, 2, new Color(0.8f, 0.8f, 0.95f ) );
+            RectangleDrawer.Instance.DrawScreenRect      ( rect, _screenRectColor );
+            RectangleDrawer.Instance.DrawScreenRectBorder( rect, _screenRectBorder, BorderThickness );
         }
-
-        public bool IsWithinSelectionBounds( GameObject go )
+        
+        private bool _isWithinSelectionBounds( GameObject go )
         {
-            if (!_isSelecting)
-                return false;
+            if ( !_isSelecting ) return false;
 
             var cam = Camera.main;
             var viewportBounds =
                 RectangleDrawer.Instance.GetViewportBounds( cam, _mousePosition1, Input.mousePosition );
+            var spriteRenderer = go.GetComponentInChildren<SpriteRenderer>();
+            var spriteTransform = spriteRenderer.transform;
+            var spriteBounds    = spriteRenderer.sprite.bounds;
 
-            return viewportBounds.Contains( cam.WorldToViewportPoint(go.transform.position ) );
+            var spriteBottomRight = cam.WorldToViewportPoint( spriteTransform.TransformPoint( spriteBounds.max ) );
+            var spriteTopLeft     = cam.WorldToViewportPoint( spriteTransform.TransformPoint( spriteBounds.min ) );
+            var spriteBottomLeft  = new Vector3( spriteBottomRight.x, spriteTopLeft.y    , 0 );
+            var spriteTopRight    = new Vector3( spriteTopLeft.x    , spriteBottomRight.y, 0 );
+
+            var viewportTopRight     = viewportBounds.max;
+            var viewportBottomLeft   = viewportBounds.min;
+
+            return spriteBottomLeft.x   <= viewportTopRight.x && 
+                   spriteBottomLeft.y   <= viewportTopRight.y && 
+                   viewportBottomLeft.x <= spriteTopRight.x   && 
+                   viewportBottomLeft.y <= spriteTopRight.y   ;
         }
     }
 }

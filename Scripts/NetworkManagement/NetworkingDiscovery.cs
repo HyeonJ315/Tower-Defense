@@ -27,7 +27,5 @@ namespace Assets.Scripts.NetworkManagement
             base.OnReceivedBroadcast( fromAddress, data );
             NetworkManager.singleton.networkAddress = fromAddress;
         }
-        
-
     }
 }

@@ -107,14 +107,14 @@ namespace Assets.Scripts.NetworkManagement
             base.OnServerReady( networkConnection );
             var mobManagerRpcClient    = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "MobManagerRpcClient"    ) ) as GameObject;
             var turretManagerRpcClient = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "TurretManagerRpcClient" ) ) as GameObject;
-            var playerState            = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "PlayerState"            ) ) as GameObject;
+            var generalRpcClient       = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "GeneralRpcClient"       ) ) as GameObject;
 
-            var clientGameObjects = new List<GameObject> { mobManagerRpcClient, turretManagerRpcClient, playerState };
+            var clientGameObjects = new List<GameObject> { mobManagerRpcClient, turretManagerRpcClient, generalRpcClient };
             _clientObjectDictionary.Add( networkConnection.connectionId, clientGameObjects );
 
             NetworkServer.SpawnWithClientAuthority( mobManagerRpcClient   , networkConnection );
             NetworkServer.SpawnWithClientAuthority( turretManagerRpcClient, networkConnection );
-            NetworkServer.SpawnWithClientAuthority( playerState           , networkConnection );
+            NetworkServer.SpawnWithClientAuthority( generalRpcClient      , networkConnection );
         }
 
         public override void OnStopServer()

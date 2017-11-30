@@ -40,7 +40,7 @@
 																{
 																				v2f output;
 																				output.pos      = UnityObjectToClipPos( vertex );
-																				output.uvShadow = mul( unity_Projector, vertex );
+																				output.uvShadow = UNITY_PROJ_COORD( mul( unity_Projector, vertex ) );
 																				return output;
 																}
 
@@ -51,7 +51,7 @@
 																fixed4 frag( v2f input ) : SV_Target
 																{
 																				// Apply tint & alpha mask
-																				fixed4 texCookie = tex2Dproj( _ShadowTex, UNITY_PROJ_COORD( input.uvShadow ) );
+																				fixed4 texCookie = tex2Dproj( _ShadowTex, input.uvShadow );
 																				fixed4 outColor  = _Color * texCookie.a;
 																				// Distance attenuation
 																				float depth = input.uvShadow.z; // [-1(near), 1(far)]

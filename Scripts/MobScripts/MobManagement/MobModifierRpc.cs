@@ -24,6 +24,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
             GameObject mob;
             if ( !MobTrackerDictionary.Instance.GetEntry( mobHashNumber, out mob) ) return false;
             mob.GetComponent<Mob>().MobAttributesCurrent.Health = health;
+            mob.GetComponentInChildren<MobHealthBar>().UpdateHealthBar();
             return true;
         }
 

@@ -26,23 +26,25 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         protected override void PlayAnimation(float angle)
         {
-            if ( angle > 0 && angle <= 180 && !Projectile.Hit )
+            if (angle > 0 && angle <= 180)
             {
-                Animator.Play(IdleSpriteLeft);
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteLeft);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteLeft);
+                    AlreadyHit = true;
+                }
             }
-            else if (angle > 180 && angle <= 360 && !Projectile.Hit )
+            else
             {
-                Animator.Play(IdleSpriteRight);
-            }
-            else if (angle > 0 && angle <= 180 && Projectile.Hit && !AlreadyHit )
-            {
-                Animator.Play(DieSpriteLeft);
-                AlreadyHit = true;
-            }
-            else if (angle > 180 && angle <= 360 && Projectile.Hit && !AlreadyHit )
-            {
-                Animator.Play(DieSpriteRight);
-                AlreadyHit = true;
+                if (!Projectile.Hit)
+                    Animator.Play(IdleSpriteRight);
+                else if (!AlreadyHit)
+                {
+                    Animator.Play(DieSpriteRight);
+                    AlreadyHit = true;
+                }
             }
         }
     }
