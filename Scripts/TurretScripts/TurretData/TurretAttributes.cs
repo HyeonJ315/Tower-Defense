@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.TurretScripts.TurretData
 {
+    [Serializable]
     public class TurretAttributes
     {
+        public string     Name;
+        public int        Index;
+        public GameObject Prefab;
+        public GameObject Icon;
         public int     ProjectileNumber;
         public float   AttackGround;
         public float   AttackAir;

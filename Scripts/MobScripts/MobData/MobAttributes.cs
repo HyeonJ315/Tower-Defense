@@ -1,19 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.MobScripts.MobData
 {
+    [Serializable]
     public class MobAttributes
     {
-        public float Health;
-        public float Defense;
-        public float SpecialDefense;
-        public float MoveSpeed;
-        public bool  Flying;
-        public float HitSphere;
-        public int   DeathAnimationDelay;
-        public int   DeathFadeDelay;
-        public int   DeathFadeDuration;
-        public float HealthCanvasY;
+        public string Name;
+        public int    Index;
+        public GameObject Prefab;
+        public GameObject Icon;
+        public float  Health;
+        public float  Defense;
+        public float  SpecialDefense;
+        public float  MoveSpeed;
+        public bool   Flying;
+        public float  HitSphere;
+        public int    DeathAnimationDelay;
+        public int    DeathFadeDelay;
+        public int    DeathFadeDuration;
+        public float  HealthCanvasY;
+        public string PrevEvolution;
+        public string NextEvolution;
         public string[] Types = new string[2];
 
         public MobAttributes()
@@ -29,7 +37,8 @@ namespace Assets.Scripts.MobScripts.MobData
                 Debug.Log("Cannot copy a null constructor.");
                 return;
             }
-
+            Name                = cpy.Name;
+            Index               = cpy.Index;
             Health              = cpy.Health;
             Defense             = cpy.Defense;
             SpecialDefense      = cpy.SpecialDefense;

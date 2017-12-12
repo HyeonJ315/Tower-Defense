@@ -18,7 +18,7 @@ namespace Assets.Scripts.PlayerInputs
             SetButton("ButtonBack", Button_Back, "");
             _loadScrollList(
                 "CategoryListGrid", 
-                "ElementTypes/", ElementDictionary.Instance.ElementFullNameToAttributes.Keys, "/Icon",
+                "ElementTypes/", ElementRepository.Instance.ElementFullNameToAttributes.Keys, "/Icon",
                 CategoryReceiver );
         }   
 
@@ -39,7 +39,7 @@ namespace Assets.Scripts.PlayerInputs
             _unloadScrollList( "SubListGrid" );
 
             List<string> subListGrid;
-            MobDictionary.Instance.MobTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid );
+            MobRepository.Instance.MobTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid );
             _loadScrollList(
                 "SubListGrid", 
                 "Mobs/", subListGrid, "/Icon",
@@ -49,7 +49,7 @@ namespace Assets.Scripts.PlayerInputs
         private void SublistReceiver(string msg)
         {
             int mobNumber;
-            if( MobDictionary.Instance.MobNameToId.TryGetValue( msg.Split('_')[1], out mobNumber ) )
+            if( MobRepository.Instance.MobNameToId.TryGetValue( msg.Split('_')[1], out mobNumber ) )
                 _mobManagerRpc.MobSpawnSendRpc( mobNumber, 1 );
         }
     }

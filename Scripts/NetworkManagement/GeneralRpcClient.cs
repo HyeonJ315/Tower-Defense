@@ -5,9 +5,10 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.NetworkManagement
 {
-    internal class GeneralRpcClient : GeneralRpc
+    internal class GeneralRpcClient : NetworkBehaviour
     {
         public int PlayerNumber;
+        public bool PlayerNumberSet;
         private Stopwatch _stopWatch = new Stopwatch();
         private const int PollTimer = 1000;
 
@@ -25,6 +26,11 @@ namespace Assets.Scripts.NetworkManagement
 
         #endregion
 
+        protected void Start()
+        {
+            transform.SetParent(GameObject.Find("ClientRPCs").transform);
+        }
+
         [Command]
         public void CmdRequestPlayerNumber()
         {
@@ -39,15 +45,15 @@ namespace Assets.Scripts.NetworkManagement
 
         private void _handlePollingServer()
         {
-            if (PlayerNumber != 0) return;
-            if (_stopWatch != null)
+            if ( PlayerNumber != 0 ) return;
+            if ( _stopWatch != null )
             {
                 _stopWatch.Stop();
                 _stopWatch.Reset();
                 _stopWatch = null;
                 return;
             }
-            if (_stopWatch != null && _stopWatch.ElapsedMilliseconds > PollTimer)
+            if ( _stopWatch != null && _stopWatch.ElapsedMilliseconds > PollTimer )
             {
                 CmdRequestPlayerNumber();
                 _stopWatch.Stop();

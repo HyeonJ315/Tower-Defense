@@ -8,11 +8,11 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 {
     public abstract class TurretManagerRpc : NetworkBehaviour
     {
-        private TurretManager _turretManager;
+        private TurretActuator _turretActuator;
 
-        protected void Start()
+        protected virtual void Start()
         {
-            _turretManager = TurretManager.Instance;
+            _turretActuator = TurretActuator.Instance;
         }
 
         #region Sending RPC helper methods
@@ -28,14 +28,14 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         protected bool TurretRemove( int teamGroup, int playerNumber, Vector3 location )
         {
-            if (!_turretManager)
+            if (!_turretActuator)
             {
-                _turretManager = TurretManager.Instance;
-                Debug.LogWarning("TurretManager is not found for this scene!");
+                _turretActuator = TurretActuator.Instance;
+                Debug.LogWarning("TurretActuator is not found for this scene!");
                 return false;
             }
 
-            var turretRemoved = _turretManager.RemoveTurret( playerNumber.ToString(), teamGroup, location );
+            var turretRemoved = _turretActuator.RemoveTurret( playerNumber.ToString(), teamGroup, location );
             
             return turretRemoved;
         }
@@ -53,14 +53,14 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         protected bool TurretSpawn( int turretNumber, int playerNumber, int teamGroup, Vector3 location )
         {   
-            if (!_turretManager)
+            if (!_turretActuator)
             {
-                _turretManager = TurretManager.Instance;
-                Debug.LogWarning( "TurretManager is not found for this scene!" );
+                _turretActuator = TurretActuator.Instance;
+                Debug.LogWarning( "TurretActuator is not found for this scene!" );
                 return false;
             }
 
-            var turretSpawned = _turretManager.PlaceTurret( turretNumber, playerNumber, teamGroup, location);
+            var turretSpawned = _turretActuator.PlaceTurret( turretNumber, playerNumber, teamGroup, location);
 
             return turretSpawned;
         }

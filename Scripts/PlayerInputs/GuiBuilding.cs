@@ -11,14 +11,14 @@ namespace Assets.Scripts.PlayerInputs
     {
         public string CurrentSpawningTurret;
         public string CameraName = "RtsCamera";
-        private TurretManager    _turretManager;
+        private TurretActuator    _turretActuator;
         private TurretManagerRpc _turretManagerRpc;
         private Camera           _camera;
 
         // Use this for initialization
         protected override void Start ()
         {
-            _turretManager    = TurretManager         .Instance;
+            _turretActuator    = TurretActuator         .Instance;
             _turretManagerRpc = TurretManagerRpcClient.Instance;
             GameObject cameraGo;
             RTS_Camera.CameraDictionary.TryGetValue( CameraName, out cameraGo );
@@ -37,9 +37,9 @@ namespace Assets.Scripts.PlayerInputs
                 return;
             }
 
-            if ( !_turretManager )
+            if ( !_turretActuator )
             {
-                _turretManager = TurretManager.Instance;
+                _turretActuator = TurretActuator.Instance;
             }
 
             #endregion
@@ -55,14 +55,14 @@ namespace Assets.Scripts.PlayerInputs
 
             if (!Physics.Raycast(ray, out hit, Mathf.Infinity)) return;
             if (hit.transform.tag != "Platform" && hit.transform.tag != "Turret" ) return;
-            _turretManager.ShowTurretShadow(CurrentSpawningTurret, TeamGroup, hit.point);
+            _turretActuator.ShowTurretShadow(CurrentSpawningTurret, TeamGroup, hit.point);
 
             if (Input.GetMouseButtonDown(0))
             {
                 if( hit.transform.tag == "Platform" )
                 {
                     int turretNumber;
-                    if (!TurretDictionary.Instance.TurretNameToId.TryGetValue(CurrentSpawningTurret, out turretNumber))
+                    if (!TurretRepository.Instance.TurretNameToId.TryGetValue(CurrentSpawningTurret, out turretNumber))
                         return;
                     _turretManagerRpc.TurretSpawnSendRpc( (int) turretNumber, TeamGroup, hit.point);
                 }
@@ -75,7 +75,7 @@ namespace Assets.Scripts.PlayerInputs
 
         private void Button_Back( string msg )
         {
-            _turretManager.RemoveTurretShadow();
+            _turretActuator.RemoveTurretShadow();
             ReplaceMeWith("GUI_Build");
         }
     }

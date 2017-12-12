@@ -9,6 +9,7 @@ namespace Assets.Scripts.MobScripts.MobData
         private Image _imageHealth;
         private MobAttributes _current;
         private MobAttributes _max;
+        private Mob           _mob;
         private MobRotation   _mobRotation;
         private Transform     _backgroundTransform;
 
@@ -18,16 +19,16 @@ namespace Assets.Scripts.MobScripts.MobData
         // Use this for initialization
         protected void Start ()
         {
-            var mob = transform.parent.parent.parent.GetComponent<Mob>();
+            _mob = transform.parent.parent.parent.GetComponent<Mob>();
 
             _imageHealth                  = GetComponent<Image>();
             _imageBackground              = transform.parent.GetComponent<Image>();
             _backgroundTransform          = transform.parent.transform;
-            _mobRotation                  = mob.GetComponentInChildren<MobRotation>();
-            _current                      = mob.MobAttributesCurrent;
-            _max                          = mob.MobAttributesMax;
+            _mobRotation                  = _mob.GetComponentInChildren<MobRotation>();
+            _current                      = _mob.MobAttributesCurrent;
+            _max                          = _mob.MobAttributesMax;
             var backgroundPos             = _backgroundTransform.position;
-            backgroundPos.y               = mob.MobAttributesMax.HealthCanvasY;
+            backgroundPos.y               = _mob.MobAttributesMax.HealthCanvasY;
             _backgroundTransform.position = backgroundPos;
             _defaultAlphaBackground       = _imageBackground.color.a;
             _defaultAlphaHealth           = _imageHealth.color.a;
@@ -37,7 +38,16 @@ namespace Assets.Scripts.MobScripts.MobData
         {
             var ratio = _current.Health / _max.Health;
             _imageHealth.fillAmount = ratio;
+        }
 
+        protected void Update()
+        {
+            _handleDeathFade();
+        }
+
+        private void _handleDeathFade()
+        {
+            if (!_mob.Dead) return;
             var healthColor = _imageHealth.color;
             var backgroundColor = _imageBackground.color;
             healthColor.a = Mathf.Lerp(_defaultAlphaHealth, 0, _mobRotation.FadeValue);

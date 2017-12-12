@@ -12,6 +12,10 @@ namespace Assets.Scripts.RTSCamera
             GameObject cameraGo;
             if ( RTS_Camera.CameraDictionary.TryGetValue( CameraName, out cameraGo ) )
                 _rtsCameraTransform = cameraGo.transform;
+            else
+            {
+                _rtsCameraTransform = GameObject.Find( CameraName ).GetComponent<Transform>();
+            }
         }
 
         protected void Update()

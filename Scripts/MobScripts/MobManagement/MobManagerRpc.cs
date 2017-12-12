@@ -9,11 +9,11 @@ namespace Assets.Scripts.MobScripts.MobManagement
     public abstract class MobManagerRpc : NetworkBehaviour
     {
         protected static uint CurrentMobNumber = 1;
-        private MobManager _mobManager;
+        private MobActuator _mobActuator;
 
-        protected void Start()
+        protected virtual void Start()
         {
-            _mobManager = MobManager.Instance;
+            _mobActuator = MobActuator.Instance;
         }
 
         #region Sending rpc helper methods
@@ -27,10 +27,10 @@ namespace Assets.Scripts.MobScripts.MobManagement
 
         protected bool MobSpawn( int mobNumber, int playerNumber, int teamGroup, uint mobHashNumber = 0 )
         {
-            if ( !_mobManager )
+            if ( !_mobActuator )
             {
-                _mobManager = MobManager.Instance;
-                Debug.LogWarning( "MobManager is not found for this scene!" );
+                _mobActuator = MobActuator.Instance;
+                Debug.LogWarning( "MobActuator is not found for this scene!" );
                 return false;
             }
 
@@ -38,7 +38,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
             #region Check if the mob number is defined in the mob prefabs.
 
             string mobName;
-            if (!MobDictionary.Instance.MobIdToName.TryGetValue( mobNumber, out mobName ) )
+            if (!MobRepository.Instance.MobIdToName.TryGetValue( mobNumber, out mobName ) )
                 return false;
 
             #endregion
@@ -50,12 +50,12 @@ namespace Assets.Scripts.MobScripts.MobManagement
             switch (teamGroup)
             {
                 case 1:
-                    mobsSpawned = _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "2_SpawnA to 2_MidA", out mob1Go ) &&
-                                  _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f, -14 ), "2_SpawnB to 2_MidB", out mob2Go ) ;
+                    mobsSpawned = _mobActuator.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "2_SpawnA to 2_MidA", out mob1Go ) &&
+                                  _mobActuator.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f, -14 ), "2_SpawnB to 2_MidB", out mob2Go ) ;
                     break;
                 case 2:
-                    mobsSpawned = _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "1_SpawnA to 1_MidA", out mob1Go ) &&
-                                  _mobManager.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f, -14 ), "1_SpawnB to 1_MidB", out mob2Go ) ;
+                    mobsSpawned = _mobActuator.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f,  14 ), "1_SpawnA to 1_MidA", out mob1Go ) &&
+                                  _mobActuator.MobSpawn( mobNumber, playerNumber, teamGroup, new Vector3( 0, 0.5f, -14 ), "1_SpawnB to 1_MidB", out mob2Go ) ;
                     break;
                 default:
                     return false;

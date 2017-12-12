@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.NetworkManagement
 {
-    internal class GeneralRpcServer : GeneralRpc
+    internal class GeneralRpcServer : NetworkBehaviour
     {
         #region Singleton
 
@@ -19,10 +19,16 @@ namespace Assets.Scripts.NetworkManagement
 
         #endregion
 
+        protected void Start()
+        {
+            transform.SetParent( GameObject.Find("ServerRPCs").transform );
+        }
+
         [TargetRpc]
         public void TargetResponseWithPlayerNumber( NetworkConnection target, int playerNumber )
         {
             GeneralRpcClient.Instance.PlayerNumber = playerNumber;
+            GeneralRpcClient.Instance.PlayerNumberSet = true;
         }
     }
 }

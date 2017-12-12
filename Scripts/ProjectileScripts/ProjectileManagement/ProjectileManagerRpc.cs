@@ -8,21 +8,21 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
     public abstract class ProjectileManagerRpc : NetworkBehaviour
     {
 
-        private ProjectileManager _projectileManager;
+        private ProjectileActuator _projectileActuator;
 
-        protected void Start()
+        protected virtual void Start()
         {
-            _projectileManager = ProjectileManager.Instance;
+            _projectileActuator = ProjectileActuator.Instance;
         }
 
         public abstract void ProjectileSpawnSendRpc( Vector3 position, int projectileNumber, uint target );
 
         protected bool ProjectileSpawn( Vector3 position, int projectileNumber, uint target )
         {
-            if ( !_projectileManager )
+            if ( !_projectileActuator )
             {
-                _projectileManager = ProjectileManager.Instance;
-                Debug.LogWarning("ProjectileManager is not found for this scene!");
+                _projectileActuator = ProjectileActuator.Instance;
+                Debug.LogWarning("ProjectileActuator is not found for this scene!");
                 return false;
             }
 
@@ -35,7 +35,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
             var turretAttributes = turret.GetComponent<Turret>().TurretAttributes;
 
             GameObject projectile;
-            var projectileSpawned = _projectileManager.ProjectileSpawn( turretAttributes, position, target, out projectile );
+            var projectileSpawned = _projectileActuator.ProjectileSpawn( turretAttributes, position, target, out projectile );
 
             return projectileSpawned;
         }

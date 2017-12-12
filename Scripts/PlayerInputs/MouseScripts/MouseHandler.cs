@@ -13,7 +13,8 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         private readonly Color _screenRectColor  = new Color( 0.8f, 0.8f, 0.95f, 0.25f );
         private readonly Color _screenRectBorder = new Color( 0.8f, 0.8f, 0.95f        );
 
-        private const int BorderThickness        = 2;
+        private const int BorderThickness      = 2;
+        private const int MaxSelectableObjects = 20;
         #region Singleton
 
         public static MouseHandler Instance { get; private set; }
@@ -59,29 +60,40 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             if ( !Input.GetMouseButtonUp(0) ) return;
             _isSelecting = false;
 
-            #region Deselect the selected objects
+            
+            #region Deselect the selected objects that are not detected.
 
-            foreach (var selectableObject in _selectedObjects)
+            foreach (var selectableObject in _selectedObjects.Keys )
             {
-                if( _detectedObjects.ContainsKey( selectableObject.Key ) ) continue;
-                var objectComponent = selectableObject.Key.GetComponent<SelectableComponent>();
+                if( _detectedObjects.ContainsKey( selectableObject ) ) continue;
+                var objectComponent = selectableObject.GetComponent<SelectableComponent>();
                 objectComponent.IsSelected = false;
                 objectComponent.IsFaded    = false;
             }
             _selectedObjects.Clear();
-
+            
             #endregion
 
-            #region Select the detected objects
+            #region Select the detected objects.
 
             foreach ( var selectableObject in _detectedObjects.Keys )
             {
-                selectableObject.GetComponent<SelectableComponent>().IsFaded = false;
-                _selectedObjects.Add( selectableObject, true );
+                var selectableComponent = selectableObject.GetComponent<SelectableComponent>();
+                if (_selectedObjects.Count < MaxSelectableObjects)
+                {
+                    selectableComponent.IsSelected = true;
+                    selectableComponent.IsFaded = false;
+                    _selectedObjects.Add(selectableObject, true);
+                }
+                else
+                {
+                    selectableComponent.IsSelected = false;
+                    selectableComponent.IsFaded = false;
+                }
             }
 
             #endregion
-            Debug.Log( _selectedObjects.Count + " Selected." );
+            
             _detectedObjects.Clear();
         }
 
@@ -96,25 +108,21 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
             {
                 if ( _isWithinSelectionBounds( selectableObject ) )
                 {
-                    if ( _detectedObjects.ContainsKey(selectableObject) ) continue;
+                    if (  _detectedObjects.ContainsKey( selectableObject ) ) continue;
                     var objectComponent = selectableObject.GetComponent<SelectableComponent>();
-                    if ( !objectComponent.IsSelected )
-                    {
-                        objectComponent.IsSelected = true;
-                        objectComponent.IsFaded    = true;
-                    }
                     _detectedObjects.Add(selectableObject, true);
+                    if ( _selectedObjects.ContainsKey(selectableObject) ) continue;
+                    objectComponent.IsSelected = true;
+                    objectComponent.IsFaded = true;
                 }
                 else
                 {
-                    if ( !_detectedObjects.ContainsKey(selectableObject) ) continue;
+                    if ( !_detectedObjects.ContainsKey( selectableObject )) continue;
                     var objectComponent = selectableObject.GetComponent<SelectableComponent>();
-                    if ( objectComponent.IsSelected && objectComponent.IsFaded )
-                    {
-                        objectComponent.IsSelected = false;
-                        objectComponent.IsFaded    = false;
-                    }
-                    _detectedObjects.Remove( selectableObject );
+                    _detectedObjects.Remove(selectableObject);
+                    if ( _selectedObjects.ContainsKey(selectableObject) ) continue;
+                    objectComponent.IsSelected = false;
+                    objectComponent.IsFaded = false;
                 }
             }
         }
@@ -139,11 +147,11 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         private bool _isWithinSelectionBounds( GameObject go )
         {
             if ( !_isSelecting ) return false;
-
             var cam = Camera.main;
             var viewportBounds =
                 RectangleDrawer.Instance.GetViewportBounds( cam, _mousePosition1, Input.mousePosition );
             var spriteRenderer = go.GetComponentInChildren<SpriteRenderer>();
+            if ( spriteRenderer.sprite == null ) return false;
             var spriteTransform = spriteRenderer.transform;
             var spriteBounds    = spriteRenderer.sprite.bounds;
 

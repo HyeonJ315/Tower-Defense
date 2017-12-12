@@ -31,7 +31,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 UnityEngine.Debug.Log( "" + turretNumber + "_" + turretName + " already initialized." );
                 return;
             }
-            if ( !TurretDictionary.Instance.TurretFullNameToAttributes.TryGetValue( "" + turretNumber + "_" + turretName,
+            if ( !TurretRepository.Instance.TurretFullNameToAttributes.TryGetValue( "" + turretNumber + "_" + turretName,
                 out _turretAttributesReference) )
             {
                 UnityEngine.Debug.Log( " Can't find " + turretNumber + "_" + turretName + " in the Dictionary." );
@@ -46,7 +46,7 @@ namespace Assets.Scripts.TurretScripts.TurretData
             _timeSinceLastAttack.Reset();
             _turretRotation = GetComponentInChildren<TurretRotation>();
             TurretListTrackerDictionary.Instance.InsertEntry( playerNumber, gameObject );
-            UnityEngine.Debug.Log( "Created turret for player " + playerNumber + ": " + turretNumber + "_" + turretName );
+            //UnityEngine.Debug.Log( "Created turret for player " + playerNumber + ": " + turretNumber + "_" + turretName );
             _initialized = true;
         }
 
@@ -106,11 +106,12 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 if ( !_timeSinceLastAttack.IsRunning )
                 {
                     GameObject tmp;
-                    ProjectileManager.Instance.ProjectileSpawn( TurretAttributes, transform.position, _attackingMob.MobHash, out tmp );
+                    ProjectileActuator.Instance.ProjectileSpawn( TurretAttributes, transform.position, _attackingMob.MobHash, out tmp );
                     var projectile = tmp.GetComponent<Projectile>();
                     projectile.ServerProjectile = true;
 
-                    ProjectileManagerRpcServer.Instance.ProjectileSpawnSendRpc( transform.position + TurretAttributes.ProjectileSpawnOffset, TurretAttributes.ProjectileNumber, _attackingMob.MobHash );
+                    ProjectileManagerRpcServer.Instance.ProjectileSpawnSendRpc( transform.position + TurretAttributes.ProjectileSpawnOffset, 
+                                                                                TurretAttributes.ProjectileNumber, _attackingMob.MobHash );
                     _timeSinceLastAttack.Start();
                 }
                 else if  ( _timeSinceLastAttack.ElapsedMilliseconds >= TurretAttributes.AttackSpeed )

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.RTSCamera
@@ -8,7 +9,7 @@ namespace Assets.Scripts.RTSCamera
     public class RTS_Camera : MonoBehaviour
     {
         public static Dictionary<string, GameObject> CameraDictionary = new Dictionary<string, GameObject>();
-
+        private float TOLERANCE = 0.0001f;
         #region Foldouts
 
 #if UNITY_EDITOR
@@ -274,7 +275,7 @@ namespace Assets.Scripts.RTSCamera
             float targetHeight = Mathf.Lerp(minHeight, maxHeight, zoomPos);
             float difference = 0; 
 
-            if(distanceToGround != targetHeight)
+            if(Math.Abs(distanceToGround - targetHeight) > TOLERANCE)
                 difference = targetHeight - distanceToGround;
 
             m_Transform.position = Vector3.Lerp(m_Transform.position, 

@@ -1,11 +1,16 @@
-﻿using Assets.Scripts.MobScripts.MobData;
+﻿using System;
+using Assets.Scripts.MobScripts.MobData;
 using Assets.Scripts.TurretScripts.TurretData;
 using UnityEngine;
 
 namespace Assets.Scripts.ProjectileScripts.ProjectileData
 {
+    [Serializable]
     public class ProjectileAttributes
     {
+        public string Name;
+        public int    Index;
+        public GameObject Prefab;
         public int    ProjectileNumber;
         public float  Speed;
         public float  Damage;

@@ -8,6 +8,13 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
         #region Singleton
 
         public static ProjectileManagerRpcServer Instance { get; private set; }
+
+        protected override void Start()
+        {
+            base.Start();
+            transform.SetParent( GameObject.Find("ServerRPCs").transform );
+        }
+
         protected void Awake()
         {
             if (Instance != null && Instance != this)

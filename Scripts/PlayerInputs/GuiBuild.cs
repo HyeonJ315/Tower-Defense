@@ -15,7 +15,7 @@ namespace Assets.Scripts.PlayerInputs
             SetButton("BackButton", Button_Back, "");
             _loadScrollList(
                 "CategoryListGrid",
-                "ElementTypes/", ElementDictionary.Instance.ElementFullNameToAttributes.Keys, "/Icon",
+                "ElementTypes/", ElementRepository.Instance.ElementFullNameToAttributes.Keys, "/Icon",
                 CategoryReceiver );
         }
 
@@ -36,7 +36,7 @@ namespace Assets.Scripts.PlayerInputs
         {
             _unloadScrollList("SubListGrid");
             List<string> subListGrid;
-            if ( !TurretDictionary.Instance.TurretTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid) )
+            if ( !TurretRepository.Instance.TurretTypeToFullName.TryGetValue( msg.Split('_')[1], out subListGrid) )
                 return;
             _loadScrollList(
                 "SubListGrid", 

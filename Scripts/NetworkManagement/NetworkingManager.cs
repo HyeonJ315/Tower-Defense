@@ -11,7 +11,7 @@ namespace Assets.Scripts.NetworkManagement
 {
     public class NetworkingManager : NetworkManager
     {
-        public string NetworkResourceDirectory = "Network";
+        public string NetworkResourceDirectory = "Network/Clients";
         public bool LocalHosting = false;
 
         //removes all client's gameobject on disconnect.
@@ -91,10 +91,10 @@ namespace Assets.Scripts.NetworkManagement
 
         private void _switchScene()
         {
-            MobDictionary       .Instance.Initialize();
-            ElementDictionary   .Instance.Initialize();
-            TurretDictionary    .Instance.Initialize();
-            ProjectileDictionary.Instance.Initialize();
+            MobRepository       .Instance.Initialize();
+            ElementRepository   .Instance.Initialize();
+            TurretRepository    .Instance.Initialize();
+            ProjectileRepository.Instance.Initialize();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             var currSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -105,6 +105,7 @@ namespace Assets.Scripts.NetworkManagement
         public override void OnServerReady( NetworkConnection networkConnection )
         {
             base.OnServerReady( networkConnection );
+            Debug.Log(NetworkResourceDirectory + "/" + "MobManagerRpcClient");
             var mobManagerRpcClient    = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "MobManagerRpcClient"    ) ) as GameObject;
             var turretManagerRpcClient = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "TurretManagerRpcClient" ) ) as GameObject;
             var generalRpcClient       = Instantiate( Resources.Load( NetworkResourceDirectory + "/" + "GeneralRpcClient"       ) ) as GameObject;

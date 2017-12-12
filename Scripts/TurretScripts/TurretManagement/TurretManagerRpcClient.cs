@@ -16,6 +16,12 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         #endregion
 
+        protected override void Start()
+        {
+            base.Start();
+            transform.SetParent( GameObject.Find("ClientRPCs").transform );
+        }
+
         public override void TurretRemoveSendRpc( int teamGroup, Vector3 location )
         {
             CmdTurretRemove( teamGroup, location );
