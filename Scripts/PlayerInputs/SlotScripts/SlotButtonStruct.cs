@@ -9,13 +9,13 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
     {
         public List< UnityAction > ActionList;
         public List< UnityAction<object> > ActionListPara;
-        public GameObject  Image;
+        public GameObject  ImagePrefab;
         public string Description;
 
-        public SlotButtonStruct( List<UnityAction> actionList, GameObject image, string description = "" )
+        public SlotButtonStruct( List<UnityAction> actionList, GameObject imagePrefab, string description = "" )
         {
             ActionList  = actionList;
-            Image       = image;
+            ImagePrefab = imagePrefab;
             Description = description;
         }
     }

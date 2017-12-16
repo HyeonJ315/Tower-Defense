@@ -34,12 +34,13 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
                 _projectileHierarchyGameObject = new GameObject { name = "Projectiles" };
             }
 
-            string projectileName;
-
-            if (!ProjectileRepository.Instance.ProjectileIdToName.TryGetValue( turretAttributes.ProjectileNumber, out projectileName))
+            if (turretAttributes.ProjectileNumber < 0 || 
+                turretAttributes.ProjectileNumber >= ProjectileRepository.Instance.ProjectileCount)
                 return false;
+            var projectileName = ProjectileRepository.Instance.IndexToName[ turretAttributes.ProjectileNumber ];
+            
             projectileGameObject =
-                Instantiate( Resources.Load( ProjectileRepository.ProjectileDir + "/" + turretAttributes.ProjectileNumber + "_" + projectileName + "/" + projectileName ) ) as GameObject;
+                Instantiate( ProjectileRepository.Instance.ProjectileAttributesList[ turretAttributes.ProjectileNumber ].Prefab );
             if (projectileGameObject == null) return false;
             projectileGameObject.name = projectileName;
             projectileGameObject.transform.position = location + turretAttributes.ProjectileSpawnOffset;

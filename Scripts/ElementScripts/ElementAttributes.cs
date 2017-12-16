@@ -10,7 +10,7 @@ namespace Assets.Scripts.ElementScripts
     internal class ElementAttributes
     {
         public string Name;
-        public int    Index;
+        [HideInInspector] public int    Index;
         public GameObject Icon;
         public List< DamageModifier > DamageModifiers;
 
@@ -20,7 +20,7 @@ namespace Assets.Scripts.ElementScripts
             if (_initialized)
                 return false;
             foreach ( var modifier in DamageModifiers )
-                modifier.Index = ElementRepo.Instance.NameToIndex[ Name ];
+                modifier.Index = ElementRepository.Instance.NameToIndex[ Name ];
             return _initialized = true;
         }
     }
@@ -29,8 +29,7 @@ namespace Assets.Scripts.ElementScripts
     internal class DamageModifier
     {
         public string Name;
-        [HideInInspector]
-        public int Index = -1;
+        [HideInInspector] public int Index = -1;
         public float  Modifier;
     }
 }

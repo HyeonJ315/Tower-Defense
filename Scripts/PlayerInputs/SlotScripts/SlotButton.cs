@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.PlayerInputs.MouseScripts;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -25,12 +26,14 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
             }
             else
                 SlotDescription.Instance.DisableActiveState();
+            MouseStateManager.Instance.MouseOnButton = true;
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             base.OnPointerExit( eventData );
             SlotDescription.Instance.DisableActiveState();
+            MouseStateManager.Instance.MouseOnButton = false;
         }
     }
 }

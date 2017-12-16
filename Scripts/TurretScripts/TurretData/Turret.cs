@@ -31,12 +31,14 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 UnityEngine.Debug.Log( "" + turretNumber + "_" + turretName + " already initialized." );
                 return;
             }
-            if ( !TurretRepository.Instance.TurretFullNameToAttributes.TryGetValue( "" + turretNumber + "_" + turretName,
-                out _turretAttributesReference) )
+
+            if( turretNumber < 0 || turretNumber >= TurretRepository.Instance.TurretCount )
             {
-                UnityEngine.Debug.Log( " Can't find " + turretNumber + "_" + turretName + " in the Dictionary." );
+                UnityEngine.Debug.Log(" Can't find " + turretNumber + "_" + turretName + " in the Dictionary.");
                 return;
             }
+            _turretAttributesReference = TurretRepository.Instance.TurretAttributesList[ turretNumber ];
+
             TurretAttributes = new TurretAttributes( _turretAttributesReference );
             PlayerNumber = playerNumber;
             TurretNumber = turretNumber;

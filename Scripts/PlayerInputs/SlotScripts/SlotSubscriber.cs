@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.ElementScripts;
+using Assets.Scripts.MobScripts.MobData;
+using Assets.Scripts.PlayerInputs.MouseScripts;
+using Assets.Scripts.TurretScripts.TurretData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,9 +28,6 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
 
         private SlotWindow _slotWindow;
 
-        private const string BuildIconResourceLocation = "UserInterface/BuildIcon";
-        private const string SpawnIconResourceLocation = "UserInterface/SpawnIcon";
-
         protected void Start()
         {
             _slotWindow = SlotWindow.Instance;
@@ -35,43 +35,90 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
 
         protected void Update()
         {
-            if( Input.GetKeyDown("l") )
+            if( Input.GetKeyDown("1") )
             BindBuildAndSpawn();
         }
 
         public void BindBuildAndSpawn()
         {
-            var buildIcon = Instantiate( Resources.Load( BuildIconResourceLocation ) ) as GameObject;
-            var spawnIcon = Instantiate( Resources.Load( SpawnIconResourceLocation ) ) as GameObject;
-            var buildSlotButton = new SlotButtonStruct( new List<UnityAction> { BindBuildCategories }, buildIcon, "BindBuildTurrets Towers" );
-            var spawnSlotButton = new SlotButtonStruct( new List<UnityAction> { BindSpawn           }, spawnIcon, "Spawn Monsters"          );
-            _slotWindow.BindButtons( new List<SlotButtonStruct> { buildSlotButton, spawnSlotButton } );
+            var buildIcon = Instantiate( MiscRepository.Instance.BuildIconPrefab );
+            var spawnIcon = Instantiate( MiscRepository.Instance.SpawnIconPrefab );
+            var buildSlotButton = new SlotButtonStruct( new List<UnityAction> { BindBuildCategories }, buildIcon, "Build Towers"   );
+            var spawnSlotButton = new SlotButtonStruct( new List<UnityAction> { BindSpawnCategories }, spawnIcon, "Spawn Monsters" );
+            _slotWindow.SubscribeButtonStructs( new List<SlotButtonStruct> { buildSlotButton, spawnSlotButton } );
         }
 
         public void BindBuildCategories()
         {
             var slotButtonStructList = new List<SlotButtonStruct>();
-            foreach ( var elementAttribute in ElementRepo.Instance.ElementAttributesList )
+            foreach ( var elementAttribute in ElementRepository.Instance.ElementAttributesList )
             {
-                var elementIcon = Instantiate(elementAttribute.Icon);
                 var attribute = elementAttribute;
                 slotButtonStructList.Add( new SlotButtonStruct(
                     new List<UnityAction> { delegate { BindBuildTurrets(attribute); } },
-                    elementIcon,
+                    elementAttribute.Icon,
                     "Build " + elementAttribute.Name + " Towers."));
             }
-            _slotWindow.BindButtons( slotButtonStructList );
+            if (slotButtonStructList.Count == 0) return;
+            _slotWindow.SubscribeButtonStructs( slotButtonStructList, true );
         }
 
         public void BindBuildTurrets( ElementAttributes elementAttribute )
         {
-            Debug.Log( elementAttribute.Name );
+            var turretList = TurretRepository.Instance.TurretTypeList[ elementAttribute.Index ];
+            var slotButtonStructList = new List<SlotButtonStruct>();
+            foreach (var turretAttribute in turretList)
+            {
+                var attribute = turretAttribute;
+                slotButtonStructList.Add( new SlotButtonStruct(
+                    new List<UnityAction> { delegate { BuildingTurret(attribute); } },
+                    turretAttribute.Icon,
+                    "Build " + turretAttribute.Name + "." ) );
+            }
+            if (slotButtonStructList.Count == 0) return;
+            _slotWindow.SubscribeButtonStructs( slotButtonStructList, true );
         }
 
-        public void BindSpawn()
+        public void BuildingTurret( TurretAttributes turretAttribute )
         {
-            Debug.Log( "SPAWN!" );
+            MouseStateManager.Instance.EnableMouseClickBuilder( turretAttribute );
         }
 
+        public void BindSpawnCategories()
+        {
+            var slotButtonStructList = new List<SlotButtonStruct>();
+            foreach ( var elementAttribute in ElementRepository.Instance.ElementAttributesList )
+            {
+                var attribute = elementAttribute;
+                slotButtonStructList.Add( new SlotButtonStruct(
+                    new List<UnityAction> { delegate { BindSpawnMonsters(attribute); } },
+                    elementAttribute.Icon,
+                    "Spawn " + elementAttribute.Name + " Monsters."));
+            }
+            if (slotButtonStructList.Count == 0) return;
+            _slotWindow.SubscribeButtonStructs( slotButtonStructList, true );
+        }
+
+        public void BindSpawnMonsters( ElementAttributes elementAttribute )
+        {
+            var mobList = MobRepository.Instance.MobTypeList[elementAttribute.Index];
+            var slotButtonStructList = new List<SlotButtonStruct>();
+            foreach (var mobAttribute in mobList)
+            {
+                var mobIcon = Instantiate(mobAttribute.Icon);
+                var attribute = mobAttribute;
+                slotButtonStructList.Add(new SlotButtonStruct(
+                    new List<UnityAction> { delegate { SpawningMob(attribute); } },
+                    mobAttribute.Icon,
+                    "Spawn " + mobAttribute.Name + "."));
+            }
+            if (slotButtonStructList.Count == 0) return;
+            _slotWindow.SubscribeButtonStructs( slotButtonStructList, true );
+        }
+
+        public void SpawningMob(MobAttributes attribute)
+        {
+            
+        }
     }
 }

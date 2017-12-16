@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.PlayerInputs;
+using UnityEngine;
 
 namespace Assets.Scripts.Selectable
 {
@@ -19,15 +20,15 @@ namespace Assets.Scripts.Selectable
         private Material _selectMaterialFaded;
         protected void Start()
         {
-            _selectMaterial      = Resources.Load( MaterialsDir + "/" + SelectMaterial      ) as Material;
-            _selectMaterialFaded = Resources.Load( MaterialsDir + "/" + SelectMaterialFaded ) as Material;
+            _selectMaterial      = MiscRepository.Instance.CircleMaterial;
+            _selectMaterialFaded = MiscRepository.Instance.CircleMaterialFaded;
         }
 
         protected void Update()
         {
             if ( IsSelected && !_selected )
             {
-                _circleGameObject = Instantiate( Resources.Load( PrefabDir + "/" + SelectionCircle ) ) as GameObject;
+                _circleGameObject = Instantiate( MiscRepository.Instance.CircleGameObjectPrefab );
                 if ( _circleGameObject == null ) return;
                 _circleGameObject.transform.SetParent(transform);
                 _circleGameObject.transform.localPosition = _circleGameObject.transform.position + Vector3.zero;

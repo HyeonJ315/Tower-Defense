@@ -5,7 +5,6 @@ namespace Assets.Scripts.NetworkManagement
 {
     public class MultiplayerMenu : MonoBehaviour
     {
-
         #region Singleton
 
         public static MultiplayerMenu Instance { get; private set; }

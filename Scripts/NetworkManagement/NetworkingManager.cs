@@ -91,11 +91,6 @@ namespace Assets.Scripts.NetworkManagement
 
         private void _switchScene()
         {
-            MobRepository       .Instance.Initialize();
-            ElementRepository   .Instance.Initialize();
-            TurretRepository    .Instance.Initialize();
-            ProjectileRepository.Instance.Initialize();
-
             SceneManager.sceneLoaded += OnSceneLoaded;
             var currSceneIndex = SceneManager.GetActiveScene().buildIndex;
             var nextSceneIndex = currSceneIndex + 1;

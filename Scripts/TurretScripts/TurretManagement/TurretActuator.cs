@@ -63,7 +63,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #region Perform basic sanity checks
 
-            if ( !TurretRepository.Instance.TurretIdToName.ContainsKey( turretNumber ) )
+            if( turretNumber < 0 || turretNumber >= TurretRepository.Instance.TurretCount )
             {
                 Debug.Log( turretNumber );
                 return false;
@@ -106,10 +106,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             #endregion
 
-            string turretName;
-            if (!TurretRepository.Instance.TurretIdToName.TryGetValue(turretNumber, out turretName))
-                return false;
-
+            var turretName = TurretRepository.Instance.IndexToName[ turretNumber ];
             if (_turretsHierarchyGameObject == null)
             {
                 _turretsHierarchyGameObject = new GameObject() { name = "Turrets" };
@@ -313,7 +310,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
             }
 
             int turretNumber;
-            if (!TurretRepository.Instance.TurretNameToId.TryGetValue(turretName, out turretNumber))
+            if ( !TurretRepository.Instance.NameToIndex.TryGetValue(turretName, out turretNumber ) )
             {
                 return false;
             }
@@ -325,7 +322,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
             if ( _currentTurretShadow == null )
             {   
-                _currentTurretShadow = Instantiate( Resources.Load( TurretRepository.TurretDir + "/" + turretNumber + "_" + turretName + "/" + turretName ) ) as GameObject;
+                _currentTurretShadow = Instantiate( TurretRepository.Instance.TurretAttributesList[ turretNumber ].Prefab );
                 if ( _currentTurretShadow == null )
                 {
                     RemoveTurretShadow();
@@ -431,7 +428,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         private bool _spawnShadowTile( Transform parentTransform, Vector3 vec3Offset, string posTag, out GameObject shadowTile )
         {
-            shadowTile = Instantiate(Resources.Load(TurretRepository.TurretDir + "/" + ShadowTile)) as GameObject;
+            shadowTile = Instantiate( TurretRepository.Instance.ShadowTile );
             if (shadowTile == null)
             {
                 RemoveTurretShadow();
@@ -445,7 +442,7 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
 
         private bool _spawnTurretPrefab( Vector3 location, int turretNumber, string turretName, int playerNumber, int teamGroup, out GameObject go )
         {
-            go = Instantiate(Resources.Load(TurretRepository.TurretDir + "/" + turretNumber + "_" + turretName + "/" + turretName)) as GameObject;
+            go = Instantiate( TurretRepository.Instance.TurretAttributesList[ turretNumber ].Prefab );
             if (!go) return false;
 
             go.GetComponent<Turret>().Initialize( playerNumber, turretNumber, turretName, teamGroup);

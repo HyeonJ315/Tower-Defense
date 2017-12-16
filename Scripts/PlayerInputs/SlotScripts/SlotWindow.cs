@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,14 +24,20 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
         private const int    ButtonCount      = 18;
         private const string GridTag          = "GridCell";
         private const string ButtonIconName   = "ButtonIcon";
+        private const string RightArrowName   = "RightArrow";
+        private const string LeftArrowName    = "LeftArrow";
+        private const string ResetIconName    = "Reset";
         private const string ButtonToggleName = "SlotWindowTitle";
-        private const int    HideYPos  = -420;
-        private const int    ShowYPos  = -120;
+        private const float    HideYPos  = -432.5f;
+        private const float    ShowYPos  = -107.5f;
         private const float  DragSpeed = 2000;
         private bool _hidden;
 
         private readonly List<SlotButton> _buttons = new List<SlotButton>(18);
-        public SlotButton HoveringButton;
+
+        private List<List<SlotButtonStruct>> _buttonStructStack;
+        private int _currentIndex;
+
         protected void Start()
         {
             for( var i = 0; i < ButtonCount; i++ ) _buttons.Add( null );
@@ -45,42 +52,67 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
             var allButtons = GetComponentsInChildren<Button>();
             foreach (var button in allButtons)
             {
-                if ( button.name == ButtonToggleName )
-                    button.onClick.AddListener(ToggleVisibility);
-                break;
+                switch (button.name)
+                {
+                    case ButtonToggleName:
+                        button.onClick.AddListener( ToggleVisibility );
+                        break;
+                    case RightArrowName:
+                        button.onClick.AddListener( _slideRight );
+                        break;
+                    case LeftArrowName:
+                        button.onClick.AddListener( _slideLeft );
+                        break;
+                    case ResetIconName:
+                        button.onClick.AddListener( _resetButton );
+                        break;
+                }
             }
             SlotDescription.Instance.DisableActiveState();
+            _buttonStructStack = new List< List< SlotButtonStruct > >();
+            _resetButton();
         }
 
-        public void BindButton(int buttonId, SlotButtonStruct buttonStruct)
+        private void _slideRight()
         {
-            if (buttonId >= ButtonCount || buttonId < 0) return;
-            if ( buttonStruct.ActionList.Count == 0 )
+            if ( _buttonStructStack.Count == 0 ) return;
+            if (_currentIndex + ButtonCount >= _buttonStructStack.Last().Count ) return;
+            _currentIndex += ButtonCount;
+            _bindButtons( _buttonStructStack.Last().GetRange( _currentIndex, _buttonStructStack.Last().Count - _currentIndex ) );
+        }
+
+        private void _slideLeft()
+        {
+            if ( _buttonStructStack.Count == 0   ) return;
+            if ( _currentIndex - ButtonCount < 0 ) return;
+            _currentIndex -= ButtonCount;
+            _bindButtons( _buttonStructStack.Last().GetRange( _currentIndex, _buttonStructStack.Last().Count - _currentIndex ) );
+        }
+
+        private void _resetButton()
+        {
+            if ( _buttonStructStack.Count <= 1 ) return;
+            _buttonStructStack.RemoveAt( _buttonStructStack.Count - 1 );
+            var buttonStructs = _buttonStructStack.Last();
+            _currentIndex = 0;
+            _bindButtons( buttonStructs.GetRange( _currentIndex, buttonStructs.Count - _currentIndex ) );
+        }
+
+        public void SubscribeButtonStructs( List<SlotButtonStruct> buttonStructs = null, bool pushToStack = false )
+        {
+            if ( buttonStructs == null || buttonStructs.Count == 0 )
             {
-                Debug.Log("Could not bind button because there was no action.");
+                _unbindButtons();
                 return;
             }
-            if ( buttonStruct.Image == null )
-            {
-                Debug.Log("Could not bind button because there was no image.");
-                return;
-            }
-            UnbindButton(buttonId);
-            _systematicBind(_buttons[buttonId], buttonStruct);
+            if( !pushToStack ) _buttonStructStack = new List<List<SlotButtonStruct>>();
+            _buttonStructStack.Add( buttonStructs );
+            _currentIndex = 0;
+            _bindButtons( buttonStructs.GetRange( _currentIndex, buttonStructs.Count - _currentIndex ) );
         }
 
-        public void UnbindButton(int buttonId)
+        private void _bindButtons( List<SlotButtonStruct> buttonStructs )
         {
-            if (buttonId >= ButtonCount || buttonId < 0) return;
-            _buttons[buttonId].onClick.RemoveAllListeners();
-            _buttons[buttonId].Bound = false;
-            var buttonTransform = _buttons[buttonId].transform.Find(ButtonIconName);
-            if( buttonTransform ) Destroy( buttonTransform.gameObject );
-        }
-
-        public void BindButtons( List<SlotButtonStruct> buttonStructs )
-        {
-
             foreach( var buttonStruct in buttonStructs )
             {
                 if ( buttonStruct.ActionList.Count == 0 )
@@ -88,28 +120,74 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
                     Debug.Log( "Could not bind button because there was no action." );
                     return;
                 }
-                if ( buttonStruct.Image == null )
+                if ( buttonStruct.ImagePrefab == null )
                 {
                     Debug.Log("Could not bind button because there was no image.");
                     return;
                 }
             }
-            UnbindButtons();
-            for ( var i = 0; i < buttonStructs.Count && i < ButtonCount; i++ )
-                BindButton( i, buttonStructs[i] );
+            _unbindButtons();
+            for (var i = 0; i < buttonStructs.Count && i < ButtonCount; i++)
+            {
+                if( buttonStructs[i] == null ) continue;
+                _bindButton( i, buttonStructs[i] );
+            }
         }
 
-        public void UnbindButtons()
+        private void _unbindButtons()
         {
             for (var i = 0; i < _buttons.Count; i++)
             {
-                UnbindButton( i );
+                _unbindButton( i );
             }
         }
 
         public void ToggleVisibility()
         {
             _hidden = !_hidden;
+        }
+
+
+        private void _bindButton(int buttonId, SlotButtonStruct buttonStruct)
+        {
+            if (buttonId >= ButtonCount || buttonId < 0) return;
+            if (buttonStruct.ActionList.Count == 0)
+            {
+                Debug.Log("Could not bind button because there was no action.");
+                return;
+            }
+            if (buttonStruct.ImagePrefab == null)
+            {
+                Debug.Log("Could not bind button because there was no image.");
+                return;
+            }
+            _unbindButton(buttonId);
+            _systematicBind(_buttons[buttonId], buttonStruct);
+        }
+
+        private static void _systematicBind(SlotButton button, SlotButtonStruct buttonStruct)
+        {
+            button.onClick.RemoveAllListeners();
+            foreach (var action in buttonStruct.ActionList)
+                button.onClick.AddListener(action);
+            button.Description = buttonStruct.Description;
+            button.Bound = true;
+            var image = Instantiate( buttonStruct.ImagePrefab );
+            var buttonTransform = image.transform;
+            buttonTransform.SetParent(button.transform);
+            buttonTransform.localPosition = Vector3.zero;
+            buttonTransform.localScale = Vector3.one;
+            buttonTransform.SetAsFirstSibling();
+            image.name = ButtonIconName;
+        }
+
+        private void _unbindButton(int buttonId)
+        {
+            if (buttonId >= ButtonCount || buttonId < 0) return;
+            _buttons[buttonId].onClick.RemoveAllListeners();
+            _buttons[buttonId].Bound = false;
+            var buttonTransform = _buttons[buttonId].transform.Find(ButtonIconName);
+            if (buttonTransform) Destroy( buttonTransform.gameObject );
         }
 
         private void _handleSlotWindowPosition()
@@ -131,20 +209,6 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
                 if (tmp.y > ShowYPos) tmp.y = ShowYPos;
                 transform.localPosition = tmp;
             }
-        }
-
-        private static void _systematicBind( SlotButton button, SlotButtonStruct buttonStruct )
-        {
-            button.onClick.RemoveAllListeners();
-            foreach (var action in buttonStruct.ActionList)
-                button.onClick.AddListener(action);
-            button.Description = buttonStruct.Description;
-            button.Bound = true;
-            buttonStruct.Image.transform.SetParent( button.transform );
-            buttonStruct.Image.transform.localPosition = Vector3.zero;
-            buttonStruct.Image.transform.localScale    = Vector3.one;
-            buttonStruct.Image.transform.SetAsFirstSibling();
-            buttonStruct.Image.name = ButtonIconName;
         }
 
         private void _handleDescription()

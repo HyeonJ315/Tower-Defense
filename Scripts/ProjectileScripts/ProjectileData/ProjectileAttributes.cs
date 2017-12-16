@@ -9,9 +9,8 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
     public class ProjectileAttributes
     {
         public string Name;
-        public int    Index;
+        [HideInInspector] public int    Index;
         public GameObject Prefab;
-        public int    ProjectileNumber;
         public float  Speed;
         public float  Damage;
         public float  DeathClipLength = 1.0f; // in seconds.
@@ -24,7 +23,9 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
                 Debug.Log("Cannot copy a null constructor.");
                 return;
             }
-            ProjectileNumber = cpy.ProjectileNumber;
+            Name             = cpy.Name;
+            Index            = cpy.Index;
+            Prefab           = cpy.Prefab;
             Speed            = cpy.Speed;
             Damage           = cpy.Damage;
             DeathClipLength  = cpy.DeathClipLength;
@@ -33,7 +34,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
 
         public ProjectileAttributes( TurretAttributes turret )
         {
-            ProjectileNumber = turret.ProjectileNumber;
+            Index            = turret.ProjectileNumber;
             Speed            = turret.ProjectileSpeed;
             Damage           = turret.AttackGround;
             Type             = turret.AttackElement;

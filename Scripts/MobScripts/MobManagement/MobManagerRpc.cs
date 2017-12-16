@@ -34,12 +34,13 @@ namespace Assets.Scripts.MobScripts.MobManagement
                 return false;
             }
 
+            if (mobNumber < 0 || mobNumber >= MobRepository.Instance.MobCount)
+                return false;
+
             // Spawn the network object here.
             #region Check if the mob number is defined in the mob prefabs.
 
-            string mobName;
-            if (!MobRepository.Instance.MobIdToName.TryGetValue( mobNumber, out mobName ) )
-                return false;
+            var mobName = MobRepository.Instance.IndexToName[ mobNumber ];
 
             #endregion
 

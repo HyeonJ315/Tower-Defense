@@ -54,12 +54,8 @@ namespace Assets.Scripts.MobScripts.MobData
                 UnityEngine.Debug.Log("" + playerNumber + "_" + mobName + " already initialized.");
                 return;
             }
-            if ( !MobRepository.Instance.MobFullNameToAttributes.TryGetValue( "" + mobNumber + "_" + mobName,
-                out _mobAttributesReference) )
-            {
-                UnityEngine.Debug.Log(" Can't find " + playerNumber + "_" + mobName + " in the Dictionary.");
-                return;
-            }
+            _mobAttributesReference = MobRepository.Instance.MobAttributesList[ mobNumber ];
+
             PlayerNumber = playerNumber;
             MobNumber    = mobNumber;
             MobName      = mobName;
@@ -96,8 +92,11 @@ namespace Assets.Scripts.MobScripts.MobData
         {
             if ( MobAttributesCurrent == null || MobAttributesMax == null )
             {
-                MobRepository.Instance.MobNameToAttributes.TryGetValue( MobName, out MobAttributesCurrent );
-                MobRepository.Instance.MobNameToAttributes.TryGetValue( MobName, out MobAttributesMax     );
+                int attributeIndex;
+                if( !MobRepository.Instance.NameToIndex.TryGetValue( MobName, out attributeIndex ) ) return;
+                var mobAttributes = MobRepository.Instance.MobAttributesList[attributeIndex];
+                MobAttributesCurrent = new MobAttributes( mobAttributes ); 
+                MobAttributesMax     = new MobAttributes( mobAttributes ); 
                 return;
             }
 

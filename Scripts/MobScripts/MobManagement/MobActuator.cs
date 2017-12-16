@@ -26,15 +26,15 @@ namespace Assets.Scripts.MobScripts.MobManagement
             mobGameObject = null;
             #region Create the Mob
 
-            string mobName;
-            if (!MobRepository.Instance.MobIdToName.TryGetValue(mobNumber, out mobName))
-                return false;
+            if (mobNumber < 0 || mobNumber >= MobRepository.Instance.MobCount) return false;
+
+            var mobName = MobRepository.Instance.IndexToName[ mobNumber ];
 
             if ( _mobsHierarchyGameObject == null )
                 _mobsHierarchyGameObject = new GameObject { name = "Mobs" };
 
-            mobGameObject =
-                Instantiate( Resources.Load( MobRepository.MobDir + "/" + mobNumber + "_" + mobName + "/" + mobName ) ) as GameObject;
+            mobGameObject = Instantiate( MobRepository.Instance.MobAttributesList[ mobNumber ].Prefab );
+
             if (mobGameObject == null) return false;
             mobGameObject.transform.position = position;
 

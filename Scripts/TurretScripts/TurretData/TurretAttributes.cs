@@ -6,8 +6,10 @@ namespace Assets.Scripts.TurretScripts.TurretData
     [Serializable]
     public class TurretAttributes
     {
-        public string     Name;
-        public int        Index;
+        public string Name;
+        [HideInInspector] public int Index;
+        public string PrevEvolution;
+        public string NextEvolution;
         public GameObject Prefab;
         public GameObject Icon;
         public int     ProjectileNumber;
@@ -31,6 +33,12 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 return;
             }
 
+            Name                  = cpy.Name;
+            Index                 = cpy.Index;
+            PrevEvolution         = cpy.PrevEvolution;
+            NextEvolution         = cpy.NextEvolution;
+            Prefab                = cpy.Prefab;
+            Icon                  = cpy.Icon;
             ProjectileNumber      = cpy.ProjectileNumber;
             AttackGround          = cpy.AttackGround;
             AttackAir             = cpy.AttackAir;

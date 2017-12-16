@@ -7,7 +7,9 @@ namespace Assets.Scripts.MobScripts.MobData
     public class MobAttributes
     {
         public string Name;
-        public int    Index;
+        [HideInInspector] public int    Index;
+        public string PrevEvolution;
+        public string NextEvolution;
         public GameObject Prefab;
         public GameObject Icon;
         public float  Health;
@@ -20,8 +22,6 @@ namespace Assets.Scripts.MobScripts.MobData
         public int    DeathFadeDelay;
         public int    DeathFadeDuration;
         public float  HealthCanvasY;
-        public string PrevEvolution;
-        public string NextEvolution;
         public string[] Types = new string[2];
 
         public MobAttributes()
@@ -39,6 +39,10 @@ namespace Assets.Scripts.MobScripts.MobData
             }
             Name                = cpy.Name;
             Index               = cpy.Index;
+            PrevEvolution       = cpy.PrevEvolution;
+            NextEvolution       = cpy.NextEvolution;
+            Prefab              = cpy.Prefab;
+            Icon                = cpy.Icon;
             Health              = cpy.Health;
             Defense             = cpy.Defense;
             SpecialDefense      = cpy.SpecialDefense;

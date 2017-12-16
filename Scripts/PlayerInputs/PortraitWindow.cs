@@ -45,9 +45,9 @@ namespace Assets.Scripts.PlayerInputs
             foreach (var action in buttonStruct.ActionList)
                 button.onClick.AddListener(action);
             button.Description = buttonStruct.Description;
-            buttonStruct.Image.transform.SetParent(button.transform);
-            buttonStruct.Image.transform.localPosition = Vector3.zero;
-            buttonStruct.Image.name = ButtonIconName;
+            buttonStruct.ImagePrefab.transform.SetParent(button.transform);
+            buttonStruct.ImagePrefab.transform.localPosition = Vector3.zero;
+            buttonStruct.ImagePrefab.name = ButtonIconName;
         }
 
         public void BindButton(int buttonId, SlotButtonStruct buttonStruct)
@@ -58,7 +58,7 @@ namespace Assets.Scripts.PlayerInputs
                 Debug.Log("Could not bind button because there was no action.");
                 return;
             }
-            else if (buttonStruct.Image)
+            else if (buttonStruct.ImagePrefab)
             {
                 Debug.Log("Could not bind button because there was no image.");
                 return;
@@ -84,7 +84,7 @@ namespace Assets.Scripts.PlayerInputs
                     Debug.Log("Could not bind button because there was no action.");
                     return;
                 }
-                else if (!buttonStruct.Image)
+                else if ( !buttonStruct.ImagePrefab )
                 {
                     Debug.Log("Could not bind button because there was no image.");
                     return;
