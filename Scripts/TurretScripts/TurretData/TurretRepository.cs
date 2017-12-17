@@ -18,8 +18,8 @@ namespace Assets.Scripts.TurretScripts.TurretData
                 Instance = this;
         }
 
-        public List<TurretAttributes> TurretAttributesList;
-        public GameObject ShadowTile;
+        public List<TurretAttributes> TurretAttributesList = null;
+        public GameObject ShadowTile = null;
         public Dictionary<string, int> NameToIndex = new Dictionary<string, int>();
         [HideInInspector] public List<string> IndexToName;
         [HideInInspector] public int TurretCount { private set; get; }

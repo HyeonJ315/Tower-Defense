@@ -20,7 +20,12 @@ namespace Assets.Scripts.MobScripts.MobData
                 Instance = this;
         }
 
-        public List<MobAttributes> MobAttributesList;
+        public List<MobAttributes> MobAttributesList = null;
+        public List< MobAttributesList > MobAttributesListList = null;
+
+        [HideInInspector]
+        public List<MobAttributes> FinalMobAttributesList = new List<MobAttributes>();
+
         public int MobCount { private set; get; }
 
         public Dictionary<string, int> NameToIndex = new Dictionary<string, int>();
@@ -33,27 +38,47 @@ namespace Assets.Scripts.MobScripts.MobData
                 Debug.LogWarning("Mob Attributes List was not set!!!");
                 return;
             }
-            IndexToName = new List<string>(MobAttributesList.Count);
-            for ( var i = 0; i < MobAttributesList.Count; i++) IndexToName.Add(null);
+
             foreach ( var mobAttribute in MobAttributesList )
             {
-                NameToIndex.Add(mobAttribute.Name, mobAttribute.Index);
-                IndexToName[mobAttribute.Index] = mobAttribute.Name;
+                FinalMobAttributesList.Add( mobAttribute );
+                IndexToName.Add(null);
             }
-            MobCount = MobAttributesList.Count;
+            if (MobAttributesListList != null)
+            {
+                foreach (var mobAttributesList in MobAttributesListList)
+                {   foreach ( var mobAttribute in mobAttributesList.List )
+                    {
+                        FinalMobAttributesList.Add( mobAttribute );
+                        IndexToName.Add(null);
+                    }
+                }
+            }
+
+            for (var index = 0; index < FinalMobAttributesList.Count; index++)
+            {
+                var mobAttribute = FinalMobAttributesList[index];
+                mobAttribute.Index = index;
+                NameToIndex.Add( mobAttribute.Name, index );
+                IndexToName[ index ] = mobAttribute.Name;
+            }
+            MobCount = FinalMobAttributesList.Count;
         }
 
         protected void Start()
         {
             MobTypeList = new List<List<MobAttributes>>();
-            foreach ( var element in ElementRepository.Instance.ElementAttributesList )
+            foreach ( var unused in ElementRepository.Instance.ElementAttributesList )
             {
                 MobTypeList.Add( new List<MobAttributes>() );
             }
-            foreach ( var mobAttribute in MobAttributesList )
+            foreach ( var mobAttribute in FinalMobAttributesList )
             {
-                var index = ElementRepository.Instance.NameToIndex[ mobAttribute.Types[0] ];
-                MobTypeList[ index ].Add( mobAttribute );
+                var indexType1 = ElementRepository.Instance.NameToIndex[ mobAttribute.Types[0] ];
+                MobTypeList[indexType1].Add(mobAttribute);
+                if ( string.IsNullOrEmpty(mobAttribute.Types[1]) ) continue;
+                var indexType2 = ElementRepository.Instance.NameToIndex[mobAttribute.Types[1]];
+                MobTypeList[indexType2].Add(mobAttribute);
             }
         }
     }

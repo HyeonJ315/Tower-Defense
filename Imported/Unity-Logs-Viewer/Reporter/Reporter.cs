@@ -174,7 +174,7 @@ public class Reporter : MonoBehaviour
 	bool showFpsButton = true;
 	bool showSearchText = true;
 
-	string buildDate;
+	string buildDate = "";
 	string logDate;
 	float logsMemUsage;
 	float graphMemUsage;
@@ -585,16 +585,16 @@ public class Reporter : MonoBehaviour
 		selectedLog = null;
 	}
 
-	Rect screenRect;
-	Rect toolBarRect;
-	Rect logsRect;
-	Rect stackRect;
-	Rect graphRect;
-	Rect graphMinRect;
-	Rect graphMaxRect;
-	Rect buttomRect;
-	Vector2 stackRectTopLeft;
-	Rect detailRect;
+	Rect screenRect   = Rect.zero;
+	Rect toolBarRect  = Rect.zero;
+	Rect logsRect     = Rect.zero;
+	Rect stackRect    = Rect.zero;
+	Rect graphRect    = Rect.zero;
+	Rect graphMinRect = Rect.zero;
+	Rect graphMaxRect = Rect.zero;
+	Rect buttomRect   = Rect.zero;
+	Vector2 stackRectTopLeft = Vector2.zero;
+	Rect detailRect = Rect.zero;
 
 	Vector2 scrollPosition;
 	Vector2 scrollPosition2;
@@ -678,15 +678,15 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	Rect countRect;
-	Rect timeRect;
-	Rect timeLabelRect;
-	Rect sceneRect;
-	Rect sceneLabelRect;
-	Rect memoryRect;
-	Rect memoryLabelRect;
-	Rect fpsRect;
-	Rect fpsLabelRect;
+	Rect countRect = Rect.zero;
+	Rect timeRect = Rect.zero;
+	Rect timeLabelRect = Rect.zero;
+	Rect sceneRect = Rect.zero;
+	Rect sceneLabelRect = Rect.zero;
+	Rect memoryRect = Rect.zero;
+	Rect memoryLabelRect = Rect.zero;
+	Rect fpsRect = Rect.zero;
+	Rect fpsLabelRect = Rect.zero;
 	GUIContent tempContent = new GUIContent();
 
 
@@ -1992,6 +1992,8 @@ public class Reporter : MonoBehaviour
 	//read build information 
 	IEnumerator readInfo()
 	{
+  
+        /*
 		string prefFile = "build_info.txt";
 		string url = prefFile;
 
@@ -2001,7 +2003,7 @@ public class Reporter : MonoBehaviour
 				streamingAssetsPath = Application.dataPath + "/StreamingAssets/";
 			url = System.IO.Path.Combine(streamingAssetsPath, prefFile);
 		}
-
+  */
 /*
 		if ( Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
 			if (!url.Contains("://"))

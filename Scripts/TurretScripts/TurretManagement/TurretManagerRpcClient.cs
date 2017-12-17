@@ -19,7 +19,8 @@ namespace Assets.Scripts.TurretScripts.TurretManagement
         protected override void Start()
         {
             base.Start();
-            transform.SetParent( GameObject.Find("ClientRPCs").transform );
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
         }
 
         public override void TurretRemoveSendRpc( int teamGroup, Vector3 location )

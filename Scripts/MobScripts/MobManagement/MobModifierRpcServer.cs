@@ -19,6 +19,12 @@ namespace Assets.Scripts.MobScripts.MobManagement
 
         #endregion
 
+        public void Start()
+        {
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
+        }
+
         public override void UpdateMoveStateSendRpc( uint mobHashNumber, Vector3 position, Vector3 destination )
         {
             RpcUpdateMoveState( mobHashNumber, position, destination  );

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.ElementScripts
@@ -9,10 +7,10 @@ namespace Assets.Scripts.ElementScripts
     [Serializable]
     internal class ElementAttributes
     {
-        public string Name;
-        [HideInInspector] public int    Index;
-        public GameObject Icon;
-        public List< DamageModifier > DamageModifiers;
+        public string Name = string.Empty;
+        [HideInInspector] public int Index;
+        public GameObject Icon = null;
+        public List< DamageModifier > DamageModifiers = null;
 
         private bool _initialized;
         public bool Initialize()
@@ -28,8 +26,8 @@ namespace Assets.Scripts.ElementScripts
     [Serializable]  
     internal class DamageModifier
     {
-        public string Name;
+        public string Name = string.Empty;
         [HideInInspector] public int Index = -1;
-        public float  Modifier;
+        public float Modifier = 0;
     }
 }

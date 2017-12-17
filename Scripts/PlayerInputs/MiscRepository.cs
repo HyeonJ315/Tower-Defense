@@ -18,10 +18,10 @@ namespace Assets.Scripts.PlayerInputs
                 Instance = this;
         }
 
-        public GameObject CircleGameObjectPrefab;
-        public Material   CircleMaterial;
-        public Material   CircleMaterialFaded;
-        public GameObject BuildIconPrefab;
-        public GameObject SpawnIconPrefab;
+        public GameObject CircleGameObjectPrefab = null;
+        public Material   CircleMaterial         = null;
+        public Material   CircleMaterialFaded    = null;
+        public GameObject BuildIconPrefab        = null;
+        public GameObject SpawnIconPrefab        = null;
     }
 }

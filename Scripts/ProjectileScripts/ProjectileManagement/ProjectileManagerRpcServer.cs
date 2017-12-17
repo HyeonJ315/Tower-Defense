@@ -12,7 +12,8 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileManagement
         protected override void Start()
         {
             base.Start();
-            transform.SetParent( GameObject.Find("ServerRPCs").transform );
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
         }
 
         protected void Awake()

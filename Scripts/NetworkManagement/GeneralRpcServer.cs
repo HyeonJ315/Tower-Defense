@@ -21,7 +21,8 @@ namespace Assets.Scripts.NetworkManagement
 
         protected void Start()
         {
-            transform.SetParent( GameObject.Find("ServerRPCs").transform );
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
         }
 
         [TargetRpc]

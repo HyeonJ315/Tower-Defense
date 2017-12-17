@@ -18,7 +18,7 @@ namespace Assets.Scripts.ElementScripts
                 Instance = this;
         }
 
-        public List< ElementAttributes > ElementAttributesList;
+        public List< ElementAttributes > ElementAttributesList = null;
         public Dictionary< string, int > NameToIndex = new Dictionary< string, int >();
         [HideInInspector] public List< string > IndexToName;
         protected void OnEnable()

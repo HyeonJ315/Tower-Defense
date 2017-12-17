@@ -7,7 +7,7 @@ namespace Assets.Scripts.AI.Paths
     public class AStarPath : MonoBehaviour
     {
         public static Dictionary< string, GameObject > AStarPathDictionary = new Dictionary<string, GameObject>();
-        public GameObject MapPlatformGameObject;
+
         public GameObject StartPoint,
                           EndPoint;
         public GameObject NextPath;
@@ -24,7 +24,7 @@ namespace Assets.Scripts.AI.Paths
             CompactPath  = new List<Vector3>();
             DetailedPath = new List<Vector3>();
             AStarPathDictionary.Add( gameObject.name, gameObject );
-            _mapPlatform = MapPlatformGameObject.GetComponent<MapPlatform>();
+            _mapPlatform = MapPlatform.Instance;
         }
 
         protected void OnDestroy()

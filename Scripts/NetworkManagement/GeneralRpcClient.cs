@@ -26,10 +26,10 @@ namespace Assets.Scripts.NetworkManagement
         }
 
         #endregion
-
         protected void Start()
         {
-            transform.SetParent(GameObject.Find("ClientRPCs").transform);
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
         }
 
         [Command]

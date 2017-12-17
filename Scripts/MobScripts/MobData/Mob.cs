@@ -11,7 +11,6 @@ namespace Assets.Scripts.MobScripts.MobData
 {
     public class Mob : MonoBehaviour
     {
-        public string PlatformName = "Platform";
         public int SyncUpdateInMilliseconds = 3000;
 
         private bool _trackerInserted; // Is the mob placed into the tracker dictionary?
@@ -54,7 +53,7 @@ namespace Assets.Scripts.MobScripts.MobData
                 UnityEngine.Debug.Log("" + playerNumber + "_" + mobName + " already initialized.");
                 return;
             }
-            _mobAttributesReference = MobRepository.Instance.MobAttributesList[ mobNumber ];
+            _mobAttributesReference = MobRepository.Instance.FinalMobAttributesList[ mobNumber ];
 
             PlayerNumber = playerNumber;
             MobNumber    = mobNumber;
@@ -94,7 +93,7 @@ namespace Assets.Scripts.MobScripts.MobData
             {
                 int attributeIndex;
                 if( !MobRepository.Instance.NameToIndex.TryGetValue( MobName, out attributeIndex ) ) return;
-                var mobAttributes = MobRepository.Instance.MobAttributesList[attributeIndex];
+                var mobAttributes = MobRepository.Instance.FinalMobAttributesList[attributeIndex];
                 MobAttributesCurrent = new MobAttributes( mobAttributes ); 
                 MobAttributesMax     = new MobAttributes( mobAttributes ); 
                 return;
@@ -244,15 +243,16 @@ namespace Assets.Scripts.MobScripts.MobData
             else
             {
                 #region Client-sided movement handler
-                
-                if ( transform.position != Destination )
-                {
-                    transform.LookAt( Destination );
-                }
-                
+
                 var currPos = transform.position;
                 var endPos = Destination;
                     endPos.y = currPos.y;
+
+                if (transform.position != endPos )
+                {
+                    transform.LookAt( endPos );
+                }
+
                 var dir = Vector3.Normalize( endPos - currPos );
                 var remainingDistance = Vector3.Distance( currPos, endPos );
                 var travelDistance = MobAttributesCurrent.MoveSpeed * Time.fixedDeltaTime;
@@ -260,11 +260,7 @@ namespace Assets.Scripts.MobScripts.MobData
 
                 var distanceAvaliable = remainingDistance > travelDistance;
 
-                if ( distanceAvaliable )
-                {
-                    transform.position = nextPosition;
-                }
-
+                transform.position = distanceAvaliable ? nextPosition : endPos;
                 #endregion
             }
         }

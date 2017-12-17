@@ -25,7 +25,8 @@ namespace Assets.Scripts.MobScripts.MobManagement
         protected override void Start()
         {
             base.Start();
-            transform.SetParent(GameObject.Find("ServerRPCs").transform);
+            var parent = GameObject.Find("ServerRPCs");
+            if (parent) transform.SetParent(parent.transform);
         }
 
         public override void MobSpawnSendRpc(int mobNumber, int teamGroup, uint hashNumber = 0, int playerNumber = 0 )

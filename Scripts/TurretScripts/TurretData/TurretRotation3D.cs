@@ -6,10 +6,10 @@ namespace Assets.Scripts.TurretScripts.TurretData
     {
         internal class TurretRotation3D : TurretRotation
         {
-            protected string AttackSpriteFront = "AttackFront";
-            protected string AttackSpriteLeft  = "AttackLeft" ;
-            protected string AttackSpriteUp    = "AttackUp"   ;
-            protected string AttackSpriteRight = "AttackRight";
+            protected string AttackSpriteFront = "WalkFront";
+            protected string AttackSpriteLeft  = "WalkLeft" ;
+            protected string AttackSpriteUp    = "WalkUp"   ;
+            protected string AttackSpriteRight = "WalkRight";
 
             protected string IdleSpriteFront   = "IdleFront"  ;
             protected string IdleSpriteLeft    = "IdleLeft"   ;

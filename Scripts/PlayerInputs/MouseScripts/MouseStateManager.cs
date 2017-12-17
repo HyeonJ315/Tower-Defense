@@ -30,7 +30,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         {
             _mouseDragSelecter = GetComponent<MouseDragSelecter>();
             _mouseClickBuilder = GetComponent<MouseClickBuilder>();
-            Disable();
+            EnableMouseDragSelecter();
         }
 
         public void EnableMouseDragSelecter()
@@ -50,14 +50,6 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         {
             _mouseClickBuilder.enabled = false;
             _mouseDragSelecter.enabled = false;
-        }
-
-        protected void OnGUI()
-        {
-            if (Input.GetKeyDown( KeyCode.Escape) )
-            {
-                EnableMouseDragSelecter();
-            }
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Assets.Scripts.TurretScripts.TurretData
 {
     internal class TurretRotation2D : TurretRotation
     {
-        protected string AttackSpriteLeft  = "AttackLeft" ;
-        protected string AttackSpriteRight = "AttackRight";
+        protected string AttackSpriteLeft  = "WalkLeft" ;
+        protected string AttackSpriteRight = "WalkRight";
 
         protected string IdleSpriteLeft    = "IdleLeft"   ;
         protected string IdleSpriteRight   = "IdleRight"  ;

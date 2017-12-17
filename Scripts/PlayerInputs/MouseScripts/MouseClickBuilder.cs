@@ -53,7 +53,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             if ( !Physics.Raycast(ray, out hit, Mathf.Infinity) ) return;
-            if (hit.transform.tag != "Platform" && hit.transform.tag != "Turret") return;
+            if ( hit.transform.tag != "Platform" && hit.transform.tag != "Turret" ) return;
             _turretActuator.ShowTurretShadow( BuildingTurret.Name, _teamGroup, hit.point);
 
             if (!Input.GetMouseButtonDown(0)) return;

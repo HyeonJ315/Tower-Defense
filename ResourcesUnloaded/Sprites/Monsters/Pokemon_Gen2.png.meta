@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0c7a744835adafd4ab0dd97fca20fec5
-timeCreated: 1511211151
+timeCreated: 1513489249
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -3484,10 +3484,10 @@ TextureImporter:
       name: Pokemon_Gen2_168
       rect:
         serializedVersion: 2
-        x: 4
-        y: 5114
-        width: 5
-        height: 4
+        x: 1
+        y: 5081
+        width: 31
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3599,7 +3599,7 @@ TextureImporter:
         x: 1
         y: 5039
         width: 32
-        height: 37
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

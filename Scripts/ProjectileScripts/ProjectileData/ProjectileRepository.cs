@@ -17,7 +17,7 @@ namespace Assets.Scripts.ProjectileScripts.ProjectileData
                 Instance = this;
         }
 
-        public List<ProjectileAttributes> ProjectileAttributesList;
+        public List<ProjectileAttributes> ProjectileAttributesList = null;
         public Dictionary<string, int> NameToIndex = new Dictionary<string, int>();
         [HideInInspector] public List<string> IndexToName;
         [HideInInspector] public int ProjectileCount { private set; get; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.PlayerInputs.MouseScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,6 +74,14 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
             _resetButton();
         }
 
+        protected void OnGUI()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _resetButton();
+            }
+        }
+
         private void _slideRight()
         {
             if ( _buttonStructStack.Count == 0 ) return;
@@ -96,6 +105,7 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
             var buttonStructs = _buttonStructStack.Last();
             _currentIndex = 0;
             _bindButtons( buttonStructs.GetRange( _currentIndex, buttonStructs.Count - _currentIndex ) );
+            MouseStateManager.Instance.EnableMouseDragSelecter();
         }
 
         public void SubscribeButtonStructs( List<SlotButtonStruct> buttonStructs = null, bool pushToStack = false )

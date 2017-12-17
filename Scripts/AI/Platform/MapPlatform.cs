@@ -13,8 +13,11 @@ namespace Assets.Scripts.AI.Platform
         public static MapPlatform Instance { get; private set; }
 
         #endregion
+
         // This variable is used to tag tiles for tracking tile data states.
         // ( think about finding shortest path multiple times with dirty tile data variables )
+        public GameObject PlatformPrefab;
+
         private uint _currentTag;
 
         private const int   DiagWeight = 14;

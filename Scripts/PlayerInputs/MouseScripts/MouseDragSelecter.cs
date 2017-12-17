@@ -33,6 +33,8 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         private void _leftMouseDown()
         {
             if ( !Input.GetMouseButtonDown(0) ) return;
+            if ( MouseStateManager.Instance.MouseOnButton ) return;
+
             if ( GeneralRpcClient.Instance == null )
             {
                 Debug.Log("General Rpc is not found?");
@@ -117,7 +119,7 @@ namespace Assets.Scripts.PlayerInputs.MouseScripts
         protected void Update()
         {
             if ( !NetworkingManager.Instance.IsClient ) return;
-            if ( MouseStateManager.Instance.MouseOnButton ) return;
+
             _leftMouseDown();
             _leftMouseUp  ();
             _selectionHandler();

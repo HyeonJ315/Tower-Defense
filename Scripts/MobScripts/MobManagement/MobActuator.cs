@@ -33,7 +33,7 @@ namespace Assets.Scripts.MobScripts.MobManagement
             if ( _mobsHierarchyGameObject == null )
                 _mobsHierarchyGameObject = new GameObject { name = "Mobs" };
 
-            mobGameObject = Instantiate( MobRepository.Instance.MobAttributesList[ mobNumber ].Prefab );
+            mobGameObject = Instantiate( MobRepository.Instance.FinalMobAttributesList[ mobNumber ].Prefab );
 
             if (mobGameObject == null) return false;
             mobGameObject.transform.position = position;

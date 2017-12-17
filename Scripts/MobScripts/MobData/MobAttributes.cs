@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.MobScripts.MobData
 {
     [Serializable]
+    public class MobAttributesList
+    {
+        public List<MobAttributes> List = null;
+    }
+
+    [Serializable]
     public class MobAttributes
     {
         public string Name;
-        [HideInInspector] public int    Index;
+        [HideInInspector] public int    Index = -1;
         public string PrevEvolution;
         public string NextEvolution;
+        public string[] BranchingEvolution;
         public GameObject Prefab;
         public GameObject Icon;
         public float  Health;

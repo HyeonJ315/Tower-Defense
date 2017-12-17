@@ -7,13 +7,16 @@ namespace Assets.Scripts.PlayerInputs.SlotScripts
 {
     public class SlotButton : Button
     {
-        public int ButtonId { get; private set; }
+        public int ButtonId{ get; private set; }
         public bool Bound;
         public string Description;
         protected override void Start()
         {
             base.Start();
-            ButtonId = Convert.ToInt32( name.Split('_')[1] );
+            var stringarray = name.Split('_');
+            if (stringarray.Length == 2)
+                ButtonId = Convert.ToInt32(stringarray[1]);
+            else ButtonId = -1;
         }
 
         public override void OnPointerEnter( PointerEventData eventData )

@@ -8,7 +8,6 @@ namespace Assets.Scripts.AI.Paths
 {
     public class PathGroup : MonoBehaviour
     {
-        public GameObject MapPlatform;
         public GameObject Debugger;
 
         public int TeamGroup;
